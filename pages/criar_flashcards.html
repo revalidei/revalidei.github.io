@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="../css/layout.css">
 <link rel="stylesheet" href="../css/icons.css">
 <script src="../js/icons.js"></script>
+<script src="../js/historico-store.js"></script>
 <style>
 .topo{
 display:flex;
@@ -213,6 +214,15 @@ function salvarFlashcardNaProva(indiceErro, card) {
   };
 
   localStorage.setItem("provas_salvas", JSON.stringify(provas));
+
+  if (window.RevalidaHistorico) {
+    window.RevalidaHistorico.registrar({
+      tipo: "flashcard_criado",
+      nomeProva,
+      numero: card.numero,
+      titulo: card.pergunta.slice(0, 80),
+    });
+  }
 }
 
 function renderVazio() {

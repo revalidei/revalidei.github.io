@@ -48,6 +48,7 @@ menu.style.display="none";
 <script src="../../js/prova-marca-texto.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="../../js/prova-grafico.js"></script>
+<script src="../../js/historico-store.js"></script>
 <style>html.auth-pending body{visibility:hidden}</style>
 <script type="module" src="../../js/auth-guard.js"></script>
 </head>
@@ -886,6 +887,21 @@ alternativas[selecionada]
 
 }
 
+/* HISTORICO */
+
+if(window.RevalidaHistorico){
+
+window.RevalidaHistorico.registrar({
+
+tipo:"questao_respondida",
+nomeProva:NOME_PROVA,
+numero:q.numero,
+acertou:selecionada === q.correta
+
+});
+
+}
+
 /* ATUALIZA */
 
 gerarGradeQuestoes();
@@ -1288,6 +1304,20 @@ localStorage.setItem(
 "provas_salvas",
 JSON.stringify(provas)
 );
+
+if(window.RevalidaHistorico){
+
+window.RevalidaHistorico.registrar({
+
+tipo:"prova_salva",
+nomeProva:NOME_PROVA,
+acertos,
+erros,
+total:acertos + erros
+
+});
+
+}
 
 alert("Prova salva! Em Provas salvas você pode criar flashcards analisando cada erro.");
 

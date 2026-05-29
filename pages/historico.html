@@ -1,78 +1,85 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#020617">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Revalida">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="../manifest.json">
+<title>Histórico • Revalida</title>
 <link rel="stylesheet" href="../css/app.css">
 <link rel="stylesheet" href="../css/layout.css">
-<meta name="apple-mobile-web-app-capable" content="yes">
-
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<meta name="apple-mobile-web-app-title" content="Revalida">
-
-<meta name="mobile-web-app-capable" content="yes">
-
-<link rel="manifest" href="../manifest.json">
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Histórico de Evolução</title>
+<link rel="stylesheet" href="../css/pages.css">
+<link rel="stylesheet" href="../css/icons.css">
+<link rel="stylesheet" href="../css/historico.css">
+<script src="../js/icons.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-body.page-shell{background:#0f1115;color:white;font-family:Inter,Arial,sans-serif;}
-.page-inner{max-width:900px;margin:0 auto;padding:var(--page-pad,20px);padding-top:calc(env(safe-area-inset-top) + 20px);}
-.titulo{font-size:clamp(1.25rem,4vw,1.75rem);margin-bottom:25px;color:#7CFFB2;}
-canvas{max-width:100%;}
-html, body {
-  height: 100%;
-  overflow-y: scroll; /* rolagem funcional */
-}
-
-body::-webkit-scrollbar {
-  display: none;
-}
-
-body {
-  scrollbar-width: none; /* Firefox */
-}
-</style>
+<script src="../js/historico-store.js"></script>
 <style>html.auth-pending body{visibility:hidden}</style>
 <script type="module" src="../js/auth-guard.js"></script>
 </head>
-<body class="page-shell">
-<div class="page-inner">
-<h1 class="titulo">📈 Histórico de Evolução</h1>
-<canvas id="graficoEvolucao" style="max-width:100%;width:min(600px,100%);margin:auto;display:block;"></canvas>
+<body class="page-shell page-historico">
+<div class="page-container historico-wrap">
 
+<header class="historico-topo">
+<div>
+<h1 class="icon-wrap">
+<span data-icon="bar-chart" data-icon-size="26" data-icon-class="icon--accent"></span>
+Histórico de estudos
+</h1>
+<p id="historicoSubtitulo">Carregando…</p>
+</div>
+<a href="../dashboard.html" class="btn-voltar-hist icon-wrap">
+<span data-icon="chevron-left" data-icon-size="18"></span>
+Voltar
+</a>
+</header>
+
+<nav class="historico-tabs" aria-label="Período">
+<button type="button" class="historico-tab ativo" data-periodo="hoje">Hoje</button>
+<button type="button" class="historico-tab" data-periodo="semana">Semana</button>
+<button type="button" class="historico-tab" data-periodo="mes">Mês</button>
+<button type="button" class="historico-tab" data-periodo="total">Total</button>
+</nav>
+
+<div class="historico-grid" id="historicoStats"></div>
+
+<div class="historico-panels">
+<section class="hist-panel">
+<h2 class="icon-wrap"><span data-icon="bar-chart" data-icon-size="18"></span> Acertos × erros</h2>
+<div class="hist-taxa" id="historicoTaxa"></div>
+<div class="grafico-hist-wrap">
+<canvas id="graficoAcertos" aria-label="Gráfico de acertos e erros"></canvas>
+</div>
+</section>
+
+<section class="hist-panel">
+<h2 class="icon-wrap"><span data-icon="bar-chart" data-icon-size="18" data-icon-class="icon--accent"></span> Evolução nas provas</h2>
+<div class="grafico-hist-wrap">
+<canvas id="graficoEvolucao" aria-label="Gráfico de evolução"></canvas>
+</div>
+<p style="margin:12px 0 0;font-size:12px;color:#64748b;line-height:1.5">
+Baseado nas provas salvas no período selecionado.
+</p>
+</section>
+
+<section class="hist-panel hist-panel--full">
+<h2 class="icon-wrap"><span data-icon="list" data-icon-size="18"></span> Atividades recentes</h2>
+<div id="historicoFeed"></div>
+</section>
+</div>
+
+</div>
+
+<script src="../js/historico-page.js"></script>
+<script src="../js/app.js"></script>
 <script>
-let provas = JSON.parse(localStorage.getItem("provas_salvas")) || [];
-
-// Ordena pelo timestamp
-provas.sort((a,b)=> new Date(a.data) - new Date(b.data));
-
-let labels = provas.map(p=>p.data);
-let porcentagens = provas.map(p=>parseFloat(p.porcentagem));
-
-const ctx = document.getElementById('graficoEvolucao').getContext('2d');
-new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: labels,
-        datasets: [{
-            label: 'Aproveitamento (%)',
-            data: porcentagens,
-            fill: false,
-            borderColor: '#7CFFB2',
-            tension: 0.3
-        }]
-    },
-    options: {
-        scales: {
-            y: { beginAtZero: true, max: 100 }
-        }
-    }
+document.addEventListener("DOMContentLoaded", function () {
+  window.RevalidaIcons?.mount(document.body);
 });
 </script>
-</div>
-<script src="../js/app.js"></script>
 </body>
 </html>

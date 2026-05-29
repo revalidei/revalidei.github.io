@@ -253,6 +253,7 @@ color:#fbbf24;
 
 <script src="../js/flashcards-deck.js"></script>
 <script src="../js/flashcards-srs.js"></script>
+<script src="../js/historico-store.js"></script>
 <script>
 const deckKey = window.RevalidaFlashcards?.DECK_KEY || "flashcards_deck";
 const metaKey = window.RevalidaFlashcards?.META_KEY || "flashcards_deck_meta";
@@ -425,6 +426,14 @@ function classificar(rating) {
 
   deck[idx] = window.RevalidaSRS.rate(deck[idx], rating);
   salvarDeck();
+
+  if (window.RevalidaHistorico) {
+    window.RevalidaHistorico.registrar({
+      tipo: "flashcard_revisado",
+      nomeProva: deck[idx].nomeProva || deckMeta?.titulo || "",
+      titulo: String(deck[idx].pergunta || "").slice(0, 80),
+    });
+  }
 
   mostrandoResposta = false;
   montarFila();
