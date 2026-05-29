@@ -244,8 +244,6 @@ id="resumoResultado"></div>
 
 <script>
 
-const LETRAS = ["A","B","C","D","E","F","G"];
-
 let questoes = [];
 
 let questaoAtual = 0;
@@ -665,23 +663,15 @@ let html = "";
 
 q.alternativas.forEach((alt,index)=>{
 
-const letra = LETRAS[index] || String(index + 1);
-
 html += `
 
 <div class="alternativa"
 id="alt-${index}">
 
-<div class="alt-corpo">
-
-<span class="alt-letra">${letra}</span>
-
 <div class="texto-alternativa"
 onclick="selecionarAlternativa(${index})">
 
 ${alt}
-
-</div>
 
 </div>
 

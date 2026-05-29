@@ -304,29 +304,6 @@
   border-color: rgba(124, 255, 178, 0.35);
 }
 
-.alternativa .alt-corpo {
-  flex: 1;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  min-width: 0;
-}
-
-.alt-letra {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 13px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #7cffb2;
-  border: 1px solid rgba(124, 255, 178, 0.15);
-}
-
 .texto-alternativa {
   flex: 1;
   cursor: pointer;
