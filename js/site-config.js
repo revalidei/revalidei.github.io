@@ -4,19 +4,19 @@
  */
 export const SITE_CONFIG = {
   brand: {
-    name: "REVALIDEI",
-    product: "Revalida 2026",
+    name: "Metodo QEF",
+    product: "METODO QEF",
     emoji: "🩺"
   },
 
   contact: {
-    instagram: "@revalideimedicina",
-    instagramUrl: "https://instagram.com/revalideimedicina",
+    instagram: "@metodoqef",
+    instagramUrl: "https://instagram.com/metodoqef",
     supportEmail: ""
   },
 
   meta: {
-    title: "Revalida 2026",
+    title: "METODO QEF",
     description:
       "Plataforma de estudos para o Revalida INEP: simulados, questões comentadas, flashcards e revisão espaçada.",
     themeColor: "#090B10",
