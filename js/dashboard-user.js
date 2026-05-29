@@ -20,9 +20,14 @@ function aplicarBoasVindas(user) {
     titulo.textContent = `Bem-vindo, ${nomeExibicao(user)}`;
   }
 
+  const marca = `${SITE_CONFIG.brand.name} ${SITE_CONFIG.brand.emoji}`.trim();
   const sidebarLogo = document.querySelector(".sidebar .logo");
   if (sidebarLogo) {
-    sidebarLogo.textContent = `${SITE_CONFIG.brand.name} ${SITE_CONFIG.brand.emoji}`;
+    sidebarLogo.textContent = marca;
+  }
+  const mobileBrand = document.querySelector(".dash-mobile-brand");
+  if (mobileBrand) {
+    mobileBrand.textContent = marca;
   }
 }
 
