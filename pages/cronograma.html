@@ -25,7 +25,6 @@ href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&di
 rel="stylesheet">
 
 <link rel="stylesheet" href="../css/icons.css">
-<link rel="stylesheet" href="../css/pages.css">
 <script src="../js/icons.js"></script>
 
 <style>
@@ -430,11 +429,13 @@ MAIN
 
   justify-content:space-between;
 
-  align-items:center;
+  align-items:flex-start;
 
   gap:20px;
 
   margin-bottom:35px;
+
+  padding-right:58px;
 
 }
 
@@ -787,6 +788,84 @@ FOOTER
 }
 
 /* =========================================
+BOTÃO HOME (TOPO)
+========================================= */
+
+.btn-home-round{
+
+  position:fixed;
+
+  top:max(14px, env(safe-area-inset-top));
+
+  right:max(16px, env(safe-area-inset-right));
+
+  z-index:1000;
+
+  width:50px;
+
+  height:50px;
+
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:
+  linear-gradient(
+    145deg,
+    rgba(34,197,94,.22),
+    rgba(22,163,74,.14)
+  );
+
+  border:1px solid rgba(134,239,172,.35);
+
+  color:#86efac;
+
+  text-decoration:none;
+
+  box-shadow:
+  0 10px 28px rgba(0,0,0,.28),
+  0 0 0 1px rgba(255,255,255,.04) inset;
+
+  transition:transform .2s ease, background .2s ease, box-shadow .2s ease;
+
+  -webkit-tap-highlight-color:transparent;
+
+}
+
+.btn-home-round:hover{
+
+  background:
+  linear-gradient(
+    145deg,
+    rgba(34,197,94,.38),
+    rgba(22,163,74,.24)
+  );
+
+  transform:scale(1.06);
+
+  box-shadow:
+  0 14px 32px rgba(34,197,94,.18),
+  0 0 0 1px rgba(255,255,255,.06) inset;
+
+}
+
+.btn-home-round:active{
+
+  transform:scale(.96);
+
+}
+
+.btn-home-round svg{
+
+  display:block;
+
+}
+
+/* =========================================
 RESPONSIVO
 ========================================= */
 
@@ -918,6 +997,10 @@ RESPONSIVO
 
 <body>
 
+<a href="../dashboard.html" class="btn-home-round icon-wrap" aria-label="Voltar ao dashboard" title="Dashboard">
+  <span data-icon="home" data-icon-size="22"></span>
+</a>
+
 <div class="wrapper">
 
   <aside class="sidebar">
@@ -1013,17 +1096,8 @@ RESPONSIVO
 
       </div>
 
-      <div class="header-actions">
-
-        <a href="../dashboard.html" class="btn-dashboard-home icon-wrap">
-          <span data-icon="home" data-icon-size="18"></span>
-          Dashboard
-        </a>
-
-        <div class="badge">
-          📅 Prova Teórica • 07/06/2026
-        </div>
-
+      <div class="badge">
+        📅 Prova Teórica • 07/06/2026
       </div>
 
     </div>
