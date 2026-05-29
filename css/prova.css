@@ -141,6 +141,12 @@
   background: #1e293b;
 }
 
+.menu-opcoes .btn-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .prova-main {
   max-width: 920px;
   margin: 0 auto;
@@ -313,10 +319,18 @@
 
 .cortar {
   flex-shrink: 0;
-  font-size: 1.1rem;
+  border: none;
+  background: transparent;
   cursor: pointer;
-  opacity: 0.7;
-  padding: 4px;
+  padding: 6px;
+  color: #94a3b8;
+  border-radius: 10px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.cortar:hover {
+  color: #7cffb2;
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .alternativa.selecionada {

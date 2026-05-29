@@ -35,6 +35,8 @@ content="yes">
 <link rel="stylesheet" href="../css/app.css">
 <link rel="stylesheet" href="../css/layout.css">
 <link rel="stylesheet" href="../css/pages.css">
+<link rel="stylesheet" href="../css/icons.css">
+<script src="../js/icons.js"></script>
 
 <style>
 
@@ -800,26 +802,25 @@ display:block;
 
 <div class="topo topo-card">
 
-<div class="logo">
-📚 Provas Salvas
+<div class="logo icon-wrap">
+<span data-icon="book" data-icon-size="22" data-icon-class="icon--accent"></span>
+Provas Salvas
 </div>
 
 <div class="topo-botoes">
 
 <button
-class="btn-topo btn-voltar"
+type="button"
+class="btn-topo btn-voltar btn-icon"
 onclick="voltarPagina()">
-
-⬅ Voltar
-
+<span data-icon="chevron-left" data-icon-size="18"></span> Voltar
 </button>
 
 <button
-class="btn-topo btn-apagar"
+type="button"
+class="btn-topo btn-apagar btn-icon"
 onclick="apagarTodasProvas()">
-
-🗑 Limpar
-
+<span data-icon="trash" data-icon-size="18"></span> Limpar
 </button>
 
 </div>
@@ -869,6 +870,15 @@ return String(text ?? "")
 
 }
 
+function ic(name, size, cls){
+
+return window.RevalidaIcons.icon(name, {
+size:size||18,
+class:cls||""
+});
+
+}
+
 /* ==================================================
 SEM PROVAS
 ================================================== */
@@ -879,8 +889,9 @@ lista.innerHTML = `
 
 <div class="vazio">
 
-<h2>
-📭 Nenhuma prova salva
+<h2 class="icon-wrap" style="justify-content:center">
+${ic("inbox",22,"icon--muted")}
+Nenhuma prova salva
 </h2>
 
 <p>
@@ -891,6 +902,8 @@ Finalize uma prova e clique em
 </div>
 
 `;
+
+window.RevalidaIcons.mount(lista);
 
 }else{
 
@@ -932,12 +945,13 @@ errosHtml += `
 
 <div class="questao-erro">
 
-<h3>
-❌ Questão ${erro.numero}
+<h3 class="icon-wrap">
+${ic("x-circle",18,"icon--danger")}
+Questão ${erro.numero}
 </h3>
 
 <p>
-<b>📖 Enunciado:</b><br>
+<b class="icon-wrap">${ic("file-text",16)} Enunciado:</b><br>
 ${erro.enunciado || "Não informado"}
 </p>
 
@@ -967,21 +981,20 @@ ${alternativa}
 </div>
 
 <p>
-<b>❌ Sua resposta:</b><br>
+<b class="icon-wrap">${ic("x",16,"icon--danger")} Sua resposta:</b><br>
 ${erro.respostaUsuario || "Não informado"}
 </p>
 
 <p>
-<b>✅ Resposta correta:</b><br>
+<b class="icon-wrap">${ic("check",16,"icon--accent")} Resposta correta:</b><br>
 ${erro.respostaCorreta || "Não informado"}
 </p>
 
 <button
-class="btn-comentario"
+type="button"
+class="btn-comentario btn-icon"
 onclick="toggleComentario('${index}-${i}')">
-
-⬇ Ver comentário
-
+${ic("chevron-down",16)} Ver comentário
 </button>
 
 <div
@@ -995,28 +1008,26 @@ ${erro.comentario || "Sem comentário"}
 <textarea
 class="anotacao"
 id="anotacao-${index}-${i}"
-placeholder="✍️ Escreva por que você errou esta questão...">${erro.anotacao || ""}</textarea>
+placeholder="Escreva por que você errou esta questão...">${erro.anotacao || ""}</textarea>
 
 <button
-class="btn-salvar-anotacao"
+type="button"
+class="btn-salvar-anotacao btn-icon"
 onclick="salvarAnotacao(${index},${i})">
-
-💾 Salvar anotação
-
+${ic("save",18)} Salvar anotação
 </button>
 
 <button
-class="btn-salvar-anotacao"
+type="button"
+class="btn-salvar-anotacao btn-icon"
 style="margin-top:10px;background:linear-gradient(135deg,#6366F1,#8B5CF6);color:#fff;"
 onclick="criarMeusFlashcards(${index},${i})">
-
-${erro.flashcard?.pergunta ? "✏️ Editar meu flashcard" : "🧠 Criar meu flashcard"}
-
+${erro.flashcard?.pergunta ? ic("pen",18) + " Editar meu flashcard" : ic("brain",18) + " Criar meu flashcard"}
 </button>
 
 ${erro.flashcard?.pergunta ? `
-<p style="margin-top:12px;font-size:13px;color:#7CFFB2;line-height:1.6">
-✅ Card salvo: "${escapeHtml((erro.flashcard.pergunta || "").slice(0, 60))}${(erro.flashcard.pergunta || "").length > 60 ? "…" : ""}"
+<p class="icon-wrap" style="margin-top:12px;font-size:13px;color:#7CFFB2;line-height:1.6">
+${ic("check",16,"icon--accent")} Card salvo: "${escapeHtml((erro.flashcard.pergunta || "").slice(0, 60))}${(erro.flashcard.pergunta || "").length > 60 ? "…" : ""}"
 </p>
 ` : ""}
 
@@ -1036,12 +1047,14 @@ html += `
 
 <div>
 
-<div class="prova-titulo">
-📚 ${prova.nomeProva || `Prova ${index + 1}`}
+<div class="prova-titulo icon-wrap">
+${ic("book",20,"icon--accent")}
+${prova.nomeProva || `Prova ${index + 1}`}
 </div>
 
-<div class="prova-data">
-📅 ${prova.data || "Sem data"}
+<div class="prova-data icon-wrap">
+${ic("calendar",16,"icon--muted")}
+${prova.data || "Sem data"}
 </div>
 
 </div>
@@ -1050,16 +1063,19 @@ html += `
 
 <div class="stats">
 
-<div class="stat stat-acertos">
-✅ ${prova.acertos || 0} acertos
+<div class="stat stat-acertos icon-wrap">
+${ic("check",16,"icon--accent")}
+${prova.acertos || 0} acertos
 </div>
 
-<div class="stat stat-erros">
-❌ ${prova.erros || 0} erros
+<div class="stat stat-erros icon-wrap">
+${ic("x",16,"icon--danger")}
+${prova.erros || 0} erros
 </div>
 
-<div class="stat stat-total">
-📊 ${porcentagem}%
+<div class="stat stat-total icon-wrap">
+${ic("bar-chart",16)}
+${porcentagem}%
 </div>
 
 </div>
@@ -1067,28 +1083,25 @@ html += `
 <div class="acoes">
 
 <button
-class="btn-acao btn-detalhes"
+type="button"
+class="btn-acao btn-detalhes btn-icon"
 onclick="toggleDetalhes(${index})">
-
-📖 Ver erros
-
+${ic("list",18)} Ver erros
 </button>
 
 <button
-class="btn-acao btn-flashcard"
+type="button"
+class="btn-acao btn-flashcard btn-icon"
 onclick="criarMeusFlashcards(${index})"
 ${(prova.questoesErradas && prova.questoesErradas.length) ? "" : "disabled title=\"Nenhuma questão errada\""}>
-
-✍️ Criar meus flashcards
-
+${ic("pen",18)} Criar meus flashcards
 </button>
 
 <button
-class="btn-acao btn-excluir"
+type="button"
+class="btn-acao btn-excluir btn-icon"
 onclick="excluirProva(${index})">
-
-🗑 Excluir
-
+${ic("trash",18)} Excluir
 </button>
 
 </div>
@@ -1104,7 +1117,7 @@ color:#94A3B8;
 line-height:1.8;
 ">
 
-🎉 Nenhuma questão errada nesta prova.
+${ic("sparkles",18,"icon--accent")} Nenhuma questão errada nesta prova.
 
 </p>
 
@@ -1119,6 +1132,8 @@ line-height:1.8;
 });
 
 lista.innerHTML = html;
+
+window.RevalidaIcons.mount(lista);
 
 }
 
@@ -1181,7 +1196,7 @@ localStorage.setItem(
 JSON.stringify(provas)
 );
 
-alert("✅ Anotação salva!");
+alert("Anotação salva!");
 
 }
 

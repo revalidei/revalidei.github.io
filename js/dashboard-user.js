@@ -17,7 +17,7 @@ function nomeExibicao(user) {
 function aplicarBoasVindas(user) {
   const titulo = document.querySelector(".titulo");
   if (titulo) {
-    titulo.textContent = `Bem-vindo, ${nomeExibicao(user)} 👨‍⚕️`;
+    titulo.textContent = `Bem-vindo, ${nomeExibicao(user)}`;
   }
 
   const sidebarLogo = document.querySelector(".sidebar .logo");

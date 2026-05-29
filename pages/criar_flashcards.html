@@ -7,6 +7,8 @@
 <title>Criar flashcards • Revalida</title>
 <link rel="stylesheet" href="../css/app.css">
 <link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/icons.css">
+<script src="../js/icons.js"></script>
 <style>
 .topo{
 display:flex;
@@ -152,8 +154,8 @@ border:1px dashed rgba(255,255,255,0.15);
 <body class="page-shell" style="background:linear-gradient(180deg,#020617,#0f172a);color:#f8fafc;font-family:Inter,sans-serif">
 <div class="container">
 <div class="topo">
-<h1>✍️ Criar flashcards</h1>
-<a href="provas_salvas.html" id="linkVoltar">← Voltar</a>
+<h1 class="icon-wrap"><span data-icon="pen" data-icon-size="22"></span> Criar flashcards</h1>
+<a href="provas_salvas.html" id="linkVoltar" class="icon-wrap"><span data-icon="chevron-left" data-icon-size="16"></span> Voltar</a>
 </div>
 <div id="conteudo"></div>
 </div>
@@ -248,7 +250,7 @@ function renderWizard() {
     <div class="card-wizard">
       <div class="ref-titulo">Referência — Questão ${escapeHtml(erro.numero)}</div>
 
-      <button type="button" class="ref-toggle" id="btnRef">👁 Ver enunciado e alternativas</button>
+      <button type="button" class="ref-toggle btn-icon" id="btnRef"><span data-icon="eye" data-icon-size="18"></span> Ver enunciado e alternativas</button>
 
       <div class="ref-detalhe" id="refDetalhe">
         <div class="ref-box">
@@ -272,7 +274,7 @@ function renderWizard() {
       </div>
 
       <div class="acoes-wizard">
-        <button type="button" class="btn-w btn-primario" id="btnSalvar">💾 Salvar card e continuar</button>
+        <button type="button" class="btn-w btn-primario btn-icon" id="btnSalvar"><span data-icon="save" data-icon-size="18"></span> Salvar card e continuar</button>
         <button type="button" class="btn-w btn-pular" id="btnPular">Pular esta questão</button>
         <button type="button" class="btn-w btn-sec" id="btnCancelar">Cancelar</button>
       </div>
@@ -282,9 +284,10 @@ function renderWizard() {
   document.getElementById("btnRef").addEventListener("click", () => {
     document.getElementById("refDetalhe").classList.toggle("aberto");
     const aberto = document.getElementById("refDetalhe").classList.contains("aberto");
-    document.getElementById("btnRef").textContent = aberto
-      ? "👁 Ocultar referência"
-      : "👁 Ver enunciado e alternativas";
+    const btnRef = document.getElementById("btnRef");
+    btnRef.innerHTML = aberto
+      ? window.RevalidaIcons.icon("eye-off", { size: 18 }) + " Ocultar referência"
+      : window.RevalidaIcons.icon("eye", { size: 18 }) + " Ver enunciado e alternativas";
   });
 
   document.getElementById("btnPular").addEventListener("click", avancar);
@@ -294,6 +297,8 @@ function renderWizard() {
       location.href = source === "sessao" ? "../dashboard.html" : "provas_salvas.html";
     }
   });
+
+  window.RevalidaIcons.mount(document.getElementById("conteudo"));
 
   document.getElementById("btnSalvar").addEventListener("click", () => {
     const pergunta = document.getElementById("frente").value.trim();
@@ -352,18 +357,19 @@ function finalizar() {
 
   document.getElementById("conteudo").innerHTML = `
     <div class="resumo-final">
-      <h2>🎉 ${deck.length} flashcard(s) prontos!</h2>
+      <h2 class="icon-wrap" style="justify-content:center">${window.RevalidaIcons.icon("sparkles", { size: 24, class: "icon--accent" })} ${deck.length} flashcard(s) prontos!</h2>
       <p style="color:#94A3B8;line-height:1.8;margin-bottom:20px">
         Seus cards foram salvos. Agora revise com o que <strong>você</strong> escreveu.
       </p>
       <button type="button" class="btn-w btn-primario" id="btnRevisar" style="max-width:320px;margin:0 auto">
-        🧠 Ir revisar flashcards
+        ${window.RevalidaIcons.icon("brain", { size: 18 })} Ir revisar flashcards
       </button>
     </div>`;
 
   document.getElementById("btnRevisar").addEventListener("click", () => {
     window.RevalidaFlashcards.goToFlashcards("flashcards.html");
   });
+  window.RevalidaIcons.mount(document.getElementById("conteudo"));
 }
 
 if (!carregarDados()) {
@@ -371,6 +377,7 @@ if (!carregarDados()) {
 } else {
   passo = Math.min(questaoInicio, questoesErradas.length - 1);
   renderWizard();
+  window.RevalidaIcons.mount(document.getElementById("conteudo"));
 }
 </script>
 <script src="../js/app.js"></script>

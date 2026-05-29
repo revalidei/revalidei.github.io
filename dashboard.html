@@ -2,6 +2,8 @@
 <html lang="pt-BR">
 <head>
 <link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/icons.css">
+<script src="js/icons.js"></script>
 <style>html.auth-pending body{visibility:hidden}</style>
 <script type="module" src="js/auth-guard.js"></script>
 
@@ -437,10 +439,17 @@ position:absolute;
 right:22px;
 top:20px;
 
-font-size:42px;
+display:flex;
+align-items:center;
+justify-content:center;
 
-opacity:0.15;
+opacity:1;
 
+}
+
+.icone .icon{
+opacity:0.28;
+color:#7CFFB2;
 }
 
 /* ===================================
@@ -734,11 +743,11 @@ calc(120px + env(safe-area-inset-bottom));
 <div class="blur blur2"></div>
 
 <button
-class="menu-mobile"
-onclick="toggleMenu()">
-
-☰
-
+type="button"
+class="menu-mobile icon-btn icon-only"
+onclick="toggleMenu()"
+aria-label="Abrir menu">
+<span data-icon="menu" data-icon-size="26"></span>
 </button>
 
 <!-- SIDEBAR -->
@@ -747,36 +756,36 @@ onclick="toggleMenu()">
 class="sidebar"
 id="sidebar">
 
-<div class="logo" data-site="brand">
-REVALIDEI 🩺
+<div class="logo icon-wrap" data-site="brand">
+REVALIDA
 </div>
 
-<a href="pages/bancas.html">
-📚 Questões
+<a href="pages/bancas.html" class="icon-wrap">
+<span data-icon="book" data-icon-size="18"></span> Questões
 </a>
 
-<a href="pages/flashcards.html">
-🧠 Flashcards
+<a href="pages/flashcards.html" class="icon-wrap">
+<span data-icon="brain" data-icon-size="18"></span> Flashcards
 </a>
 
-<a href="pages/resumos.html">
-📖 Resumos
+<a href="pages/resumos.html" class="icon-wrap">
+<span data-icon="file-text" data-icon-size="18"></span> Resumos
 </a>
 
-<a href="pages/revisao.html">
-🔁 Revisões
+<a href="pages/revisao.html" class="icon-wrap">
+<span data-icon="calendar" data-icon-size="18"></span> Revisões
 </a>
 
-<a href="pages/historico.html">
-📈 Estatísticas
+<a href="pages/historico.html" class="icon-wrap">
+<span data-icon="bar-chart" data-icon-size="18"></span> Estatísticas
 </a>
 
-<a href="pages/provas_salvas.html">
-📝 Provas
+<a href="pages/provas_salvas.html" class="icon-wrap">
+<span data-icon="clipboard" data-icon-size="18"></span> Provas
 </a>
 
-<button onclick="sair()">
-🚪 Sair
+<button type="button" class="btn-icon" onclick="sair()">
+<span data-icon="log-out" data-icon-size="18"></span> Sair
 </button>
 
 </div>
@@ -790,7 +799,7 @@ REVALIDEI 🩺
 <div>
 
 <h1 class="titulo">
-Bem-vindo, Doutor (a) 👨‍⚕️
+Bem-vindo, Doutor (a)
 </h1>
 
 <p class="subtitulo">
@@ -808,7 +817,7 @@ Continue evoluindo rumo à aprovação no Revalida.
 <div class="card">
 
 <div class="icone">
-📚
+<span data-icon="book" data-icon-size="28" data-icon-class="icon--accent"></span>
 </div>
 
 <h3>
@@ -828,7 +837,7 @@ id="questoesRespondidas">
 <div class="card">
 
 <div class="icone">
-✅
+<span data-icon="check" data-icon-size="28" data-icon-class="icon--accent"></span>
 </div>
 
 <h3>
@@ -848,7 +857,7 @@ id="totalAcertos">
 <div class="card">
 
 <div class="icone">
-❌
+<span data-icon="x" data-icon-size="28" data-icon-class="icon--danger"></span>
 </div>
 
 <h3>
@@ -868,7 +877,7 @@ id="totalErros">
 <div class="card">
 
 <div class="icone">
-🔥
+<span data-icon="bar-chart" data-icon-size="28" data-icon-class="icon--accent"></span>
 </div>
 
 <h3>
@@ -895,8 +904,8 @@ id="aproveitamento">
 
 <div class="box">
 
-<h2>
-📈 Evolução Geral
+<h2 class="icon-wrap">
+<span data-icon="bar-chart" data-icon-size="22"></span> Evolução Geral
 </h2>
 
 <div class="progress-label">
@@ -927,8 +936,8 @@ id="progressFill">
 
 <div class="box">
 
-<h2>
-🧠 Revisões Pendentes
+<h2 class="icon-wrap">
+<span data-icon="brain" data-icon-size="22"></span> Revisões Pendentes
 </h2>
 
 <div id="listaRevisoes">
@@ -944,7 +953,7 @@ Nenhuma revisão pendente
 <br>
 
 <span>
-Você está em dia 🎉
+Você está em dia
 </span>
 
 </div>

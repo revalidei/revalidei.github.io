@@ -59,6 +59,24 @@ body.page-shell .btn-topo {
   cursor: pointer;
 }
 
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.sidebar a.icon-wrap {
+  gap: 10px;
+}
+
+.dashboard .icone,
+.card .icone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 768px) {
   body.page-shell .topo,
   body.page-shell .topo-card {

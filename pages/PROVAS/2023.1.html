@@ -43,6 +43,8 @@ menu.style.display="none";
 
 <link rel="stylesheet" href="../../css/layout.css">
 <link rel="stylesheet" href="../../css/prova.css">
+<link rel="stylesheet" href="../../css/icons.css">
+<script src="../../js/icons.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>html.auth-pending body{visibility:hidden}</style>
 <script type="module" src="../../js/auth-guard.js"></script>
@@ -61,12 +63,14 @@ menu.style.display="none";
 
 <div class="estatisticas">
 
-<div class="estatistica acertos-box">
-👍 <span id="acertos">0</span>
+<div class="estatistica acertos-box icon-wrap">
+<span data-icon="thumbs-up" data-icon-size="16"></span>
+<span id="acertos">0</span>
 </div>
 
-<div class="estatistica erros-box">
-👎 <span id="erros">0</span>
+<div class="estatistica erros-box icon-wrap">
+<span data-icon="thumbs-down" data-icon-size="16"></span>
+<span id="erros">0</span>
 </div>
 
 </div>
@@ -82,9 +86,7 @@ menu.style.display="none";
 <div class="toggle-grade"
 onclick="toggleGradeQuestoes()">
 
-<span id="setaGrade">
-▾
-</span>
+<span id="setaGrade" data-icon="chevron-down" data-icon-size="22"></span>
 
 </div>
 
@@ -92,46 +94,47 @@ onclick="toggleGradeQuestoes()">
 
 <div class="menu-wrapper">
 
-<button class="btn-menu"
-onclick="abrirMenu()">
+<button class="btn-menu icon-btn icon-only"
+onclick="abrirMenu()"
+aria-label="Menu">
 
-⋯
+<span data-icon="more-horizontal" data-icon-size="22"></span>
 
 </button>
 
 <div class="menu-opcoes"
 id="menuOpcoes">
 
-<button type="button" onclick="irHome()">
-🏠 Home
+<button type="button" class="btn-icon" onclick="irHome()">
+<span data-icon="home" data-icon-size="18"></span> Home
 </button>
 
-<button onclick="ativarModoProva()">
-📝 Modo Prova
+<button type="button" class="btn-icon" onclick="ativarModoProva()">
+<span data-icon="clipboard" data-icon-size="18"></span> Modo Prova
 </button>
 
-<button onclick="ativarModoEstudo()">
-📘 Modo Estudo
+<button type="button" class="btn-icon" onclick="ativarModoEstudo()">
+<span data-icon="book-open" data-icon-size="18"></span> Modo Estudo
 </button>
 
-<button onclick="aumentarTexto()">
-🔍 Aumentar Texto
+<button type="button" class="btn-icon" onclick="aumentarTexto()">
+<span data-icon="zoom-in" data-icon-size="18"></span> Aumentar texto
 </button>
 
-<button onclick="diminuirTexto()">
-🔎 Diminuir Texto
+<button type="button" class="btn-icon" onclick="diminuirTexto()">
+<span data-icon="zoom-out" data-icon-size="18"></span> Diminuir texto
 </button>
 
-<button type="button" onclick="window.location.href='../../pages/provas_salvas.html'">
-📚 Provas salvas
+<button type="button" class="btn-icon" onclick="window.location.href='../../pages/provas_salvas.html'">
+<span data-icon="book" data-icon-size="18"></span> Provas salvas
 </button>
 
-<button onclick="sairProva()">
-🚪 Limpar prova
+<button type="button" class="btn-icon" onclick="sairProva()">
+<span data-icon="trash" data-icon-size="18"></span> Limpar prova
 </button>
 
-<button onclick="finalizarProva()">
-🏁 Finalizar
+<button type="button" class="btn-icon" onclick="finalizarProva()">
+<span data-icon="flag" data-icon-size="18"></span> Finalizar
 </button>
 
 </div>
@@ -162,8 +165,8 @@ id="gradeQuestoes"></div>
 
 <div class="questao-topo">
 <h1 class="titulo" id="tituloQuestao">QUESTÃO</h1>
-<button type="button" class="btn-audio-icon" id="btnAudioMini" onclick="lerQuestao()" title="Ouvir questão" aria-label="Ouvir questão">
-🔊
+<button type="button" class="btn-audio-icon icon-btn icon-only" id="btnAudioMini" onclick="lerQuestao()" title="Ouvir questão" aria-label="Ouvir questão">
+<span data-icon="volume" data-icon-size="22" id="btnAudioIcon"></span>
 </button>
 </div>
 
@@ -189,7 +192,7 @@ id="btnComentarioAtual"
 onclick="toggleComentarioAtual()"
 style="display:none;">
 
-⬇ Ver comentário
+<span data-icon="chevron-down" data-icon-size="16"></span> Ver comentário
 
 </button>
 
@@ -204,18 +207,14 @@ id="comentarioAtual">
 
 <div class="navegacao">
 
-<button class="btn-nav voltar"
+<button type="button" class="btn-nav voltar btn-icon"
 onclick="voltarQuestao()">
-
-⬅ Voltar
-
+<span data-icon="chevron-left" data-icon-size="18"></span> Voltar
 </button>
 
-<button class="btn-nav proximo"
+<button type="button" class="btn-nav proximo btn-icon"
 onclick="proximaQuestao()">
-
-Próxima ➜
-
+Próxima <span data-icon="chevron-right" data-icon-size="18"></span>
 </button>
 
 </div>
@@ -416,7 +415,7 @@ gerarGradeQuestoes();
 
 carregarQuestao();
 
-alert("📝 Modo prova ativado");
+alert("Modo prova ativado");
 
 }
 
@@ -437,7 +436,7 @@ gerarGradeQuestoes();
 
 carregarQuestao();
 
-alert("📘 Modo estudo ativado");
+alert("Modo estudo ativado");
 
 }
 
@@ -459,7 +458,7 @@ grade.style.display = "none";
 
 seta.style.transform = "rotate(0deg)";
 
-seta.innerHTML = "▾";
+window.RevalidaIcons.setIcon(seta, "chevron-down", 22);
 
 }else{
 
@@ -467,7 +466,7 @@ grade.style.display = "flex";
 
 seta.style.transform = "rotate(180deg)";
 
-seta.innerHTML = "▴";
+window.RevalidaIcons.setIcon(seta, "chevron-up", 22);
 
 }
 
@@ -554,8 +553,11 @@ document.getElementById("gradeQuestoes")
 
 /* VOLTA ICONE */
 
-document.getElementById("setaGrade")
-.innerHTML = "▾";
+window.RevalidaIcons.setIcon(
+document.getElementById("setaGrade"),
+"chevron-down",
+22
+);
 
 document.getElementById("setaGrade")
 .style.transform = "rotate(0deg)";
@@ -675,13 +677,14 @@ ${alt}
 
 </div>
 
-<div class="cortar"
+<button type="button" class="cortar icon-btn icon-only"
 onclick="cortarAlternativa(event,${index})"
-title="Cortar alternativa">
+title="Cortar alternativa"
+aria-label="Cortar alternativa">
 
-✂️
+<span data-icon="scissors" data-icon-size="18"></span>
 
-</div>
+</button>
 
 </div>
 
@@ -691,6 +694,10 @@ title="Cortar alternativa">
 
 document.getElementById("alternativas")
 .innerHTML = html;
+
+window.RevalidaIcons.mount(
+document.getElementById("alternativas")
+);
 
 atualizarProgresso();
 
@@ -1016,8 +1023,9 @@ htmlErros += `
 
 <div class="questao-erro-card">
 
-<div class="questao-erro-titulo">
-❌ Questão ${q.numero}
+<div class="questao-erro-titulo icon-wrap">
+${window.RevalidaIcons.icon("x-circle", { size: 18, class: "icon--danger" })}
+Questão ${q.numero}
 </div>
 
 <div class="questao-erro-info">
@@ -1040,7 +1048,7 @@ ${q.alternativas[q.correta]}
 class="btn-toggle-erro"
 onclick="toggleComentarioErro(${index})">
 
-⬇ Ver comentário
+<span data-icon="chevron-down" data-icon-size="16"></span> Ver comentário
 
 </button>
 
@@ -1085,37 +1093,32 @@ document.getElementById("resumoResultado")
 
 <div class="questoes-erradas">
 
-${htmlErros || '<p style="color:#94A3B8;text-align:center;padding:20px;">🎉 Você não errou nenhuma questão respondida.</p>'}
+${htmlErros || '<p class="icon-wrap" style="color:#94A3B8;text-align:center;padding:20px;justify-content:center;">' + window.RevalidaIcons.icon("sparkles", { size: 20, class: "icon--accent" }) + ' Você não errou nenhuma questão respondida.</p>'}
 
 </div>
 
 <div class="resultado-acoes">
 
 <button
-class="btn-responder"
+type="button"
+class="btn-responder btn-icon"
 onclick="salvarProvaLocal()">
-
-💾 Salvar prova
-
+<span data-icon="save" data-icon-size="18"></span> Salvar prova
 </button>
 
 ${temErros ? `
 <button
 type="button"
-class="btn-flashcard-result"
+class="btn-flashcard-result btn-icon"
 onclick="iniciarCriacaoFlashcards()">
-
-✍️ Criar flashcards dos meus erros
-
+<span data-icon="pen" data-icon-size="18"></span> Criar flashcards dos meus erros
 </button>
 ` : ""}
 
 <a
-class="btn-secundario"
+class="btn-secundario btn-icon"
 href="../../pages/provas_salvas.html">
-
-📚 Ir para provas salvas
-
+<span data-icon="book" data-icon-size="18"></span> Ir para provas salvas
 </a>
 
 </div>
@@ -1123,6 +1126,10 @@ href="../../pages/provas_salvas.html">
 `;
 
 gerarGrafico();
+
+window.RevalidaIcons.mount(
+document.getElementById("resumoResultado")
+);
 
 /* SCROLL RESULTADO */
 
@@ -1223,7 +1230,7 @@ localStorage.setItem(
 JSON.stringify(provas)
 );
 
-alert("✅ Prova salva! Em Provas salvas você pode criar flashcards analisando cada erro.");
+alert("Prova salva! Em Provas salvas você pode criar flashcards analisando cada erro.");
 
 }
 
@@ -1318,7 +1325,11 @@ if(lendoQuestao){
 speechSynthesis.cancel();
 lendoQuestao=false;
 if(btn){
-btn.innerHTML="🔊";
+window.RevalidaIcons.setIcon(
+document.getElementById("btnAudioIcon"),
+"volume",
+22
+);
 btn.classList.remove("lendo");
 }
 return;
@@ -1346,7 +1357,11 @@ if(voz) fala.voice=voz;
 fala.onend=()=>{
 lendoQuestao=false;
 if(btn){
-btn.innerHTML="🔊";
+window.RevalidaIcons.setIcon(
+document.getElementById("btnAudioIcon"),
+"volume",
+22
+);
 btn.classList.remove("lendo");
 }
 };
@@ -1356,7 +1371,11 @@ speechSynthesis.speak(fala);
 
 lendoQuestao=true;
 if(btn){
-btn.innerHTML="⏹";
+window.RevalidaIcons.setIcon(
+document.getElementById("btnAudioIcon"),
+"square",
+22
+);
 btn.classList.add("lendo");
 }
 }
