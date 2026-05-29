@@ -2,397 +2,112 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#020617">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Revalida">
-<title>Cronograma • Revalida</title>
-<link rel="stylesheet" href="../css/app.css">
-<link rel="stylesheet" href="../css/layout.css">
-<link rel="stylesheet" href="../css/pages.css">
-<link rel="stylesheet" href="../css/icons.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Revalida Premium</title>
 <style>
-body.page-cronograma {
-  background: linear-gradient(165deg, #020617 0%, #0f172a 50%, #0a1628 100%);
-}
-
-.crono-wrap {
-  max-width: 920px;
-  margin: 0 auto;
-  padding-bottom: calc(env(safe-area-inset-bottom) + 24px);
-}
-
-.crono-topo {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-bottom: 22px;
-}
-
-.crono-topo h1 {
-  margin: 0 0 6px;
-  font-size: clamp(1.35rem, 4.5vw, 1.85rem);
-  font-weight: 800;
-  color: #f8fafc;
-}
-
-.crono-topo p {
-  margin: 0;
-  color: #94a3b8;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.btn-voltar {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
-  color: #e2e8f0;
-  font-weight: 700;
-  font-size: 14px;
-  text-decoration: none;
-}
-
-.crono-semana {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
-@media (max-width: 640px) {
-  .crono-semana {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.crono-dia {
-  padding: 12px 8px;
-  border-radius: 14px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.crono-dia.ativo {
-  border-color: rgba(124, 255, 178, 0.4);
-  background: rgba(16, 50, 34, 0.45);
-  color: #7cffb2;
-}
-
-.crono-dia span {
-  display: block;
-  font-size: 11px;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.crono-dia strong {
-  display: block;
-  font-size: 18px;
-  margin-top: 4px;
-  color: #f8fafc;
-}
-
-.crono-painel {
-  padding: 20px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  margin-bottom: 18px;
-}
-
-.crono-painel h2 {
-  margin: 0 0 14px;
-  font-size: 16px;
-  font-weight: 800;
-  color: #f8fafc;
-}
-
-.crono-lista {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.crono-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.crono-item input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  margin-top: 2px;
-  accent-color: #7cffb2;
-  flex-shrink: 0;
-}
-
-.crono-item label {
-  flex: 1;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #e2e8f0;
-  cursor: pointer;
-}
-
-.crono-item.concluido label {
-  text-decoration: line-through;
-  color: #64748b;
-}
-
-.crono-add {
-  display: flex;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.crono-add input {
-  flex: 1;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
-  color: #f8fafc;
-  font-size: 15px;
-  outline: none;
-}
-
-.crono-add button {
-  padding: 14px 18px;
-  border: none;
-  border-radius: 14px;
-  background: #7cffb2;
-  color: #052e16;
-  font-weight: 800;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.crono-resumo {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-.crono-resumo-card {
-  padding: 14px;
-  border-radius: 14px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.crono-resumo-card strong {
-  display: block;
-  font-size: 1.4rem;
-  color: #7cffb2;
-}
-
-.crono-resumo-card span {
-  font-size: 12px;
-  color: #94a3b8;
-}
+body{margin:0;font-family:Inter,Arial;background:#04130f;color:#fff}
+.header{padding:20px;background:#071c17;position:sticky;top:0}
+.tabs{display:flex;gap:10px;margin-top:10px}
+.tab{padding:10px 16px;border:none;border-radius:10px;cursor:pointer}
+.active{background:#22c55e;color:#000}
+.page{display:none;padding:20px}.show{display:block}
+.card{background:#0b211b;padding:15px;border-radius:16px;margin:10px 0}
+input,button{padding:10px;border-radius:8px}
+.day{display:flex;justify-content:space-between;align-items:center}
 </style>
-<style>html.auth-pending body{visibility:hidden}</style>
-<script type="module" src="../js/auth-guard.js"></script>
 </head>
-<body class="page-shell page-cronograma">
-<div class="page-container crono-wrap">
-
-<header class="crono-topo">
-<div>
-<h1 class="icon-wrap">
-<span data-icon="calendar" data-icon-size="26" data-icon-class="icon--accent"></span>
-Cronograma
-</h1>
-<p>Organize questões, flashcards e revisões ao longo da semana.</p>
+<body>
+<div class="header">
+<h1>Revalida Premium 2026.1</h1>
+<div id="countdown"></div>
+<div class="tabs">
+<button class="tab active" onclick="openTab('reta',this)">🔥 Reta Final</button>
+<button class="tab" onclick="openTab('meu',this)">📝 Meu Cronograma</button>
 </div>
-<a href="../dashboard.html" class="btn-voltar icon-wrap">
-<span data-icon="chevron-left" data-icon-size="18"></span> Voltar
-</a>
-</header>
-
-<div class="crono-semana" id="cronoSemana" aria-label="Dias da semana"></div>
-
-<section class="crono-painel">
-<h2 id="cronoTituloDia">Hoje</h2>
-<ul class="crono-lista" id="cronoLista"></ul>
-<div class="crono-add">
-<input type="text" id="cronoInput" placeholder="Nova meta do dia (ex.: 50 questões INEP)" maxlength="120" autocomplete="off">
-<button type="button" id="cronoAddBtn">Adicionar</button>
-</div>
-</section>
-
-<section class="crono-painel">
-<h2>Resumo da semana</h2>
-<div class="crono-resumo">
-<div class="crono-resumo-card">
-<strong id="cronoTotal">0</strong>
-<span>metas</span>
-</div>
-<div class="crono-resumo-card">
-<strong id="cronoFeitas">0</strong>
-<span>concluídas</span>
-</div>
-<div class="crono-resumo-card">
-<strong id="cronoPct">0%</strong>
-<span>progresso</span>
-</div>
-</div>
-</section>
-
 </div>
 
-<script src="../js/icons.js"></script>
+<div id="reta" class="page show">
+<h2>Cronograma Reta Final</h2>
+<div id="listaReta"></div>
+</div>
+
+<div id="meu" class="page">
+<h2>Meu Cronograma</h2>
+<input id="novaMeta" placeholder="Nova meta">
+<button onclick="addMeta()">Adicionar</button>
+<div id="metas"></div>
+</div>
+
 <script>
-(function () {
-  const STORAGE_KEY = "revalida_cronograma";
-  const DIAS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+const provas=[
+"Revalida 2013","Revalida 2014","Revalida 2015","Revalida 2016","Revalida 2017",
+"Revalida 2020","Revalida 2021","Revalida 2022/1","Revalida 2022/2",
+"Revalida 2023/1","Revalida 2023/2","Revalida 2024/1","Revalida 2024/2",
+"Revalida 2025/1","Revalida 2025/2","Revisão de erros","Descanso ativo"
+];
 
-  let dados = {};
-  let diaAtivo = new Date().getDay();
+function openTab(id,el){
+document.querySelectorAll('.page').forEach(x=>x.classList.remove('show'));
+document.getElementById(id).classList.add('show');
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+el.classList.add('active');
+}
 
-  function chaveDia(d) {
-    return String(d);
-  }
+function renderReta(){
+const data=JSON.parse(localStorage.getItem('cronograma_2026_1')||'{}');
+let html='';
+provas.forEach((p,i)=>{
+const c=data[i]?.done?'checked':'';
+const n=data[i]?.nota||'';
+html+=`<div class="card day">
+<div><input type="checkbox" ${c} onchange="toggle(${i},this.checked)"> ${p}</div>
+<div><input type="number" value="${n}" placeholder="%" onchange="nota(${i},this.value)"></div>
+</div>`;
+});
+document.getElementById('listaReta').innerHTML=html;
+}
 
-  function carregar() {
-    try {
-      dados = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    } catch {
-      dados = {};
-    }
-  }
+function toggle(i,v){
+let d=JSON.parse(localStorage.getItem('cronograma_2026_1')||'{}');
+d[i]=d[i]||{}; d[i].done=v;
+localStorage.setItem('cronograma_2026_1',JSON.stringify(d));
+}
+function nota(i,v){
+let d=JSON.parse(localStorage.getItem('cronograma_2026_1')||'{}');
+d[i]=d[i]||{}; d[i].nota=v;
+localStorage.setItem('cronograma_2026_1',JSON.stringify(d));
+}
 
-  function salvar() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(dados));
-  }
+function addMeta(){
+const t=document.getElementById('novaMeta').value.trim();
+if(!t)return;
+let m=JSON.parse(localStorage.getItem('meu_cronograma')||'[]');
+m.push({texto:t,ok:false});
+localStorage.setItem('meu_cronograma',JSON.stringify(m));
+document.getElementById('novaMeta').value='';
+renderMetas();
+}
 
-  function itensDoDia(d) {
-    const k = chaveDia(d);
-    if (!Array.isArray(dados[k])) dados[k] = [];
-    return dados[k];
-  }
+function renderMetas(){
+let m=JSON.parse(localStorage.getItem('meu_cronograma')||'[]');
+document.getElementById('metas').innerHTML=m.map((x,i)=>
+`<div class="card"><input type="checkbox" ${x.ok?'checked':''}
+onchange="mark(${i},this.checked)"> ${x.texto}</div>`).join('');
+}
+function mark(i,v){
+let m=JSON.parse(localStorage.getItem('meu_cronograma')||'[]');
+m[i].ok=v;
+localStorage.setItem('meu_cronograma',JSON.stringify(m));
+}
 
-  function renderSemana() {
-    const el = document.getElementById("cronoSemana");
-    const hoje = new Date().getDay();
-    el.innerHTML = DIAS.map((nome, i) => {
-      const qtd = itensDoDia(i).length;
-      return `<button type="button" class="crono-dia${i === diaAtivo ? " ativo" : ""}" data-dia="${i}">
-        <span>${nome}</span>
-        <strong>${i === hoje ? "•" : qtd || "—"}</strong>
-      </button>`;
-    }).join("");
-    el.querySelectorAll(".crono-dia").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        diaAtivo = Number(btn.dataset.dia);
-        render();
-      });
-    });
-  }
-
-  function renderLista() {
-    const lista = document.getElementById("cronoLista");
-    const titulo = document.getElementById("cronoTituloDia");
-    const hoje = new Date().getDay();
-    const nomes = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
-    titulo.textContent =
-      diaAtivo === hoje ? `Hoje · ${nomes[diaAtivo]}` : nomes[diaAtivo];
-
-    const itens = itensDoDia(diaAtivo);
-    if (!itens.length) {
-      lista.innerHTML =
-        '<li class="crono-item"><label style="color:#94a3b8">Nenhuma meta neste dia. Adicione abaixo.</label></li>';
-      return;
-    }
-
-    lista.innerHTML = itens
-      .map(
-        (item, idx) => `<li class="crono-item${item.ok ? " concluido" : ""}">
-          <input type="checkbox" id="c_${diaAtivo}_${idx}" ${item.ok ? "checked" : ""} data-idx="${idx}">
-          <label for="c_${diaAtivo}_${idx}">${escapeHtml(item.texto)}</label>
-        </li>`
-      )
-      .join("");
-
-    lista.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
-      cb.addEventListener("change", () => {
-        const i = Number(cb.dataset.idx);
-        itensDoDia(diaAtivo)[i].ok = cb.checked;
-        salvar();
-        render();
-      });
-    });
-  }
-
-  function renderResumo() {
-    let total = 0;
-    let feitas = 0;
-    for (let d = 0; d < 7; d++) {
-      itensDoDia(d).forEach((item) => {
-        total += 1;
-        if (item.ok) feitas += 1;
-      });
-    }
-    document.getElementById("cronoTotal").textContent = total;
-    document.getElementById("cronoFeitas").textContent = feitas;
-    document.getElementById("cronoPct").textContent =
-      total > 0 ? Math.round((feitas / total) * 100) + "%" : "0%";
-  }
-
-  function escapeHtml(t) {
-    return String(t)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-  }
-
-  function adicionar() {
-    const input = document.getElementById("cronoInput");
-    const texto = input.value.trim();
-    if (texto.length < 2) return;
-    itensDoDia(diaAtivo).push({ texto, ok: false });
-    input.value = "";
-    salvar();
-    render();
-  }
-
-  function render() {
-    renderSemana();
-    renderLista();
-    renderResumo();
-  }
-
-  document.getElementById("cronoAddBtn").addEventListener("click", adicionar);
-  document.getElementById("cronoInput").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") adicionar();
-  });
-
-  carregar();
-  render();
-  window.RevalidaIcons?.mount(document.body);
-})();
+function countdown(){
+const prova=new Date('2026-06-07T08:00:00');
+const diff=prova-new Date();
+const dias=Math.floor(diff/86400000);
+document.getElementById('countdown').innerText='Faltam '+dias+' dias para a prova';
+}
+countdown(); setInterval(countdown,60000);
+renderReta(); renderMetas();
 </script>
-<script src="../js/app.js"></script>
 </body>
 </html>
