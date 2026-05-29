@@ -31,9 +31,10 @@ content="black-translucent">
 name="mobile-web-app-capable"
 content="yes">
 
-<title>
-📚 Provas Salvas
-</title>
+<title>Provas Salvas • Revalida</title>
+<link rel="stylesheet" href="../css/app.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/pages.css">
 
 <style>
 
@@ -78,7 +79,7 @@ scroll-behavior:smooth;
 BODY
 ================================================== */
 
-body{
+body.page-shell{
 
 width:100%;
 
@@ -87,24 +88,13 @@ min-height:100dvh;
 overflow-x:hidden;
 overflow-y:auto;
 
-padding-top:
-calc(env(safe-area-inset-top) + 18px);
+padding-top:0;
 
-padding-left:
-max(18px, env(safe-area-inset-left));
+padding-left:0;
 
-padding-right:
-max(18px, env(safe-area-inset-right));
+padding-right:0;
 
-padding-bottom:
-calc(env(safe-area-inset-bottom) + 24px);
-
-background:
-linear-gradient(
-180deg,
-#020617 0%,
-#0F172A 100%
-);
+padding-bottom:0;
 
 color:#F8FAFC;
 
@@ -115,11 +105,13 @@ color:#F8FAFC;
 CONTAINER
 ================================================== */
 
-.container{
+body.page-shell .container{
 
 max-width:1100px;
 
 margin:auto;
+
+padding-top:0;
 }
 
 /* ==================================================
@@ -762,15 +754,11 @@ display:block;
 <script type="module" src="../js/auth-guard.js"></script>
 </head>
 
-<body>
+<body class="page-shell">
 
-<div class="container">
+<div class="page-container container">
 
-<!-- ==================================================
-TOPO
-================================================== -->
-
-<div class="topo">
+<div class="topo topo-card">
 
 <div class="logo">
 📚 Provas Salvas

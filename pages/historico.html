@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <link rel="stylesheet" href="../css/app.css">
+<link rel="stylesheet" href="../css/layout.css">
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,13 +14,14 @@
 <link rel="manifest" href="../manifest.json">
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Histórico de Evolução</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-body{background:#0F1115;color:white;font-family:Arial;padding:20px;}
-.titulo{font-size:28px;margin-bottom:25px;color:#7CFFB2;
-}
+body.page-shell{background:#0f1115;color:white;font-family:Inter,Arial,sans-serif;}
+.page-inner{max-width:900px;margin:0 auto;padding:var(--page-pad,20px);padding-top:calc(env(safe-area-inset-top) + 20px);}
+.titulo{font-size:clamp(1.25rem,4vw,1.75rem);margin-bottom:25px;color:#7CFFB2;}
+canvas{max-width:100%;}
 html, body {
   height: 100%;
   overflow-y: scroll; /* rolagem funcional */
@@ -36,9 +38,10 @@ body {
 <style>html.auth-pending body{visibility:hidden}</style>
 <script type="module" src="../js/auth-guard.js"></script>
 </head>
-<body>
+<body class="page-shell">
+<div class="page-inner">
 <h1 class="titulo">📈 Histórico de Evolução</h1>
-<canvas id="graficoEvolucao" style="max-width:600px;margin:auto;"></canvas>
+<canvas id="graficoEvolucao" style="max-width:100%;width:min(600px,100%);margin:auto;display:block;"></canvas>
 
 <script>
 let provas = JSON.parse(localStorage.getItem("provas_salvas")) || [];
@@ -69,6 +72,7 @@ new Chart(ctx, {
     }
 });
 </script>
+</div>
 <script src="../js/app.js"></script>
 </body>
 </html>

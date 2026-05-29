@@ -17,6 +17,8 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=
 <link rel="manifest" href="../manifest.json">
 
 <title>Bancas de Provas</title>
+<link rel="stylesheet" href="../css/app.css">
+<link rel="stylesheet" href="../css/layout.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,6 +49,11 @@ min-height:100vh;
 overflow-x:hidden;
 padding-top:env(safe-area-inset-top);
 padding-bottom:env(safe-area-inset-bottom);
+padding-left:max(16px,env(safe-area-inset-left));
+padding-right:max(16px,env(safe-area-inset-right));
+}
+@media(min-width:1024px){
+body{padding-left:max(24px,env(safe-area-inset-left));padding-right:max(24px,env(safe-area-inset-right));}
 }
 
 .bg{

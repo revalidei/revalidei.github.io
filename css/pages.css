@@ -1,0 +1,76 @@
+/* Páginas internas — provas salvas, criar flashcards, histórico, etc. */
+
+body.page-shell {
+  min-height: 100dvh;
+  overflow-x: hidden;
+  color: var(--color-text, #f8fafc);
+  font-family: var(--font-sans, Inter, sans-serif);
+  background: linear-gradient(180deg, #020617 0%, #0f172a 100%);
+  padding-left: max(var(--page-pad, 16px), env(safe-area-inset-left));
+  padding-right: max(var(--page-pad, 16px), env(safe-area-inset-right));
+  padding-bottom: calc(var(--page-pad, 16px) + env(safe-area-inset-bottom));
+  -webkit-overflow-scrolling: touch;
+}
+
+body.page-shell .page-container {
+  width: 100%;
+  max-width: var(--page-max, 1100px);
+  margin-inline: auto;
+  padding-top: calc(env(safe-area-inset-top) + var(--page-pad, 16px));
+}
+
+body.page-shell .topo-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 18px 20px;
+  margin-bottom: 22px;
+  border-radius: var(--radius-xl, 28px);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.06));
+}
+
+body.page-shell .topo-card .logo {
+  font-size: clamp(1.15rem, 4vw, 1.5rem);
+  font-weight: 800;
+}
+
+body.page-shell .topo-botoes {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+body.page-shell .btn-topo {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  body.page-shell .prova-card,
+  body.page-shell .prova-card {
+    padding: 24px 28px;
+  }
+
+  body.page-shell .acoes {
+    flex-wrap: nowrap;
+  }
+
+  body.page-shell .btn-acao {
+    flex: 1;
+    min-width: 140px;
+  }
+}
+
+@media (min-width: 1024px) {
+  body.page-shell .lista-provas {
+    display: grid;
+    gap: 20px;
+  }
+}

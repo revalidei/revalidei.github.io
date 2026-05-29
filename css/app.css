@@ -62,3 +62,12 @@ select,
 button{
 font-size:16px;
 }
+
+*{
+-webkit-tap-highlight-color:transparent;
+}
+
+.page-shell{
+min-height:100dvh;
+overflow-x:hidden;
+}

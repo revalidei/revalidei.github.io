@@ -1,0 +1,99 @@
+/* Layout responsivo compartilhado — Revalida */
+
+:root {
+  --page-max: min(1100px, 100% - 32px);
+  --page-max-narrow: min(720px, 100% - 32px);
+  --page-pad: clamp(16px, 4vw, 28px);
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --color-bg: #020617;
+  --color-bg-2: #0f172a;
+  --color-text: #f8fafc;
+  --color-muted: #94a3b8;
+  --color-accent: #7cffb2;
+  --color-border: rgba(255, 255, 255, 0.06);
+  --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+textarea,
+select,
+button {
+  font-size: 16px;
+  touch-action: manipulation;
+}
+
+.page-shell {
+  width: 100%;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-2) 100%);
+  padding-left: max(var(--page-pad), env(safe-area-inset-left));
+  padding-right: max(var(--page-pad), env(safe-area-inset-right));
+  padding-bottom: calc(var(--page-pad) + env(safe-area-inset-bottom));
+}
+
+.page-container {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+}
+
+.page-container--narrow {
+  max-width: var(--page-max-narrow);
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: calc(env(safe-area-inset-top) + var(--page-pad)) 0 var(--page-pad);
+}
+
+.page-header h1 {
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  font-weight: 800;
+  margin: 0;
+}
+
+.page-header a,
+.page-header .link-back {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --page-max: min(1100px, 100% - 48px);
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --page-pad: 32px;
+  }
+}
