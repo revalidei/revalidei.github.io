@@ -109,19 +109,94 @@ body.page-shell .btn-topo {
     padding: 24px 28px;
   }
 
-  body.page-shell .acoes {
-    flex-wrap: nowrap;
-  }
-
   body.page-shell .btn-acao {
-    flex: 1;
-    min-width: 140px;
+    flex: 1 1 auto;
+    min-width: min(140px, 100%);
   }
 }
 
 @media (min-width: 1024px) {
   body.page-shell .lista-provas {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 20px;
   }
+}
+
+/* Provas salvas — painel "Ver erros" */
+body.page-shell .prova-card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+body.page-shell .detalhes {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+body.page-shell .questao-erro {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+body.page-shell .questao-erro-titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 18px;
+  font-size: 20px;
+  color: #ff7b7b;
+}
+
+body.page-shell .erro-bloco {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 16px;
+}
+
+body.page-shell .erro-bloco-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #e2e8f0;
+}
+
+body.page-shell .erro-enunciado,
+body.page-shell .erro-texto {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  font-size: clamp(15px, 2.5vw, 17px);
+  line-height: 1.75;
+  color: #e2e8f0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-line;
+}
+
+body.page-shell .questao-erro .comentario {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  font-size: clamp(15px, 2.5vw, 17px);
+  line-height: 1.75;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-line;
+}
+
+body.page-shell .acoes {
+  flex-wrap: wrap;
+}
+
+body.page-shell .btn-acao {
+  flex: 1 1 auto;
+  min-width: min(100%, 120px);
 }

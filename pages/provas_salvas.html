@@ -358,11 +358,15 @@ gap:12px;
 margin-top:24px;
 
 flex-wrap:wrap;
+
+width:100%;
 }
 
 .btn-acao{
 
-flex:1;
+flex:1 1 auto;
+
+min-width:min(100%,120px);
 
 padding:16px;
 
@@ -427,6 +431,12 @@ DETALHES
 
 display:none;
 
+width:100%;
+
+max-width:100%;
+
+min-width:0;
+
 margin-top:24px;
 
 padding-top:24px;
@@ -441,6 +451,14 @@ QUESTAO
 
 .questao-erro{
 
+width:100%;
+
+max-width:100%;
+
+min-width:0;
+
+box-sizing:border-box;
+
 background:
 rgba(255,255,255,0.03);
 
@@ -454,7 +472,15 @@ padding:22px;
 margin-bottom:22px;
 }
 
-.questao-erro h3{
+.questao-erro-titulo{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+width:100%;
 
 color:#FF7B7B;
 
@@ -463,13 +489,50 @@ margin-bottom:18px;
 font-size:20px;
 }
 
-.questao-erro p{
+.erro-bloco{
 
-line-height:1.9;
+width:100%;
 
-margin-bottom:14px;
+max-width:100%;
+
+margin-bottom:16px;
+}
+
+.erro-bloco-label{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+font-weight:700;
+
+margin-bottom:8px;
 
 color:#E2E8F0;
+}
+
+.erro-enunciado,
+.erro-texto{
+
+width:100%;
+
+max-width:100%;
+
+min-width:0;
+
+font-size:clamp(15px,2.5vw,17px);
+
+line-height:1.75;
+
+color:#E2E8F0;
+
+word-break:break-word;
+
+overflow-wrap:break-word;
+
+white-space:pre-line;
 }
 
 /* ==================================================
@@ -553,6 +616,12 @@ font-size:15px;
 
 display:none;
 
+width:100%;
+
+max-width:100%;
+
+min-width:0;
+
 margin-top:16px;
 
 padding:20px;
@@ -561,7 +630,15 @@ border-radius:20px;
 
 background:#13261B;
 
-line-height:1.9;
+line-height:1.75;
+
+font-size:clamp(15px,2.5vw,17px);
+
+word-break:break-word;
+
+overflow-wrap:break-word;
+
+white-space:pre-line;
 
 border:
 1px solid rgba(124,255,178,0.10);
@@ -870,6 +947,14 @@ return String(text ?? "")
 
 }
 
+function formatTextoErro(text){
+
+return escapeHtml(text)
+.replace(/\r\n/g,"\n")
+.replace(/\n/g,"<br>");
+
+}
+
 function ic(name, size, cls){
 
 return window.RevalidaIcons.icon(name, {
@@ -945,15 +1030,15 @@ errosHtml += `
 
 <div class="questao-erro">
 
-<h3 class="icon-wrap">
-${ic("x-circle",18,"icon--danger")}
-Questão ${erro.numero}
+<h3 class="questao-erro-titulo">
+<span class="icon-wrap">${ic("x-circle",18,"icon--danger")}</span>
+<span>Questão ${escapeHtml(String(erro.numero))}</span>
 </h3>
 
-<p>
-<b class="icon-wrap">${ic("file-text",16)} Enunciado:</b><br>
-${erro.enunciado || "Não informado"}
-</p>
+<div class="erro-bloco">
+<div class="erro-bloco-label icon-wrap">${ic("file-text",16)} Enunciado</div>
+<div class="erro-enunciado">${formatTextoErro(erro.enunciado || "Não informado")}</div>
+</div>
 
 <div class="alternativas">
 
@@ -972,7 +1057,7 @@ ${alternativa === erro.respostaCorreta
 
 ">
 
-${alternativa}
+${formatTextoErro(alternativa)}
 
 </div>
 
@@ -980,15 +1065,15 @@ ${alternativa}
 
 </div>
 
-<p>
-<b class="icon-wrap">${ic("x",16,"icon--danger")} Sua resposta:</b><br>
-${erro.respostaUsuario || "Não informado"}
-</p>
+<div class="erro-bloco">
+<div class="erro-bloco-label icon-wrap">${ic("x",16,"icon--danger")} Sua resposta</div>
+<div class="erro-texto">${formatTextoErro(erro.respostaUsuario || "Não informado")}</div>
+</div>
 
-<p>
-<b class="icon-wrap">${ic("check",16,"icon--accent")} Resposta correta:</b><br>
-${erro.respostaCorreta || "Não informado"}
-</p>
+<div class="erro-bloco">
+<div class="erro-bloco-label icon-wrap">${ic("check",16,"icon--accent")} Resposta correta</div>
+<div class="erro-texto">${formatTextoErro(erro.respostaCorreta || "Não informado")}</div>
+</div>
 
 <button
 type="button"
@@ -1001,7 +1086,7 @@ ${ic("chevron-down",16)} Ver comentário
 class="comentario"
 id="comentario-${index}-${i}">
 
-${erro.comentario || "Sem comentário"}
+${formatTextoErro(erro.comentario || "Sem comentário")}
 
 </div>
 
