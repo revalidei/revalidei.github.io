@@ -29,6 +29,15 @@ content="black">
 
 const NOME_PROVA = "INEP 2025.2";
 
+
+document.addEventListener("click",(e)=>{
+const menu=document.getElementById("menuOpcoes");
+const wrapper=document.querySelector(".menu-wrapper");
+if(menu && wrapper && !wrapper.contains(e.target)){
+menu.style.display="none";
+}
+});
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -499,6 +508,8 @@ margin-bottom:24px;
 }
 
 .enunciado{
+max-width:780px;
+margin:auto;
 font-size:18px;
 
 line-height:1.9;
@@ -1432,7 +1443,7 @@ document.getElementById("gradeQuestoes")
 /* VOLTA ICONE */
 
 document.getElementById("setaGrade")
-.innerHTML = "☰";
+.innerHTML = "▾";
 
 document.getElementById("setaGrade")
 .style.transform = "rotate(0deg)";
