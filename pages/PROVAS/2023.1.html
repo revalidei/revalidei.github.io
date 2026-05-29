@@ -47,6 +47,7 @@ menu.style.display="none";
 <script src="../../js/icons.js"></script>
 <script src="../../js/prova-marca-texto.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../../js/prova-grafico.js"></script>
 <style>html.auth-pending body{visibility:hidden}</style>
 <script type="module" src="../../js/auth-guard.js"></script>
 </head>
@@ -1007,6 +1008,33 @@ carregarQuestao();
 }
 
 /* =========================================
+GRAFICO RESULTADO
+========================================= */
+
+function gerarGrafico(){
+
+const respondidas = acertos + erros;
+
+const naoRespondidas = Math.max(
+0,
+questoes.length - respondidas
+);
+
+if(window.ProvaGrafico){
+
+window.ProvaGrafico.render({
+
+acertos,
+erros,
+naoRespondidas
+
+});
+
+}
+
+}
+
+/* =========================================
 FINALIZAR
 ========================================= */
 
@@ -1021,6 +1049,11 @@ document.getElementById("menuOpcoes")
 
 document.getElementById("resultados")
 .style.display = "block";
+
+document.querySelector(".questao-box")?.style.setProperty("display","none");
+document.querySelector(".navegacao")?.style.setProperty("display","none");
+document.getElementById("progressoWrap")?.style.setProperty("display","none");
+document.getElementById("gradeQuestoes")?.style.setProperty("display","none");
 
 let total = acertos + erros;
 
