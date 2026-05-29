@@ -54,10 +54,11 @@
 }
 
 .logo-topo {
-  font-size: clamp(1rem, 3.5vw, 1.25rem);
+  font-size: clamp(1.15rem, 4.5vw, 1.5rem);
   font-weight: 800;
   color: #7cffb2;
   white-space: nowrap;
+  line-height: 1.1;
 }
 
 .estatisticas {
