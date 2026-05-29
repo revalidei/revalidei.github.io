@@ -126,7 +126,7 @@ CONTAINER
 ========================================= */
 
 .container{
-max-width:800px;
+max-width:780px;
 margin:auto;
 
 padding-top:120px;
@@ -288,6 +288,73 @@ background:#1E293B;
 }
 
 /* =========================================
+BARRA DE PROGRESSO
+========================================= */
+.progress-container{
+
+margin-bottom:20px;
+
+padding:16px 20px;
+
+background:#0F172A;
+
+border:1px solid #1E293B;
+
+border-radius:16px;
+
+}
+
+.progress-info{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:10px;
+
+font-size:14px;
+
+font-weight:600;
+
+color:#CBD5E1;
+
+}
+
+.progress-bar{
+
+width:100%;
+
+height:8px;
+
+background:#1E293B;
+
+border-radius:999px;
+
+overflow:hidden;
+
+}
+
+.progress-fill{
+
+height:100%;
+
+width:0;
+
+background:linear-gradient(
+90deg,
+#22C55E,
+#7CFFB2
+);
+
+border-radius:999px;
+
+transition:.35s ease;
+
+}
+
+/* =========================================
 TOP ACTIONS
 ========================================= */
 
@@ -420,10 +487,10 @@ transform:translateY(0);
 }
 
 .numero-questao{
-width:44px;
-height:44px;
+width: 38px;
+height:38px;
 
-border-radius:14px;
+border-radius:10px;
 
 display:flex;
 align-items:center;
@@ -431,7 +498,7 @@ justify-content:center;
 
 font-weight:800;
 
-font-size:14px;
+font-size:13px;
 
 cursor:pointer;
 
@@ -500,9 +567,10 @@ margin-bottom:24px;
 
 .enunciado{
 font-size:16px;
-line-height:1.65;
+line-height:1.7;
 text-align:justify;
-max-width:70ch;
+max-width:72ch;
+margin:auto;
 }
 
 /* =========================================
@@ -510,27 +578,15 @@ ALTERNATIVAS
 ========================================= */
 
 .alternativa{
-background:#172033;
-
 padding:14px 16px;
-
 border-radius:12px;
-
-margin-bottom:16px;
-
-border:
-2px solid transparent;
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-transition:0.2s;
+background:#111827;
+border:1px solid #1F2937;
 }
 
 .alternativa:hover{
-border-color:#7CFFB2;
-transform:translateY(-2px);
+border-color:#334155;
+transform:none;
 }
 
 .texto-alternativa{
@@ -893,11 +949,11 @@ font-size:12px;
 border-radius:14px;
 }
 
-.toggle-grade,
-.btn-menu{
-width:46px;
-height:46px;
-border-radius:15px;
+.btn-menu,
+.toggle-grade{
+width:42px;
+height:42px;
+border-radius:10px;
 }
 
 }
@@ -920,6 +976,33 @@ touch-action:manipulation;
 -webkit-tap-highlight-color:transparent;
 }
 
+/* BOTOES MENU IOS */
+.menu-opcoes button{
+display:flex;
+align-items:center;
+gap:10px;
+
+padding:14px 16px;
+
+border:none;
+border-radius:12px;
+
+background:#172033;
+color:white;
+
+font-weight:600;
+font-size:14px;
+
+cursor:pointer;
+transition:.2s;
+}
+
+.menu-opcoes button svg{
+width:18px;
+height:18px;
+flex-shrink:0;
+}
+
 /* BLOQUEIA ZOOM DOUBLE TAP */
 
 html{
@@ -934,6 +1017,31 @@ touch-action:manipulation;
 <body>
 
 <div class="container">
+
+<div class="progress-container">
+
+<div class="progress-info">
+
+<span id="textoProgresso">
+Questão 1 de 100
+</span>
+
+<span id="percentualProgresso">
+1%
+</span>
+
+</div>
+
+<div class="progress-bar">
+
+<div
+id="progressFill"
+class="progress-fill">
+</div>
+
+</div>
+
+</div>
 
 <!-- HEADER FIXO -->
 
@@ -991,31 +1099,38 @@ onclick="abrirMenu()">
 id="menuOpcoes">
 
 <button type="button" onclick="irHome()">
-🏠 Home
+<i data-lucide="house"></i>
+<span>Home</span>
 </button>
 
 <button onclick="ativarModoProva()">
-📝 Modo Prova
+<i data-lucide="clipboard-list"></i>
+<span>Modo Prova</span>
 </button>
 
 <button onclick="ativarModoEstudo()">
-📘 Modo Estudo
+<i data-lucide="book-open"></i>
+<span>Modo Estudo</span>
 </button>
 
 <button onclick="aumentarTexto()">
-🔍 Aumentar Texto
+<i data-lucide="zoom-in"></i>
+<span>Aumentar Texto</span>
 </button>
 
 <button onclick="diminuirTexto()">
-🔎 Diminuir Texto
+<i data-lucide="zoom-out"></i>
+<span>Diminuir Texto</span>
 </button>
 
 <button onclick="sairProva()">
-🚪 Limpar prova
+<i data-lucide="trash-2"></i>
+<span>Limpar Prova</span>
 </button>
 
 <button onclick="finalizarProva()">
-🏁 Finalizar
+<i data-lucide="flag"></i>
+<span>Finalizar</span>
 </button>
 
 </div>
@@ -1451,6 +1566,8 @@ selecionada = null;
 let q = questoes[questaoAtual];
 
 if(!q) return;
+
+atualizarProgresso();
 
 /* VERIFICA SE JA RESPONDEU */
 
@@ -2021,6 +2138,36 @@ alert("✅ Prova salva com sucesso!");
 
 }
 
+function atualizarProgresso(){
+
+const total = questoes.length;
+
+const atual = questaoAtual + 1;
+
+const percentual =
+(atual / total) * 100;
+
+document.getElementById(
+"textoProgresso"
+).innerText =
+`Questão ${atual} de ${total}`;
+
+document.getElementById(
+"percentualProgresso"
+).innerText =
+`${Math.round(percentual)}%`;
+
+document.getElementById(
+"progressFill"
+).style.width =
+`${percentual}%`;
+
+}
+
+</script>
+
+<script>
+lucide.createIcons();
 </script>
 
 </body>
