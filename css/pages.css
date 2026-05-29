@@ -79,9 +79,9 @@ body.page-shell .btn-topo {
 
 @media (max-width: 768px) {
   body.page-shell.page-provas-salvas {
-    --page-pad: 8px;
-    padding-left: max(6px, env(safe-area-inset-left));
-    padding-right: max(6px, env(safe-area-inset-right));
+    --page-pad: 0px;
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
   }
 
   body.page-shell.page-provas-salvas .page-container,
@@ -91,10 +91,14 @@ body.page-shell .btn-topo {
   }
 
   body.page-shell.page-provas-salvas .prova-card {
-    padding: 14px 10px;
+    padding: 12px 6px;
   }
 
   body.page-shell.page-provas-salvas .questao-erro {
+    padding: 10px 6px;
+  }
+
+  body.page-shell.page-provas-salvas .alternativa {
     padding: 12px 10px;
   }
 
@@ -108,7 +112,7 @@ body.page-shell .btn-topo {
 
   body.page-shell.page-provas-salvas .topo,
   body.page-shell.page-provas-salvas .topo-card {
-    padding: 12px 10px;
+    padding: 10px 6px;
   }
 
   body.page-shell .topo-botoes {
