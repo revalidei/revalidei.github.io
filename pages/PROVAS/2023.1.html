@@ -2243,9 +2243,9 @@ ${temErros ? `
 <button
 type="button"
 class="btn-flashcard-result"
-onclick="revisarErrosEmFlashcards()">
+onclick="iniciarCriacaoFlashcards()">
 
-🧠 Revisar erros em flashcards
+✍️ Criar flashcards dos meus erros
 
 </button>
 ` : ""}
@@ -2363,15 +2363,15 @@ localStorage.setItem(
 JSON.stringify(provas)
 );
 
-alert("✅ Prova salva! Abra Provas salvas para gerar flashcards dos erros.");
+alert("✅ Prova salva! Em Provas salvas você pode criar flashcards analisando cada erro.");
 
 }
 
 /* =========================================
-FLASHCARDS DOS ERROS (SESSÃO ATUAL)
+CRIAR FLASHCARDS (ANÁLISE PRÓPRIA)
 ========================================= */
 
-function revisarErrosEmFlashcards(){
+function iniciarCriacaoFlashcards(){
 
 const errosLista = [];
 
@@ -2385,9 +2385,15 @@ numero:q.numero,
 
 enunciado:q.pergunta || "",
 
+alternativas:q.alternativas || [],
+
+respostaUsuario:q.alternativas[respostasUsuario[index]],
+
 respostaCorreta:q.alternativas[q.correta],
 
-comentario:q.comentario || ""
+comentario:q.comentario || "",
+
+anotacao:""
 
 });
 
@@ -2395,27 +2401,25 @@ comentario:q.comentario || ""
 
 if(!errosLista.length){
 
-alert("Não há questões erradas para revisar.");
+alert("Não há questões erradas para analisar.");
 
 return;
 
 }
 
-const deck =
-window.RevalidaFlashcards.buildDeckFromErros(errosLista);
+window.RevalidaFlashcards.saveCreateSession({
 
-window.RevalidaFlashcards.saveDeck(deck, {
-
-titulo:NOME_PROVA,
+nomeProva:NOME_PROVA,
 
 data:new Date().toLocaleString(),
 
-total:deck.length
+questoesErradas:errosLista
 
 });
 
-window.RevalidaFlashcards.goToFlashcards(
-"../../pages/flashcards.html"
+window.RevalidaFlashcards.goToCriar(
+"../../pages/criar_flashcards.html",
+{ source: "sessao" }
 );
 
 }

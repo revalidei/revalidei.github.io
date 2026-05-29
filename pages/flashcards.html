@@ -136,7 +136,7 @@ function carregarDeck() {
 
   if (fromProva) {
     document.getElementById("area").innerHTML =
-      '<div class="empty"><p>Nenhum deck encontrado. Gere flashcards a partir de uma prova salva.</p><p style="margin-top:12px"><a href="provas_salvas.html" style="color:#7CFFB2">← Provas salvas</a></p></div>';
+      '<div class="empty"><p>Nenhum deck encontrado. Crie flashcards analisando seus erros em Provas salvas.</p><p style="margin-top:12px"><a href="provas_salvas.html" style="color:#7CFFB2">← Provas salvas</a></p></div>';
     return;
   }
 
@@ -168,10 +168,13 @@ function render() {
   }
 
   const item = deck[index];
-  const titulo = mostrandoResposta ? "Resposta" : "Pergunta";
+  const ehUsuario = item.origem === "usuario" || deckMeta?.tipo === "criados_pelo_usuario";
+  const titulo = mostrandoResposta
+    ? (ehUsuario ? "Sua análise" : "Resposta")
+    : (ehUsuario ? "Sua pergunta" : "Pergunta");
   const texto = mostrandoResposta ? item.resposta : item.pergunta;
   const badge = deckMeta
-    ? `<div class="deck-badge">📚 ${escapeHtml(deckMeta.titulo)}${deckMeta.data ? " • " + escapeHtml(deckMeta.data) : ""} — ${deck.length} card(s)</div>`
+    ? `<div class="deck-badge">📚 ${escapeHtml(deckMeta.titulo)}${deckMeta.data ? " • " + escapeHtml(deckMeta.data) : ""} — ${deck.length} card(s)${ehUsuario ? " • feitos por você" : ""}</div>`
     : "";
 
   area.innerHTML = `

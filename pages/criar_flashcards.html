@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#020617">
+<title>Criar flashcards • Revalida</title>
+<link rel="stylesheet" href="../css/app.css">
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body{
+min-height:100dvh;
+padding:max(18px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-left)) calc(env(safe-area-inset-bottom) + 24px) max(18px, env(safe-area-inset-right));
+background:linear-gradient(180deg,#020617 0%,#0F172A 100%);
+color:#F8FAFC;
+}
+.container{max-width:720px;margin:0 auto;}
+.topo{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+margin-bottom:22px;
+}
+.topo h1{font-size:22px;font-weight:900;}
+.topo a{color:#7CFFB2;text-decoration:none;font-weight:700;font-size:14px;}
+.intro{
+padding:18px 20px;
+border-radius:22px;
+background:rgba(99,102,241,0.12);
+border:1px solid rgba(139,92,246,0.35);
+margin-bottom:22px;
+line-height:1.7;
+font-size:14px;
+color:#C7D2FE;
+}
+.progresso-wizard{margin-bottom:20px;}
+.progresso-wizard-head{
+display:flex;
+justify-content:space-between;
+font-size:13px;
+font-weight:700;
+color:#94A3B8;
+margin-bottom:8px;
+}
+.progresso-wizard-track{
+height:8px;
+border-radius:999px;
+background:rgba(255,255,255,0.08);
+overflow:hidden;
+}
+.progresso-wizard-fill{
+height:100%;
+background:linear-gradient(90deg,#6366F1,#8B5CF6);
+transition:width .3s ease;
+}
+.card-wizard{
+padding:22px;
+border-radius:26px;
+background:rgba(255,255,255,0.03);
+border:1px solid rgba(255,255,255,0.06);
+}
+.ref-titulo{
+font-size:12px;
+font-weight:800;
+letter-spacing:.06em;
+text-transform:uppercase;
+color:#94A3B8;
+margin-bottom:10px;
+}
+.ref-box{
+padding:16px;
+border-radius:18px;
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.06);
+margin-bottom:18px;
+font-size:14px;
+line-height:1.75;
+color:#CBD5E1;
+}
+.ref-box b{color:#F8FAFC;}
+.ref-toggle{
+width:100%;
+padding:12px;
+margin-bottom:14px;
+border:none;
+border-radius:14px;
+background:#172033;
+color:#7CFFB2;
+font-weight:800;
+cursor:pointer;
+font-size:14px;
+}
+.ref-detalhe{display:none;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);}
+.ref-detalhe.aberto{display:block;}
+.campo{margin-bottom:18px;}
+.campo label{
+display:block;
+font-size:13px;
+font-weight:800;
+color:#7CFFB2;
+margin-bottom:8px;
+line-height:1.4;
+}
+.campo textarea{
+width:100%;
+min-height:120px;
+padding:16px;
+border:none;
+border-radius:18px;
+background:rgba(255,255,255,0.05);
+color:#F8FAFC;
+font-size:15px;
+line-height:1.7;
+resize:vertical;
+outline:none;
+border:1px solid rgba(255,255,255,0.08);
+}
+.campo textarea:focus{border-color:rgba(124,255,178,0.45);}
+.campo .hint{font-size:12px;color:#64748B;margin-top:6px;line-height:1.5;}
+.acoes-wizard{
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-top:22px;
+}
+.btn-w{
+width:100%;
+padding:16px;
+border:none;
+border-radius:18px;
+font-weight:800;
+font-size:15px;
+cursor:pointer;
+transition:.2s;
+}
+.btn-primario{
+background:linear-gradient(135deg,#6366F1,#8B5CF6);
+color:#fff;
+}
+.btn-sec{
+background:#172033;
+color:#E2E8F0;
+}
+.btn-pular{
+background:transparent;
+color:#94A3B8;
+border:1px dashed rgba(255,255,255,0.15);
+}
+.btn-w:disabled{opacity:.45;cursor:not-allowed;}
+.resumo-final{text-align:center;padding:32px 16px;}
+.resumo-final h2{margin-bottom:12px;color:#7CFFB2;}
+</style>
+<style>html.auth-pending body{visibility:hidden}</style>
+<script type="module" src="../js/auth-guard.js"></script>
+</head>
+<body>
+<div class="container">
+<div class="topo">
+<h1>✍️ Criar flashcards</h1>
+<a href="provas_salvas.html" id="linkVoltar">← Voltar</a>
+</div>
+<div id="conteudo"></div>
+</div>
+<script src="../js/flashcards-deck.js"></script>
+<script>
+const params = new URLSearchParams(location.search);
+const provaIndex = params.get("provaIndex");
+const questaoInicio = parseInt(params.get("questao") || "0", 10) || 0;
+const source = params.get("source");
+
+let nomeProva = "Prova";
+let questoesErradas = [];
+let passo = 0;
+let cardsCriados = [];
+
+function escapeHtml(t) {
+  return String(t ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function carregarDados() {
+  if (source === "sessao") {
+    const sessao = window.RevalidaFlashcards.loadCreateSession();
+    if (!sessao?.questoesErradas?.length) return false;
+    nomeProva = sessao.nomeProva || "Prova";
+    questoesErradas = sessao.questoesErradas;
+    document.getElementById("linkVoltar").href = "../dashboard.html";
+    return true;
+  }
+
+  if (provaIndex === null || provaIndex === "") return false;
+
+  const provas = JSON.parse(localStorage.getItem("provas_salvas") || "[]");
+  const prova = provas[Number(provaIndex)];
+  if (!prova?.questoesErradas?.length) return false;
+
+  nomeProva = prova.nomeProva || "Prova";
+  questoesErradas = prova.questoesErradas;
+  return true;
+}
+
+function salvarFlashcardNaProva(indiceErro, card) {
+  if (source === "sessao" || provaIndex === null) return;
+
+  const provas = JSON.parse(localStorage.getItem("provas_salvas") || "[]");
+  const idx = Number(provaIndex);
+  if (!provas[idx]?.questoesErradas?.[indiceErro]) return;
+
+  provas[idx].questoesErradas[indiceErro].flashcard = {
+    pergunta: card.pergunta,
+    resposta: card.resposta,
+    atualizadoEm: new Date().toLocaleString(),
+  };
+
+  localStorage.setItem("provas_salvas", JSON.stringify(provas));
+}
+
+function renderVazio() {
+  document.getElementById("conteudo").innerHTML = `
+    <div class="resumo-final">
+      <h2>Nada para criar</h2>
+      <p style="color:#94A3B8;line-height:1.8">Não há questões erradas nesta prova.</p>
+      <a href="provas_salvas.html" style="color:#7CFFB2;display:inline-block;margin-top:16px">← Provas salvas</a>
+    </div>`;
+}
+
+function renderWizard() {
+  const total = questoesErradas.length;
+  const erro = questoesErradas[passo];
+  const pct = Math.round(((passo + 1) / total) * 100);
+  const fc = erro.flashcard || {};
+  const anotacao = erro.anotacao || "";
+
+  document.getElementById("conteudo").innerHTML = `
+    <div class="intro">
+      <strong>Analise seu erro</strong> e escreva <em>com suas palavras</em> o que vai lembrar depois.
+      Não copie só o gabarito — o card é seu resumo pessoal.
+    </div>
+
+    <div class="progresso-wizard">
+      <div class="progresso-wizard-head">
+        <span>Questão errada ${passo + 1} de ${total}</span>
+        <span>${pct}%</span>
+      </div>
+      <div class="progresso-wizard-track">
+        <div class="progresso-wizard-fill" style="width:${pct}%"></div>
+      </div>
+    </div>
+
+    <div class="card-wizard">
+      <div class="ref-titulo">Referência — Questão ${escapeHtml(erro.numero)}</div>
+
+      <button type="button" class="ref-toggle" id="btnRef">👁 Ver enunciado e alternativas</button>
+
+      <div class="ref-detalhe" id="refDetalhe">
+        <div class="ref-box">
+          <p><b>Enunciado:</b><br>${escapeHtml(erro.enunciado || "—")}</p>
+          <p style="margin-top:12px"><b>Sua resposta:</b><br>${escapeHtml(erro.respostaUsuario || "—")}</p>
+          <p style="margin-top:12px"><b>Gabarito:</b><br>${escapeHtml(erro.respostaCorreta || "—")}</p>
+          ${erro.comentario ? `<p style="margin-top:12px"><b>Comentário:</b><br>${escapeHtml(erro.comentario)}</p>` : ""}
+        </div>
+      </div>
+
+      <div class="campo">
+        <label for="frente">Frente do card — sua pergunta ou gatilho</label>
+        <textarea id="frente" placeholder="Ex.: Por que escolhi X neste caso? O que confundi com Y?">${escapeHtml(fc.pergunta || "")}</textarea>
+        <p class="hint">Pergunte algo que force você a lembrar do raciocínio, não só decorar a letra.</p>
+      </div>
+
+      <div class="campo">
+        <label for="verso">Verso — sua análise do erro</label>
+        <textarea id="verso" placeholder="Ex.: Errei porque ignorei Z. Na próxima vez devo pensar em...">${escapeHtml(fc.resposta || anotacao)}</textarea>
+        <p class="hint">Explique por que errou e o que faria diferente. ${anotacao ? "Sua anotação foi sugerida no campo — edite à vontade." : ""}</p>
+      </div>
+
+      <div class="acoes-wizard">
+        <button type="button" class="btn-w btn-primario" id="btnSalvar">💾 Salvar card e continuar</button>
+        <button type="button" class="btn-w btn-pular" id="btnPular">Pular esta questão</button>
+        <button type="button" class="btn-w btn-sec" id="btnCancelar">Cancelar</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("btnRef").addEventListener("click", () => {
+    document.getElementById("refDetalhe").classList.toggle("aberto");
+    const aberto = document.getElementById("refDetalhe").classList.contains("aberto");
+    document.getElementById("btnRef").textContent = aberto
+      ? "👁 Ocultar referência"
+      : "👁 Ver enunciado e alternativas";
+  });
+
+  document.getElementById("btnPular").addEventListener("click", avancar);
+  document.getElementById("btnCancelar").addEventListener("click", () => {
+    if (confirm("Descartar criação e voltar?")) {
+      window.RevalidaFlashcards.clearCreateSession();
+      location.href = source === "sessao" ? "../dashboard.html" : "provas_salvas.html";
+    }
+  });
+
+  document.getElementById("btnSalvar").addEventListener("click", () => {
+    const pergunta = document.getElementById("frente").value.trim();
+    const resposta = document.getElementById("verso").value.trim();
+
+    if (pergunta.length < 3 || resposta.length < 3) {
+      alert("Preencha frente e verso com pelo menos 3 caracteres cada.");
+      return;
+    }
+
+    const card = {
+      pergunta,
+      resposta,
+      numero: erro.numero,
+      nomeProva,
+    };
+
+    cardsCriados.push(card);
+    salvarFlashcardNaProva(passo, card);
+    avancar();
+  });
+}
+
+function avancar() {
+  passo++;
+  if (passo >= questoesErradas.length) {
+    finalizar();
+  } else {
+    renderWizard();
+  }
+}
+
+function finalizar() {
+  window.RevalidaFlashcards.clearCreateSession();
+
+  if (!cardsCriados.length) {
+    document.getElementById("conteudo").innerHTML = `
+      <div class="resumo-final">
+        <h2>Nenhum card criado</h2>
+        <p style="color:#94A3B8;line-height:1.8">Você pulou todas as questões. Volte quando quiser analisar seus erros.</p>
+        <a href="provas_salvas.html" style="color:#7CFFB2;display:inline-block;margin-top:16px">← Provas salvas</a>
+      </div>`;
+    return;
+  }
+
+  const deck = window.RevalidaFlashcards.buildDeckFromUserCards(cardsCriados, {
+    titulo: nomeProva,
+  });
+
+  window.RevalidaFlashcards.saveDeck(deck, {
+    titulo: nomeProva,
+    data: new Date().toLocaleString(),
+    total: deck.length,
+    tipo: "criados_pelo_usuario",
+  });
+
+  document.getElementById("conteudo").innerHTML = `
+    <div class="resumo-final">
+      <h2>🎉 ${deck.length} flashcard(s) prontos!</h2>
+      <p style="color:#94A3B8;line-height:1.8;margin-bottom:20px">
+        Seus cards foram salvos. Agora revise com o que <strong>você</strong> escreveu.
+      </p>
+      <button type="button" class="btn-w btn-primario" id="btnRevisar" style="max-width:320px;margin:0 auto">
+        🧠 Ir revisar flashcards
+      </button>
+    </div>`;
+
+  document.getElementById("btnRevisar").addEventListener("click", () => {
+    window.RevalidaFlashcards.goToFlashcards("flashcards.html");
+  });
+}
+
+if (!carregarDados()) {
+  renderVazio();
+} else {
+  passo = Math.min(questaoInicio, questoesErradas.length - 1);
+  renderWizard();
+}
+</script>
+<script src="../js/app.js"></script>
+</body>
+</html>

@@ -827,6 +827,20 @@ localStorage.getItem("provas_salvas")
 const lista =
 document.getElementById("listaProvas");
 
+function escapeHtml(text){
+
+return String(text ?? "")
+
+.replace(/&/g,"&amp;")
+
+.replace(/</g,"&lt;")
+
+.replace(/>/g,"&gt;")
+
+.replace(/"/g,"&quot;");
+
+}
+
 /* ==================================================
 SEM PROVAS
 ================================================== */
@@ -963,6 +977,21 @@ onclick="salvarAnotacao(${index},${i})">
 
 </button>
 
+<button
+class="btn-salvar-anotacao"
+style="margin-top:10px;background:linear-gradient(135deg,#6366F1,#8B5CF6);color:#fff;"
+onclick="criarMeusFlashcards(${index},${i})">
+
+${erro.flashcard?.pergunta ? "✏️ Editar meu flashcard" : "🧠 Criar meu flashcard"}
+
+</button>
+
+${erro.flashcard?.pergunta ? `
+<p style="margin-top:12px;font-size:13px;color:#7CFFB2;line-height:1.6">
+✅ Card salvo: "${escapeHtml((erro.flashcard.pergunta || "").slice(0, 60))}${(erro.flashcard.pergunta || "").length > 60 ? "…" : ""}"
+</p>
+` : ""}
+
 </div>
 
 `;
@@ -1019,10 +1048,10 @@ onclick="toggleDetalhes(${index})">
 
 <button
 class="btn-acao btn-flashcard"
-onclick="gerarFlashcards(${index})"
+onclick="criarMeusFlashcards(${index})"
 ${(prova.questoesErradas && prova.questoesErradas.length) ? "" : "disabled title=\"Nenhuma questão errada\""}>
 
-🧠 Flashcards dos erros
+✍️ Criar meus flashcards
 
 </button>
 
@@ -1129,38 +1158,32 @@ alert("✅ Anotação salva!");
 }
 
 /* ==================================================
-FLASHCARDS DOS ERROS
+CRIAR FLASHCARDS (ANÁLISE PRÓPRIA)
 ================================================== */
 
-function gerarFlashcards(provaIndex){
+function criarMeusFlashcards(provaIndex, questaoInicio){
 
 const prova = provas[provaIndex];
 
 if(!prova?.questoesErradas?.length){
 
-alert("Esta prova não tem questões erradas para revisar.");
+alert("Esta prova não tem questões erradas para analisar.");
 
 return;
 
 }
 
-const deck =
-window.RevalidaFlashcards.buildDeckFromErros(
-prova.questoesErradas
-);
+const inicio =
+typeof questaoInicio === "number"
+? questaoInicio
+: 0;
 
-window.RevalidaFlashcards.saveDeck(deck, {
-
-titulo: prova.nomeProva || "Prova salva",
-
-data: prova.data || "",
-
-total: deck.length
-
-});
-
-window.RevalidaFlashcards.goToFlashcards(
-"flashcards.html"
+window.RevalidaFlashcards.goToCriar(
+"criar_flashcards.html",
+{
+provaIndex,
+questao: inicio
+}
 );
 
 }
