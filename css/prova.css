@@ -291,6 +291,11 @@
   color: #e2e8f0;
   margin-bottom: 20px;
   white-space: pre-line;
+  text-align: justify;
+  text-justify: inter-word;
+  text-align-last: left;
+  hyphens: auto;
+  -webkit-hyphens: auto;
   word-break: break-word;
   -webkit-user-select: text;
   user-select: text;
