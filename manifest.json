@@ -1,6 +1,6 @@
 {
-  "name":"REVALIDEI — Revalida 2026",
-  "short_name":"REVALIDEI",
+  "name":"Metodo QEF",
+  "short_name":"MQEF",
   "description":"Simulados e questões para o Revalida INEP",
   "start_url":"./index.html",
   "display":"standalone",
