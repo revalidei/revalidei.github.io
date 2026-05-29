@@ -95,8 +95,15 @@ function eventosFlashcardFromProva(prova) {
   return lista;
 }
 
+let sincronizando = false;
+
 export function syncHistoricoFromProvasSalvas() {
+  if (sincronizando) return;
+  sincronizando = true;
+
+  try {
   const provas = parseJson(localStorage.getItem("provas_salvas"), []);
+  const rawAntes = localStorage.getItem(STORAGE_KEY);
 
   let eventos = lerEventos().filter((e) => {
     if (e.tipo === "prova_salva") return false;
@@ -126,8 +133,15 @@ export function syncHistoricoFromProvasSalvas() {
   salvarEventos(eventos);
   localStorage.setItem(BOOT_KEY, "1");
 
-  if (typeof window !== "undefined") {
+  const rawDepois = localStorage.getItem(STORAGE_KEY);
+  if (
+    typeof window !== "undefined" &&
+    rawDepois !== rawAntes
+  ) {
     window.dispatchEvent(new CustomEvent("revalida-provas-salvas-changed"));
+  }
+  } finally {
+    sincronizando = false;
   }
 }
 

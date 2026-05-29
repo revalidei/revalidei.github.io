@@ -621,11 +621,11 @@ display:none;
 display:flex;
 align-items:center;
 justify-content:space-between;
-gap:12px;
+gap:14px;
 
-margin:-16px -16px 16px;
-
-padding:12px 0;
+width:100%;
+margin:0 0 18px;
+padding:6px 0 14px;
 
 border-bottom:1px solid rgba(255,255,255,0.06);
 
@@ -633,12 +633,15 @@ border-bottom:1px solid rgba(255,255,255,0.06);
 
 .dash-mobile-brand{
 
-font-size:1.15rem;
+flex:1;
+min-width:0;
+
+font-size:1.2rem;
 font-weight:800;
 color:#7CFFB2;
-letter-spacing:0.5px;
+letter-spacing:0.3px;
+line-height:1.25;
 
-min-width:0;
 overflow:hidden;
 text-overflow:ellipsis;
 white-space:nowrap;
@@ -699,7 +702,21 @@ min-height:auto;
 }
 
 .menu-mobile{
+
 display:inline-flex;
+
+width:52px;
+height:52px;
+min-width:52px;
+min-height:52px;
+
+border-radius:16px;
+
+background:rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.12);
+
+box-shadow:0 4px 16px rgba(0,0,0,0.25);
+
 }
 
 .topbar{
@@ -840,7 +857,7 @@ type="button"
 class="menu-mobile icon-btn icon-only"
 onclick="toggleMenu()"
 aria-label="Abrir menu">
-<span data-icon="menu" data-icon-size="22"></span>
+<span data-icon="menu" data-icon-size="26"></span>
 </button>
 </header>
 

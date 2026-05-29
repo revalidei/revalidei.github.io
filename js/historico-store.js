@@ -173,7 +173,6 @@
   }
 
   function filtrar(periodo) {
-    sincronizarComProvasSalvas();
     return lerEventos()
       .filter((e) => noPeriodo(e.ts, periodo))
       .sort((a, b) => b.ts - a.ts);

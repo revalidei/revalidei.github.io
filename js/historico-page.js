@@ -7,6 +7,7 @@
   let periodoAtual = "hoje";
   let chartDonut = null;
   let chartLinha = null;
+  let atualizarTimer = null;
 
   function ic(name, size, cls) {
     return window.RevalidaIcons?.icon(name, { size: size || 18, class: cls || "" }) || "";
@@ -235,7 +236,16 @@
     const H = window.RevalidaHistorico;
     if (!H) return;
 
-    H.importarLegado();
+    try {
+      if (window.__syncHistoricoProvas) {
+        window.__syncHistoricoProvas();
+      } else {
+        H.importarLegado?.();
+      }
+    } catch (err) {
+      console.warn("[historico]", err);
+    }
+
     const r = H.resumo(periodoAtual);
 
     const sub = document.getElementById("historicoSubtitulo");
@@ -253,9 +263,17 @@
     });
   }
 
+  function agendarAtualizar() {
+    clearTimeout(atualizarTimer);
+    atualizarTimer = setTimeout(atualizar, 200);
+  }
+
   async function init() {
     if (window.RevalidaSync?.whenReady) {
-      await window.RevalidaSync.whenReady();
+      await Promise.race([
+        window.RevalidaSync.whenReady(),
+        new Promise((resolve) => setTimeout(resolve, 12000)),
+      ]);
     }
     document.querySelectorAll(".historico-tab").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -263,12 +281,10 @@
         atualizar();
       });
     });
-    window.addEventListener("revalida-provas-salvas-changed", () => {
-      atualizar();
-    });
+    window.addEventListener("revalida-provas-salvas-changed", agendarAtualizar);
     window.addEventListener("storage", (e) => {
       if (e.key === "provas_salvas" || e.key === "revalida_historico") {
-        atualizar();
+        agendarAtualizar();
       }
     });
     atualizar();
