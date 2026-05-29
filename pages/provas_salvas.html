@@ -952,11 +952,7 @@ id="listaProvas">
 LOCAL STORAGE
 ================================================== */
 
-const provas =
-JSON.parse(
-localStorage.getItem("provas_salvas")
-|| "[]"
-);
+let provas = [];
 
 const lista =
 document.getElementById("listaProvas");
@@ -996,6 +992,18 @@ class:cls||""
 SEM PROVAS
 ================================================== */
 
+async function iniciarPagina(){
+
+if(window.RevalidaSync?.whenReady){
+await window.RevalidaSync.whenReady();
+}
+
+provas =
+JSON.parse(
+localStorage.getItem("provas_salvas")
+|| "[]"
+);
+
 if(provas.length === 0){
 
 lista.innerHTML = `
@@ -1023,6 +1031,10 @@ window.RevalidaIcons.mount(lista);
 renderizarProvas();
 
 }
+
+}
+
+iniciarPagina();
 
 /* ==================================================
 RENDER

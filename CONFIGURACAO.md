@@ -24,7 +24,7 @@ Credenciais **não** vão em `site-config.js`. Use:
 - Local: `js/firebase-config.js` (cópia do `.example`)
 - Produção: secret `FIREBASE_CONFIG` no GitHub
 
-Detalhes: [FIREBASE_SETUP.md](FIREBASE_SETUP.md)
+Detalhes: [FIREBASE_SETUP.md](FIREBASE_SETUP.md) (inclui Firestore para provas salvas, flashcards, cronograma e histórico na nuvem).
 
 ## Ícones PWA
 

@@ -253,7 +253,10 @@
     });
   }
 
-  function init() {
+  async function init() {
+    if (window.RevalidaSync?.whenReady) {
+      await window.RevalidaSync.whenReady();
+    }
     document.querySelectorAll(".historico-tab").forEach((btn) => {
       btn.addEventListener("click", () => {
         periodoAtual = btn.dataset.periodo || "total";
@@ -264,7 +267,9 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
+    document.addEventListener("DOMContentLoaded", () => {
+      init();
+    });
   } else {
     init();
   }

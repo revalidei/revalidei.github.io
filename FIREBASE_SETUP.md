@@ -1,4 +1,4 @@
-# Configuração do Firebase Authentication
+# Configuração do Firebase (Auth + dados na nuvem)
 
 ## 1. Console Firebase
 
@@ -10,6 +10,28 @@
 4. Em **Authentication → Settings → Authorized domains**, inclua:
    - `localhost`
    - `revalidei.github.io`
+5. Em **Build → Firestore Database**, crie um banco (modo produção).
+6. Em **Regras** do Firestore, publique (ajuste se necessário):
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId}/appData/{docId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
+```
+
+### Dados sincronizados por conta
+
+Com login ativo, estes itens são salvos em `users/{uid}/appData/main` e replicados em qualquer dispositivo:
+
+- `provas_salvas` — caderno de erros
+- `flashcards_deck` — deck de revisão
+- `cronograma_2026.1` — progresso do cronograma
+- `revalida_historico` — estatísticas do histórico
 
 ## 2. Arquivo local de configuração
 

@@ -2,9 +2,11 @@
 <html lang="pt-BR">
 
 <head>
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" type="image/png" href="../icon-192.png">
 <meta charset="UTF-8">
+<style>html.auth-pending body{visibility:hidden}</style>
+<script type="module" src="../js/auth-guard.js"></script>
 
 <meta
 name="viewport"
@@ -1029,7 +1031,7 @@ RESPONSIVO
     <div class="timeline" id="timeline"></div>
 
     <div class="footer">
-      Cronograma 2026.1 • Sistema Premium • localStorage exclusivo
+      Cronograma 2026.1 • progresso salvo na sua conta
     </div>
 
   </main>
@@ -1479,7 +1481,12 @@ countdown();
 
 setInterval(countdown,60000);
 
-render();
+(async function iniciarCronograma(){
+  if(window.RevalidaSync?.whenReady){
+    await window.RevalidaSync.whenReady();
+  }
+  render();
+})();
 
 </script>
 

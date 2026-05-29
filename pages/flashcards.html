@@ -495,7 +495,10 @@ function carregarDeck() {
     });
 }
 
-carregarDeck();
+(async function () {
+  if (window.RevalidaSync?.whenReady) await window.RevalidaSync.whenReady();
+  carregarDeck();
+})();
 </script>
 <script src="../js/app.js"></script>
 </body>

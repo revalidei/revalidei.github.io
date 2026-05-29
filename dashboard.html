@@ -987,6 +987,12 @@ document
 
 /* ESTATISTICAS */
 
+async function carregarEstatisticasDashboard(){
+
+if(window.RevalidaSync?.whenReady){
+await window.RevalidaSync.whenReady();
+}
+
 let provas =
 JSON.parse(
 localStorage.getItem(
@@ -1128,6 +1134,10 @@ document
 .innerHTML = html;
 
 }
+
+}
+
+carregarEstatisticasDashboard();
 
 /* FECHAR MENU */
 
