@@ -68,6 +68,17 @@ text-align:center;
 padding:40px 16px;
 color:#b5b7be;
 }
+.deck-badge{
+display:inline-block;
+margin-bottom:16px;
+padding:10px 14px;
+border-radius:12px;
+background:rgba(124,255,178,.12);
+border:1px solid rgba(124,255,178,.25);
+color:#7CFFB2;
+font-size:13px;
+font-weight:600;
+}
 </style>
 <style>html.auth-pending body{visibility:hidden}</style>
 <script type="module" src="../js/auth-guard.js"></script>
@@ -81,25 +92,52 @@ color:#b5b7be;
 
 <div id="area"></div>
 
+<script src="../js/flashcards-deck.js"></script>
 <script>
-const deckKey = "flashcards_deck";
+const deckKey = window.RevalidaFlashcards?.DECK_KEY || "flashcards_deck";
+const metaKey = window.RevalidaFlashcards?.META_KEY || "flashcards_deck_meta";
 let deck = [];
+let deckMeta = null;
 let index = 0;
 let mostrandoResposta = false;
+
+const params = new URLSearchParams(window.location.search);
+const fromProva = params.get("from") === "prova";
 
 function escapeHtml(text) {
   return window.RevalidaApp?.escapeHtml(text) ?? String(text ?? "");
 }
 
+function carregarMeta() {
+  const raw = sessionStorage.getItem(metaKey);
+  if (!raw) return;
+  try {
+    deckMeta = JSON.parse(raw);
+  } catch {
+    deckMeta = null;
+  }
+}
+
 function carregarDeck() {
+  carregarMeta();
+
   const salvo = localStorage.getItem(deckKey);
   if (salvo) {
     try {
       deck = JSON.parse(salvo);
-      if (Array.isArray(deck) && deck.length) return;
+      if (Array.isArray(deck) && deck.length) {
+        render();
+        return;
+      }
     } catch {
       /* ignora */
     }
+  }
+
+  if (fromProva) {
+    document.getElementById("area").innerHTML =
+      '<div class="empty"><p>Nenhum deck encontrado. Gere flashcards a partir de uma prova salva.</p><p style="margin-top:12px"><a href="provas_salvas.html" style="color:#7CFFB2">← Provas salvas</a></p></div>';
+    return;
   }
 
   fetch("../conteudo/revalida_2022_1.json")
@@ -132,8 +170,12 @@ function render() {
   const item = deck[index];
   const titulo = mostrandoResposta ? "Resposta" : "Pergunta";
   const texto = mostrandoResposta ? item.resposta : item.pergunta;
+  const badge = deckMeta
+    ? `<div class="deck-badge">📚 ${escapeHtml(deckMeta.titulo)}${deckMeta.data ? " • " + escapeHtml(deckMeta.data) : ""} — ${deck.length} card(s)</div>`
+    : "";
 
   area.innerHTML = `
+    ${badge}
     <div class="card-flip" id="flip">
       <div class="meta">${titulo} • ${index + 1} / ${deck.length}</div>
       <p>${escapeHtml(texto)}</p>

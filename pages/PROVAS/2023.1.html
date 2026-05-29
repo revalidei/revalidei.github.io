@@ -24,7 +24,8 @@ content="yes">
 <meta name="apple-mobile-web-app-status-bar-style"
 content="black">
 
-<title>INEP 2023.1</title>
+<title>INEP 2023.1 • Revalida</title>
+<link rel="stylesheet" href="../../css/app.css">
 <script>
 
 const NOME_PROVA = "INEP 2023.1";
@@ -528,22 +529,31 @@ ALTERNATIVAS
 ========================================= */
 
 .alternativa{
+display:flex;
+align-items:flex-start;
+justify-content:space-between;
+gap:14px;
+
 background:#172033;
 
-padding:20px;
+padding:18px 20px;
 
 border-radius:22px;
 
-margin-bottom:16px;
+margin-bottom:14px;
 
 border:
 2px solid transparent;
 
-display:flex;
-justify-content:space-between;
-align-items:center;
-
 transition:0.2s;
+}
+
+.alternativa .alt-corpo{
+flex:1;
+display:flex;
+align-items:flex-start;
+gap:14px;
+min-width:0;
 }
 
 .alternativa:hover{
@@ -674,7 +684,16 @@ NAVEGACAO
 .navegacao{
 display:flex;
 gap:14px;
-margin-top:22px;
+margin-top:24px;
+position:sticky;
+bottom:max(12px, env(safe-area-inset-bottom));
+z-index:50;
+padding:12px;
+border-radius:24px;
+background:rgba(15,23,42,0.92);
+backdrop-filter:blur(16px);
+border:1px solid rgba(255,255,255,0.06);
+box-shadow:0 -8px 32px rgba(0,0,0,0.35);
 }
 
 .btn-nav{
@@ -944,6 +963,178 @@ html{
 touch-action:manipulation;
 }
 
+/* =========================================
+PLATAFORMA — PROGRESSO E ALTERNATIVAS
+========================================= */
+
+.progresso-wrap{
+margin-bottom:20px;
+padding:16px 18px;
+border-radius:20px;
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.06);
+}
+
+.progresso-head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+margin-bottom:10px;
+font-size:13px;
+font-weight:700;
+color:#94A3B8;
+}
+
+.progresso-head #progressoPct{
+color:#7CFFB2;
+font-weight:800;
+}
+
+.progresso-track{
+height:8px;
+border-radius:999px;
+background:rgba(255,255,255,0.08);
+overflow:hidden;
+}
+
+.progresso-fill{
+height:100%;
+width:0%;
+border-radius:999px;
+background:linear-gradient(90deg,#22C55E,#7CFFB2);
+transition:width 0.35s ease;
+}
+
+.exam-meta{
+display:flex;
+flex-wrap:wrap;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-bottom:18px;
+}
+
+.exam-badge{
+display:inline-flex;
+align-items:center;
+padding:6px 12px;
+border-radius:999px;
+font-size:11px;
+font-weight:800;
+letter-spacing:0.06em;
+text-transform:uppercase;
+background:rgba(124,255,178,0.12);
+color:#7CFFB2;
+border:1px solid rgba(124,255,178,0.2);
+}
+
+.exam-counter{
+font-size:13px;
+font-weight:700;
+color:#94A3B8;
+}
+
+.alt-letra{
+flex-shrink:0;
+width:36px;
+height:36px;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:900;
+font-size:14px;
+background:rgba(255,255,255,0.06);
+color:#7CFFB2;
+border:1px solid rgba(124,255,178,0.15);
+}
+
+.alternativa.selecionada .alt-letra,
+.alternativa.correta .alt-letra{
+background:rgba(34,197,94,0.2);
+color:#7CFFB2;
+}
+
+.alternativa.errada .alt-letra{
+background:rgba(239,68,68,0.2);
+color:#FCA5A5;
+}
+
+.resultado-acoes{
+display:flex;
+flex-direction:column;
+gap:12px;
+margin-top:28px;
+}
+
+.btn-secundario{
+display:block;
+width:100%;
+padding:16px;
+border-radius:18px;
+font-weight:800;
+font-size:15px;
+text-align:center;
+text-decoration:none;
+background:#172033;
+color:#E2E8F0;
+border:1px solid rgba(255,255,255,0.08);
+transition:0.2s;
+}
+
+.btn-secundario:hover{
+background:#1E293B;
+transform:translateY(-2px);
+}
+
+.btn-flashcard-result{
+width:100%;
+padding:16px;
+border:none;
+border-radius:18px;
+font-weight:800;
+font-size:15px;
+cursor:pointer;
+color:#fff;
+background:linear-gradient(135deg,#6366F1,#8B5CF6);
+transition:0.2s;
+}
+
+.btn-flashcard-result:hover{
+transform:translateY(-2px);
+}
+
+.resumo-stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+margin-bottom:8px;
+}
+
+.resumo-stat-card{
+padding:20px;
+border-radius:20px;
+text-align:center;
+border:1px solid rgba(255,255,255,0.06);
+}
+
+.resumo-stat-card.acertos{
+background:rgba(16,50,34,0.6);
+color:#7CFFB2;
+}
+
+.resumo-stat-card.erros{
+background:rgba(58,28,28,0.6);
+color:#FF7B7B;
+}
+
+.resumo-stat-card strong{
+display:block;
+font-size:28px;
+margin-top:6px;
+}
+
 /* AUDIO LEITOR */
 .audio-controls{margin-bottom:20px;display:flex;flex-direction:column;gap:12px}
 .btn-audio{width:100%;padding:16px;border:none;border-radius:18px;background:#2563EB;color:#fff;font-weight:800;font-size:15px;cursor:pointer;transition:.25s}
@@ -1045,6 +1236,10 @@ id="menuOpcoes">
 🔎 Diminuir Texto
 </button>
 
+<button type="button" onclick="window.location.href='../../pages/provas_salvas.html'">
+📚 Provas salvas
+</button>
+
 <button onclick="sairProva()">
 🚪 Limpar prova
 </button>
@@ -1066,9 +1261,24 @@ id="menuOpcoes">
 <div class="grade-questoes"
 id="gradeQuestoes"></div>
 
+<section class="progresso-wrap" id="progressoWrap" aria-label="Progresso da prova">
+<div class="progresso-head">
+<span id="progressoLabel">Carregando…</span>
+<span id="progressoPct">0%</span>
+</div>
+<div class="progresso-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+<div class="progresso-fill" id="progressoFill"></div>
+</div>
+</section>
+
 <!-- QUESTAO -->
 
 <div class="questao-box">
+
+<div class="exam-meta">
+<span class="exam-badge">Simulado INEP</span>
+<span class="exam-counter" id="examCounter"></span>
+</div>
 
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
 <h1 class="titulo" id="tituloQuestao">QUESTÃO</h1>
@@ -1151,7 +1361,11 @@ id="resumoResultado"></div>
 
 </div>
 
+<script src="../../js/flashcards-deck.js"></script>
+
 <script>
+
+const LETRAS = ["A","B","C","D","E","F","G"];
 
 let questoes = [];
 
@@ -1280,6 +1494,8 @@ gerarGradeQuestoes();
 /* CARREGA QUESTAO */
 
 carregarQuestao();
+
+atualizarProgresso();
 })
 .catch((err) => {
 alert(err.message || "Erro ao carregar o simulado.");
@@ -1475,6 +1691,58 @@ salvarProgresso();
 
 carregarQuestao();
 
+atualizarProgresso();
+
+}
+
+/* =========================================
+PROGRESSO
+========================================= */
+
+function atualizarProgresso(){
+
+const total = questoes.length;
+
+if(!total) return;
+
+const respondidas = Object.keys(questoesRespondidas).length;
+
+const pct = Math.round((respondidas / total) * 100);
+
+const label = document.getElementById("progressoLabel");
+
+const pctEl = document.getElementById("progressoPct");
+
+const fill = document.getElementById("progressoFill");
+
+const counter = document.getElementById("examCounter");
+
+if(label){
+
+label.textContent =
+`Questão ${questaoAtual + 1} de ${total} • ${respondidas} respondida(s)`;
+
+}
+
+if(pctEl) pctEl.textContent = `${pct}%`;
+
+if(fill) fill.style.width = `${pct}%`;
+
+const track = fill?.parentElement;
+
+if(track){
+
+track.setAttribute("aria-valuenow", String(pct));
+
+}
+
+if(counter){
+
+counter.textContent =
+`${questaoAtual + 1} / ${total}`;
+
+}
+
 }
 
 /* =========================================
@@ -1527,10 +1795,16 @@ let html = "";
 
 q.alternativas.forEach((alt,index)=>{
 
+const letra = LETRAS[index] || String(index + 1);
+
 html += `
 
 <div class="alternativa"
 id="alt-${index}">
+
+<div class="alt-corpo">
+
+<span class="alt-letra">${letra}</span>
 
 <div class="texto-alternativa"
 onclick="selecionarAlternativa(${index})">
@@ -1539,8 +1813,11 @@ ${alt}
 
 </div>
 
+</div>
+
 <div class="cortar"
-onclick="cortarAlternativa(event,${index})">
+onclick="cortarAlternativa(event,${index})"
+title="Cortar alternativa">
 
 ✂️
 
@@ -1554,6 +1831,8 @@ onclick="cortarAlternativa(event,${index})">
 
 document.getElementById("alternativas")
 .innerHTML = html;
+
+atualizarProgresso();
 
 /* RESTAURA RESPOSTA */
 
@@ -1720,6 +1999,8 @@ gerarGradeQuestoes();
 /* SALVA */
 
 salvarProgresso();
+
+atualizarProgresso();
 
 }
 
@@ -1921,35 +2202,63 @@ ${q.comentario || "Comentário não disponível."}
 
 /* HTML RESULTADO */
 
+const temErros = erros > 0;
+
 document.getElementById("resumoResultado")
 .innerHTML = `
 
-<p>
-✅ Acertos:
+<div class="resumo-stats">
+
+<div class="resumo-stat-card acertos">
+<span>Acertos</span>
 <strong>${acertos}</strong>
-(${porcentagemAcertos}%)
-</p>
+<span>${porcentagemAcertos}%</span>
+</div>
 
-<p>
-❌ Erros:
+<div class="resumo-stat-card erros">
+<span>Erros</span>
 <strong>${erros}</strong>
-(${porcentagemErros}%)
-</p>
-
-<div class="questoes-erradas">
-
-${htmlErros}
+<span>${porcentagemErros}%</span>
+</div>
 
 </div>
 
+<div class="questoes-erradas">
+
+${htmlErros || '<p style="color:#94A3B8;text-align:center;padding:20px;">🎉 Você não errou nenhuma questão respondida.</p>'}
+
+</div>
+
+<div class="resultado-acoes">
+
 <button
 class="btn-responder"
-style="margin-top:30px;"
 onclick="salvarProvaLocal()">
 
 💾 Salvar prova
 
 </button>
+
+${temErros ? `
+<button
+type="button"
+class="btn-flashcard-result"
+onclick="revisarErrosEmFlashcards()">
+
+🧠 Revisar erros em flashcards
+
+</button>
+` : ""}
+
+<a
+class="btn-secundario"
+href="../../pages/provas_salvas.html">
+
+📚 Ir para provas salvas
+
+</a>
+
+</div>
 
 `;
 
@@ -2054,7 +2363,60 @@ localStorage.setItem(
 JSON.stringify(provas)
 );
 
-alert("✅ Prova salva com sucesso!");
+alert("✅ Prova salva! Abra Provas salvas para gerar flashcards dos erros.");
+
+}
+
+/* =========================================
+FLASHCARDS DOS ERROS (SESSÃO ATUAL)
+========================================= */
+
+function revisarErrosEmFlashcards(){
+
+const errosLista = [];
+
+questoes.forEach((q,index)=>{
+
+if(statusQuestoes[index] !== "errou") return;
+
+errosLista.push({
+
+numero:q.numero,
+
+enunciado:q.pergunta || "",
+
+respostaCorreta:q.alternativas[q.correta],
+
+comentario:q.comentario || ""
+
+});
+
+});
+
+if(!errosLista.length){
+
+alert("Não há questões erradas para revisar.");
+
+return;
+
+}
+
+const deck =
+window.RevalidaFlashcards.buildDeckFromErros(errosLista);
+
+window.RevalidaFlashcards.saveDeck(deck, {
+
+titulo:NOME_PROVA,
+
+data:new Date().toLocaleString(),
+
+total:deck.length
+
+});
+
+window.RevalidaFlashcards.goToFlashcards(
+"../../pages/flashcards.html"
+);
 
 }
 

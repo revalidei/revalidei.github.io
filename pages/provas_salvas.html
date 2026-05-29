@@ -392,6 +392,27 @@ background:#3A1C1C;
 color:#FF7B7B;
 }
 
+.btn-flashcard{
+
+background:
+linear-gradient(
+135deg,
+#6366F1,
+#8B5CF6
+);
+
+color:#fff;
+}
+
+.btn-flashcard:disabled{
+
+opacity:0.45;
+
+cursor:not-allowed;
+
+transform:none !important;
+}
+
 .btn-acao:hover{
 
 transform:translateY(-2px);
@@ -789,6 +810,8 @@ id="listaProvas">
 
 </div>
 
+<script src="../js/flashcards-deck.js"></script>
+
 <script>
 
 /* ==================================================
@@ -995,6 +1018,15 @@ onclick="toggleDetalhes(${index})">
 </button>
 
 <button
+class="btn-acao btn-flashcard"
+onclick="gerarFlashcards(${index})"
+${(prova.questoesErradas && prova.questoesErradas.length) ? "" : "disabled title=\"Nenhuma questão errada\""}>
+
+🧠 Flashcards dos erros
+
+</button>
+
+<button
 class="btn-acao btn-excluir"
 onclick="excluirProva(${index})">
 
@@ -1093,6 +1125,43 @@ JSON.stringify(provas)
 );
 
 alert("✅ Anotação salva!");
+
+}
+
+/* ==================================================
+FLASHCARDS DOS ERROS
+================================================== */
+
+function gerarFlashcards(provaIndex){
+
+const prova = provas[provaIndex];
+
+if(!prova?.questoesErradas?.length){
+
+alert("Esta prova não tem questões erradas para revisar.");
+
+return;
+
+}
+
+const deck =
+window.RevalidaFlashcards.buildDeckFromErros(
+prova.questoesErradas
+);
+
+window.RevalidaFlashcards.saveDeck(deck, {
+
+titulo: prova.nomeProva || "Prova salva",
+
+data: prova.data || "",
+
+total: deck.length
+
+});
+
+window.RevalidaFlashcards.goToFlashcards(
+"flashcards.html"
+);
 
 }
 
