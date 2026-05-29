@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<link rel="stylesheet" href="../css/app.css">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<meta name="apple-mobile-web-app-title" content="Revalida">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<link rel="manifest" href="../manifest.json">
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Revisão Espaçada</title>
+
+<style>
+
+body{
+background:#0F1115;
+color:white;
+font-family:Arial;
+padding:20px;
+}
+
+.card{
+background:#171A21;
+padding:20px;
+border-radius:20px;
+margin-bottom:25px;
+}
+
+.alternativa{
+background:#1D212B;
+padding:14px;
+border-radius:14px;
+margin-top:10px;
+cursor:pointer;
+}
+
+.correta{
+background:#14532D;
+}
+
+.errada{
+background:#7F1D1D;
+}
+
+button{
+padding:14px 18px;
+border:none;
+border-radius:14px;
+margin-top:20px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btn-acerto{
+background:#22C55E;
+}
+
+.btn-erro{
+background:#EF4444;
+color:white;
+}
+
+html, body {
+  height: 100%;
+  overflow-y: scroll; /* rolagem funcional */
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  scrollbar-width: none; /* Firefox */
+}
+</style>
+
+<style>html.auth-pending body{visibility:hidden}</style>
+<script type="module" src="../js/auth-guard.js"></script>
+</head>
+
+<body>
+
+<h1>
+🧠 Revisão Espaçada
+</h1>
+
+<div id="conteudo"></div>
+
+<script>
+
+let revisoes =
+JSON.parse(
+localStorage.getItem("revisoes")
+) || [];
+
+let hoje = new Date();
+
+let revisoesHoje =
+revisoes.filter(r =>
+
+new Date(r.proximaRevisao) <= hoje
+
+);
+
+let html = "";
+
+if(revisoesHoje.length === 0){
+
+html = `
+<h2>
+🎉 Nenhuma revisão para hoje!
+</h2>
+`;
+
+}else{
+
+revisoesHoje.forEach((q,index)=>{
+
+html += `
+
+<div class="card">
+
+<h2>
+Questão ${q.numero}
+</h2>
+
+<p style="margin-top:15px;">
+${q.pergunta}
+</p>
+
+`;
+
+q.alternativas.forEach((alt,i)=>{
+
+html += `
+
+<div class="alternativa">
+
+${alt}
+
+</div>
+
+`;
+
+});
+
+html += `
+
+<button
+class="btn-acerto"
+onclick="acertei(${q.numero})">
+
+✅ Acertei
+
+</button>
+
+<button
+class="btn-erro"
+onclick="errei(${q.numero})">
+
+❌ Errei
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+document.getElementById("conteudo")
+.innerHTML = html;
+
+function acertei(numero){
+
+let revisoes =
+JSON.parse(
+localStorage.getItem("revisoes")
+) || [];
+
+let item =
+revisoes.find(r =>
+r.numero === numero
+);
+
+item.nivel++;
+
+item.acertos++;
+
+let dias = 1;
+
+if(item.nivel == 2) dias = 3;
+if(item.nivel == 3) dias = 7;
+if(item.nivel == 4) dias = 15;
+if(item.nivel >= 5) dias = 30;
+
+let novaData = new Date();
+
+novaData.setDate(
+novaData.getDate() + dias
+);
+
+item.proximaRevisao =
+novaData.toISOString();
+
+localStorage.setItem(
+"revisoes",
+JSON.stringify(revisoes)
+);
+
+location.reload();
+
+}
+
+function errei(numero){
+
+let revisoes =
+JSON.parse(
+localStorage.getItem("revisoes")
+) || [];
+
+let item =
+revisoes.find(r =>
+r.numero === numero
+);
+
+item.nivel = 1;
+
+item.erros++;
+
+let novaData = new Date();
+
+novaData.setDate(
+novaData.getDate() + 1
+);
+
+item.proximaRevisao =
+novaData.toISOString();
+
+localStorage.setItem(
+"revisoes",
+JSON.stringify(revisoes)
+);
+
+location.reload();
+
+}
+
+</script>
+<script src="../js/app.js"></script>
+</body>
+
+</html>

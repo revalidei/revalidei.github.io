@@ -1,0 +1,24 @@
+import { signOutUser } from "./auth-service.js";
+
+window.sair = async function sair() {
+  const confirmar = confirm("Deseja realmente sair?");
+
+  if (!confirmar) {
+    return;
+  }
+
+  try {
+    await signOutUser();
+  } catch {
+    /* segue para a home mesmo se falhar o signOut remoto */
+  }
+
+  localStorage.removeItem("logado");
+
+  const path = window.location.pathname;
+  const indexUrl = path.includes("/pages/")
+    ? new URL("../index.html", window.location.href)
+    : new URL("index.html", window.location.href);
+
+  window.location.href = indexUrl.href;
+};

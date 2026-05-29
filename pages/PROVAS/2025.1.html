@@ -1,0 +1,2030 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,
+initial-scale=1,
+maximum-scale=1,
+user-scalable=no,
+viewport-fit=cover">
+
+<meta name="theme-color"
+content="#020617">
+
+<meta name="apple-mobile-web-app-capable"
+content="yes">
+
+<meta name="mobile-web-app-capable"
+content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style"
+content="black">
+
+<title>INEP 2025.1</title>
+<script>
+
+const NOME_PROVA = "INEP 2025.1";
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+/* =========================================
+RESET
+========================================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:
+Inter,
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+sans-serif;
+}
+
+html,
+body{
+width:100%;
+
+min-height:100%;
+
+overflow-x:hidden;
+
+scroll-behavior:smooth;
+
+scrollbar-width:none;
+
+background:#020617;
+
+-webkit-text-size-adjust:100%;
+}
+
+body::-webkit-scrollbar{
+display:none;
+}
+
+/* =========================================
+SAFE AREA IPHONE
+========================================= */
+
+body{
+
+min-height:100vh;
+
+overflow-y:auto;
+
+-webkit-overflow-scrolling:touch;
+
+padding-left:
+max(18px, env(safe-area-inset-left));
+
+padding-right:
+max(18px, env(safe-area-inset-right));
+
+padding-bottom:
+120px;
+
+background:
+linear-gradient(
+180deg,
+#020617 0%,
+#0F172A 100%
+);
+
+}
+
+/* =========================================
+BODY
+========================================= */
+
+body{
+background:
+linear-gradient(
+180deg,
+#020617 0%,
+#0F172A 100%
+);
+
+color:#F8FAFC;
+
+padding:18px;
+
+transition:0.25s;
+}
+
+/* =========================================
+CONTAINER
+========================================= */
+
+.container{
+max-width:980px;
+margin:auto;
+
+padding-top:120px;
+padding-bottom:140px;
+}
+
+/* =========================================
+TOPO
+========================================= */
+
+.topo{
+
+position:fixed;
+
+top:0;
+left:0;
+right:0;
+
+z-index:9999;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:
+max(12px, env(safe-area-inset-top))
+20px
+16px
+20px;
+
+background:
+rgba(2,6,23,0.92);
+
+backdrop-filter:blur(18px);
+
+border-bottom:
+1px solid rgba(255,255,255,0.05);
+
+}
+
+/* =========================================
+HEADER LEFT / RIGHT
+========================================= */
+
+.header-left{
+display:flex;
+align-items:center;
+gap:16px;
+
+min-width:0;
+}
+
+.header-right{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.logo-topo{
+font-size:24px;
+font-weight:900;
+letter-spacing:1px;
+color:#7CFFB2;
+
+white-space:nowrap;
+}
+
+/* =========================================
+MENU
+========================================= */
+
+.menu-wrapper{
+position:relative;
+}
+
+.btn-menu{
+width:54px;
+height:54px;
+border:none;
+border-radius:18px;
+
+background:
+rgba(255,255,255,0.04);
+
+backdrop-filter:blur(10px);
+
+color:white;
+
+font-size:28px;
+
+cursor:pointer;
+
+border:
+1px solid rgba(255,255,255,0.05);
+
+transition:0.25s;
+}
+
+.btn-menu:hover{
+transform:scale(1.05);
+background:#1E293B;
+}
+
+.menu-opcoes{
+display:none;
+
+position:absolute;
+
+top:70px;
+right:0;
+
+width:260px;
+
+background:
+rgba(15,23,42,0.98);
+
+border:
+1px solid rgba(255,255,255,0.05);
+
+border-radius:24px;
+
+padding:14px;
+
+z-index:9999;
+
+box-shadow:
+0 20px 40px rgba(0,0,0,0.45);
+
+backdrop-filter:blur(18px);
+
+flex-direction:column;
+
+gap:10px;
+}
+
+.menu-opcoes button{
+padding:16px;
+
+border:none;
+
+border-radius:16px;
+
+background:#172033;
+
+color:white;
+
+font-weight:700;
+
+font-size:15px;
+
+cursor:pointer;
+
+transition:0.2s;
+}
+
+.menu-opcoes button:hover{
+transform:translateY(-2px);
+background:#1E293B;
+}
+
+/* =========================================
+TOP ACTIONS
+========================================= */
+
+.top-actions{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:22px;
+gap:12px;
+}
+
+/* =========================================
+ESTATISTICAS
+========================================= */
+
+.estatisticas{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+.estatistica{
+padding:14px 20px;
+
+border-radius:18px;
+
+font-weight:800;
+
+font-size:14px;
+
+backdrop-filter:blur(12px);
+
+border:
+1px solid rgba(255,255,255,0.04);
+
+box-shadow:
+0 8px 20px rgba(0,0,0,0.20);
+}
+
+.acertos-box{
+background:#103222;
+color:#7CFFB2;
+}
+
+.erros-box{
+background:#3A1C1C;
+color:#FF7B7B;
+}
+
+/* =========================================
+BOTAO QUESTOES
+========================================= */
+
+.toggle-grade{
+width:54px;
+height:54px;
+
+border-radius:18px;
+
+background:
+rgba(255,255,255,0.04);
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+cursor:pointer;
+
+transition:0.25s;
+
+border:
+1px solid rgba(255,255,255,0.04);
+
+box-shadow:
+0 10px 25px rgba(0,0,0,0.25);
+}
+
+.toggle-grade:hover{
+transform:scale(1.06);
+background:#1E293B;
+}
+
+#setaGrade{
+font-size:22px;
+font-weight:900;
+color:#7CFFB2;
+transition:0.3s;
+}
+
+/* =========================================
+GRADE QUESTOES
+========================================= */
+
+.grade-questoes{
+display:none;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+padding:18px;
+
+margin-bottom:22px;
+
+border-radius:28px;
+
+background:
+rgba(255,255,255,0.03);
+
+backdrop-filter:blur(14px);
+
+border:
+1px solid rgba(255,255,255,0.04);
+
+animation:fadeGrade 0.25s ease;
+}
+
+@keyframes fadeGrade{
+
+from{
+opacity:0;
+transform:translateY(-5px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+.numero-questao{
+width:44px;
+height:44px;
+
+border-radius:14px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-weight:800;
+
+font-size:14px;
+
+cursor:pointer;
+
+transition:0.2s;
+
+background:#1E293B;
+
+border:
+2px solid transparent;
+}
+
+.numero-questao:hover{
+transform:scale(1.08);
+}
+
+.numero-questao.ativa{
+border-color:#7CFFB2;
+}
+
+.numero-questao.acertou{
+background:#16A34A;
+color:white;
+}
+
+.numero-questao.errou{
+background:#DC2626;
+color:white;
+}
+
+/* =========================================
+MODO PROVA
+========================================= */
+
+.numero-questao.respondida-prova{
+background:#EAB308;
+color:#000;
+}
+
+/* =========================================
+QUESTAO BOX
+========================================= */
+
+.questao-box{
+background:
+rgba(255,255,255,0.03);
+
+backdrop-filter:blur(14px);
+
+border:
+1px solid rgba(255,255,255,0.05);
+
+padding:28px;
+
+border-radius:34px;
+
+box-shadow:
+0 15px 35px rgba(0,0,0,0.25);
+}
+
+.titulo{
+font-size:26px;
+font-weight:900;
+color:#7CFFB2;
+margin-bottom:24px;
+}
+
+.enunciado{
+font-size:18px;
+
+line-height:1.9;
+
+color:#E2E8F0;
+
+margin-bottom:26px;
+
+white-space:pre-line;
+
+word-break:break-word;
+}
+
+/* =========================================
+ALTERNATIVAS
+========================================= */
+
+.alternativa{
+background:#172033;
+
+padding:20px;
+
+border-radius:22px;
+
+margin-bottom:16px;
+
+border:
+2px solid transparent;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+transition:0.2s;
+}
+
+.alternativa:hover{
+border-color:#7CFFB2;
+transform:translateY(-2px);
+}
+
+.texto-alternativa{
+flex:1;
+cursor:pointer;
+line-height:1.8;
+}
+
+.cortar{
+margin-left:14px;
+font-size:20px;
+cursor:pointer;
+}
+
+.selecionada{
+background:#1D3A2A !important;
+border-color:#7CFFB2 !important;
+}
+
+.correta{
+background:#103222 !important;
+border-color:#22C55E !important;
+}
+
+.errada{
+background:#3A1C1C !important;
+border-color:#EF4444 !important;
+}
+
+.cortada{
+opacity:0.35;
+text-decoration:line-through;
+}
+
+/* =========================================
+BOTOES
+========================================= */
+
+.btn-responder{
+width:100%;
+
+padding:18px;
+
+margin-top:22px;
+
+border:none;
+
+border-radius:20px;
+
+background:
+linear-gradient(
+135deg,
+#7CFFB2,
+#22C55E
+);
+
+color:#052E16;
+
+font-size:16px;
+font-weight:900;
+
+cursor:pointer;
+
+transition:0.25s;
+}
+
+.btn-responder:hover{
+transform:translateY(-2px);
+}
+
+.btn-comentario{
+width:100%;
+
+margin-top:18px;
+
+padding:16px;
+
+border-radius:18px;
+
+border:
+1px solid #7CFFB2;
+
+background:transparent;
+
+color:#7CFFB2;
+
+font-weight:800;
+
+cursor:pointer;
+
+transition:0.2s;
+}
+
+.btn-comentario:hover{
+background:#103222;
+}
+
+/* =========================================
+COMENTARIO
+========================================= */
+
+.comentario-dropdown{
+display:none;
+
+margin-top:18px;
+
+padding:22px;
+
+border-radius:22px;
+
+background:#13261B;
+
+line-height:1.9;
+
+border:
+1px solid rgba(124,255,178,0.12);
+}
+
+/* =========================================
+NAVEGACAO
+========================================= */
+
+.navegacao{
+display:flex;
+gap:14px;
+margin-top:22px;
+}
+
+.btn-nav{
+flex:1;
+
+padding:18px;
+
+border:none;
+
+border-radius:18px;
+
+font-weight:800;
+
+cursor:pointer;
+
+font-size:15px;
+
+transition:0.2s;
+}
+
+.voltar{
+background:#1E293B;
+color:white;
+}
+
+.proximo{
+background:#7CFFB2;
+color:#052E16;
+}
+
+.btn-nav:hover{
+transform:translateY(-2px);
+}
+
+/* =========================================
+RESULTADOS
+========================================= */
+
+.resultados{
+display:none;
+
+margin-top:28px;
+
+padding:30px;
+
+border-radius:30px;
+
+background:
+rgba(255,255,255,0.03);
+
+backdrop-filter:blur(14px);
+
+border:
+1px solid rgba(255,255,255,0.04);
+}
+
+.grafico-box{
+max-width:420px;
+margin:auto;
+}
+
+.resumo{
+margin-top:24px;
+
+text-align:center;
+
+font-size:20px;
+
+line-height:2;
+}
+/* =========================================
+QUESTOES ERRADAS
+========================================= */
+
+.questoes-erradas{
+margin-top:30px;
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.questao-erro-card{
+
+background:
+rgba(255,255,255,0.03);
+
+border:
+1px solid rgba(255,255,255,0.05);
+
+border-radius:24px;
+
+padding:20px;
+}
+
+.questao-erro-titulo{
+font-size:18px;
+font-weight:800;
+color:#FF7B7B;
+margin-bottom:14px;
+}
+
+.questao-erro-info{
+line-height:1.8;
+color:#E2E8F0;
+}
+
+.btn-toggle-erro{
+
+margin-top:16px;
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:16px;
+
+background:#172033;
+
+color:#7CFFB2;
+
+font-weight:800;
+
+cursor:pointer;
+
+transition:0.2s;
+}
+
+.btn-toggle-erro:hover{
+background:#1E293B;
+}
+
+.comentario-erro{
+
+display:none;
+
+margin-top:16px;
+
+padding:18px;
+
+border-radius:18px;
+
+background:#13261B;
+
+line-height:1.8;
+
+border:
+1px solid rgba(124,255,178,0.10);
+}
+/* =========================================
+SELECTION
+========================================= */
+
+::selection{
+background:#FFE96A;
+color:#000;
+}
+
+/* =========================================
+RESPONSIVO
+========================================= */
+
+@media(max-width:768px){
+
+body{
+padding:12px;
+}
+
+.logo-topo{
+font-size:22px;
+}
+
+.questao-box{
+padding:20px;
+border-radius:26px;
+}
+
+.enunciado{
+font-size:16px;
+line-height:1.8;
+}
+
+.alternativa{
+padding:16px;
+border-radius:18px;
+}
+
+.estatisticas{
+gap:8px;
+}
+
+.estatistica{
+padding:12px 14px;
+font-size:13px;
+}
+
+.toggle-grade{
+width:50px;
+height:50px;
+}
+
+.btn-nav,
+.btn-responder{
+padding:16px;
+}
+/* =========================================
+HEADER MOBILE
+========================================= */
+
+@media(max-width:768px){
+
+.topo{
+
+padding:
+max(12px, env(safe-area-inset-top))
+14px
+14px
+14px;
+
+}
+
+.header-left{
+gap:10px;
+}
+
+.logo-topo{
+font-size:18px;
+}
+
+.estatistica{
+padding:10px 12px;
+font-size:12px;
+border-radius:14px;
+}
+
+.toggle-grade,
+.btn-menu{
+width:46px;
+height:46px;
+border-radius:15px;
+}
+
+}
+}
+/* =========================================
+BLOQUEAR ZOOM IOS / ANDROID
+========================================= */
+
+input,
+textarea,
+select,
+button{
+font-size:16px;
+touch-action:manipulation;
+}
+
+/* REMOVE HIGHLIGHT IOS */
+
+*{
+-webkit-tap-highlight-color:transparent;
+}
+
+/* BLOQUEIA ZOOM DOUBLE TAP */
+
+html{
+touch-action:manipulation;
+}
+</style>
+
+<style>html.auth-pending body{visibility:hidden}</style>
+<script type="module" src="../../js/auth-guard.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER FIXO -->
+
+<div class="topo">
+
+<!-- ESQUERDA -->
+
+<div class="header-left">
+
+<div class="logo-topo">
+INEP 2025.1
+</div>
+
+<div class="estatisticas">
+
+<div class="estatistica acertos-box">
+👍 <span id="acertos">0</span>
+</div>
+
+<div class="estatistica erros-box">
+👎 <span id="erros">0</span>
+</div>
+
+</div>
+
+</div>
+
+<!-- DIREITA -->
+
+<div class="header-right">
+
+<!-- GABARITO -->
+
+<div class="toggle-grade"
+onclick="toggleGradeQuestoes()">
+
+<span id="setaGrade">
+▾
+</span>
+
+</div>
+
+<!-- MENU -->
+
+<div class="menu-wrapper">
+
+<button class="btn-menu"
+onclick="abrirMenu()">
+
+⋯
+
+</button>
+
+<div class="menu-opcoes"
+id="menuOpcoes">
+
+<button type="button" onclick="irHome()">
+🏠 Home
+</button>
+
+<button onclick="ativarModoProva()">
+📝 Modo Prova
+</button>
+
+<button onclick="ativarModoEstudo()">
+📘 Modo Estudo
+</button>
+
+<button onclick="aumentarTexto()">
+🔍 Aumentar Texto
+</button>
+
+<button onclick="diminuirTexto()">
+🔎 Diminuir Texto
+</button>
+
+<button onclick="sairProva()">
+🚪 Limpar prova
+</button>
+
+<button onclick="finalizarProva()">
+🏁 Finalizar
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- GRADE -->
+
+<div class="grade-questoes"
+id="gradeQuestoes"></div>
+
+<!-- QUESTAO -->
+
+<div class="questao-box">
+
+<h1 class="titulo"
+id="tituloQuestao">
+
+QUESTÃO
+
+</h1>
+
+<div class="enunciado"
+id="enunciado">
+
+Carregando...
+
+</div>
+
+<div id="alternativas"></div>
+
+<button class="btn-responder"
+onclick="confirmarResposta()">
+
+Responder Questão
+
+</button>
+
+<button class="btn-comentario"
+id="btnComentarioAtual"
+onclick="toggleComentarioAtual()"
+style="display:none;">
+
+⬇ Ver comentário
+
+</button>
+
+<div class="comentario-dropdown"
+id="comentarioAtual">
+
+</div>
+
+</div>
+
+<!-- NAVEGACAO -->
+
+<div class="navegacao">
+
+<button class="btn-nav voltar"
+onclick="voltarQuestao()">
+
+⬅ Voltar
+
+</button>
+
+<button class="btn-nav proximo"
+onclick="proximaQuestao()">
+
+Próxima ➜
+
+</button>
+
+</div>
+
+<!-- RESULTADOS -->
+
+<div class="resultados"
+id="resultados">
+
+<h1 class="titulo">
+RESULTADO FINAL
+</h1>
+
+<div class="grafico-box">
+<canvas id="graficoResultado"></canvas>
+</div>
+
+<div class="resumo"
+id="resumoResultado"></div>
+
+</div>
+
+</div>
+
+<script>
+
+let questoes = [];
+
+let questaoAtual = 0;
+
+let selecionada = null;
+
+let respondida = false;
+
+let modoProva = false;
+
+let acertos = 0;
+
+let erros = 0;
+
+let tamanhoTexto = 18;
+
+/* =========================================
+STATUS DAS QUESTOES
+========================================= */
+
+let statusQuestoes = {};
+
+/* =========================================
+RESPOSTAS MARCADAS
+========================================= */
+
+let respostasUsuario = {};
+
+/* =========================================
+QUESTOES RESPONDIDAS
+========================================= */
+
+let questoesRespondidas = {};
+
+/* =========================================
+SALVAMENTO LOCAL
+========================================= */
+
+const STORAGE_KEY =
+`revalida_progresso_${NOME_PROVA}`;
+
+const STORAGE_PROVAS =
+`provas_salvas_${NOME_PROVA}`;
+
+/* =========================================
+SALVAR
+========================================= */
+
+function salvarProgresso(){
+
+localStorage.setItem(STORAGE_KEY, JSON.stringify({
+
+questaoAtual,
+acertos,
+erros,
+statusQuestoes,
+respostasUsuario,
+questoesRespondidas
+
+}));
+
+}
+
+/* =========================================
+CARREGAR
+========================================= */
+
+function carregarProgresso(){
+
+const dados =
+localStorage.getItem(STORAGE_KEY);
+
+if(!dados) return;
+
+const progresso = JSON.parse(dados);
+
+questaoAtual =
+progresso.questaoAtual || 0;
+
+acertos =
+progresso.acertos || 0;
+
+erros =
+progresso.erros || 0;
+
+statusQuestoes =
+progresso.statusQuestoes || {};
+
+respostasUsuario =
+progresso.respostasUsuario || {};
+
+questoesRespondidas =
+progresso.questoesRespondidas || {};
+
+document.getElementById("acertos")
+.innerText = acertos;
+
+document.getElementById("erros")
+.innerText = erros;
+
+}
+
+/* =========================================
+CARREGAR JSON
+========================================= */
+
+fetch("../../conteudo/revalida_2025_1.json")
+
+.then(res => res.json())
+
+.then(data => {
+
+questoes = data;
+
+/* CARREGA PROGRESSO */
+
+carregarProgresso();
+
+/* GERA GRADE */
+
+gerarGradeQuestoes();
+
+/* CARREGA QUESTAO */
+
+carregarQuestao();
+
+});
+
+/* =========================================
+MENU
+========================================= */
+
+function abrirMenu(){
+
+let menu =
+document.getElementById("menuOpcoes");
+
+menu.style.display =
+menu.style.display === "flex"
+? "none"
+: "flex";
+
+}
+
+
+/* =========================================
+MODOS
+========================================= */
+
+function ativarModoProva(){
+
+modoProva = true;
+
+/* ESCONDE ESTATISTICAS */
+
+document.querySelector(".estatisticas")
+.style.display = "none";
+
+/* ATUALIZA GRADE */
+
+gerarGradeQuestoes();
+
+/* RECARREGA QUESTAO */
+
+carregarQuestao();
+
+alert("📝 Modo prova ativado");
+
+}
+
+function ativarModoEstudo(){
+
+modoProva = false;
+
+/* MOSTRA ESTATISTICAS */
+
+document.querySelector(".estatisticas")
+.style.display = "flex";
+
+/* ATUALIZA GRADE */
+
+gerarGradeQuestoes();
+
+/* RECARREGA QUESTAO */
+
+carregarQuestao();
+
+alert("📘 Modo estudo ativado");
+
+}
+
+/* =========================================
+TOGGLE QUESTOES
+========================================= */
+
+function toggleGradeQuestoes(){
+
+let grade =
+document.getElementById("gradeQuestoes");
+
+let seta =
+document.getElementById("setaGrade");
+
+if(grade.style.display === "flex"){
+
+grade.style.display = "none";
+
+seta.style.transform = "rotate(0deg)";
+
+seta.innerHTML = "▾";
+
+}else{
+
+grade.style.display = "flex";
+
+seta.style.transform = "rotate(180deg)";
+
+seta.innerHTML = "▴";
+
+}
+
+}
+
+/* =========================================
+GERAR GRADE
+========================================= */
+
+function gerarGradeQuestoes(){
+
+let html = "";
+
+questoes.forEach((q,index)=>{
+
+let classeStatus = "";
+
+/* =========================================
+MODO PROVA
+========================================= */
+
+if(modoProva){
+
+if(respostasUsuario[index] !== undefined){
+
+classeStatus = "respondida-prova";
+
+}
+
+/* =========================================
+MODO ESTUDO
+========================================= */
+
+}else{
+
+if(statusQuestoes[index] === "acertou"){
+
+classeStatus = "acertou";
+
+}
+
+if(statusQuestoes[index] === "errou"){
+
+classeStatus = "errou";
+
+}
+
+}
+
+html += `
+
+<div
+class="numero-questao
+${index === questaoAtual ? 'ativa' : ''}
+${classeStatus}"
+
+onclick="irParaQuestao(${index})">
+
+${q.numero}
+
+</div>
+
+`;
+
+});
+
+document.getElementById("gradeQuestoes")
+.innerHTML = html;
+
+}
+
+/* =========================================
+IR QUESTAO
+========================================= */
+
+function irParaQuestao(index){
+
+questaoAtual = index;
+
+/* FECHA MENU QUESTOES */
+
+document.getElementById("gradeQuestoes")
+.style.display = "none";
+
+/* VOLTA ICONE */
+
+document.getElementById("setaGrade")
+.innerHTML = "☰";
+
+document.getElementById("setaGrade")
+.style.transform = "rotate(0deg)";
+
+/* SALVA */
+
+salvarProgresso();
+
+/* CARREGA */
+
+carregarQuestao();
+
+}
+
+/* =========================================
+CARREGAR QUESTAO
+========================================= */
+
+function carregarQuestao(){
+
+selecionada = null;
+
+let q = questoes[questaoAtual];
+
+if(!q) return;
+
+/* VERIFICA SE JA RESPONDEU */
+
+respondida =
+questoesRespondidas[questaoAtual]
+? true
+: false;
+
+/* TITULO */
+
+document.getElementById("tituloQuestao")
+.innerHTML =
+"QUESTÃO " + q.numero;
+
+/* ENUNCIADO */
+
+document.getElementById("enunciado")
+.innerHTML =
+q.pergunta.replace(/\\n/g,"<br>");
+
+/* COMENTARIO */
+
+document.getElementById("comentarioAtual")
+.innerHTML =
+q.comentario ||
+"Comentário não disponível.";
+
+document.getElementById("comentarioAtual")
+.style.display = "none";
+
+document.getElementById("btnComentarioAtual")
+.style.display = "none";
+
+/* ALTERNATIVAS */
+
+let html = "";
+
+q.alternativas.forEach((alt,index)=>{
+
+html += `
+
+<div class="alternativa"
+id="alt-${index}">
+
+<div class="texto-alternativa"
+onclick="selecionarAlternativa(${index})">
+
+${alt}
+
+</div>
+
+<div class="cortar"
+onclick="cortarAlternativa(event,${index})">
+
+✂️
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("alternativas")
+.innerHTML = html;
+
+/* RESTAURA RESPOSTA */
+
+if(respostasUsuario[questaoAtual] !== undefined){
+
+selecionada =
+respostasUsuario[questaoAtual];
+
+const alternativaSalva =
+document.getElementById(
+`alt-${selecionada}`
+);
+
+if(alternativaSalva){
+
+alternativaSalva.classList
+.add("selecionada");
+
+}
+
+/* SE JA RESPONDEU */
+
+if(questoesRespondidas[questaoAtual]){
+
+if(!modoProva){
+
+document.querySelectorAll(".alternativa")[q.correta]
+.classList.add("correta");
+
+if(selecionada !== q.correta){
+
+document.querySelectorAll(".alternativa")[selecionada]
+.classList.add("errada");
+
+}
+
+document.getElementById("btnComentarioAtual")
+.style.display = "block";
+
+}
+
+}
+
+}
+
+/* GERA GRADE */
+
+gerarGradeQuestoes();
+
+}
+
+/* =========================================
+SELECIONAR
+========================================= */
+
+function selecionarAlternativa(index){
+
+/* BLOQUEIA ALTERACAO */
+
+if(respondida) return;
+
+selecionada = index;
+
+/* SALVA RESPOSTA */
+
+respostasUsuario[questaoAtual] = index;
+
+document.querySelectorAll(".alternativa")
+.forEach(item=>{
+
+item.classList.remove("selecionada");
+
+});
+
+/* MARCA */
+
+document.getElementById(`alt-${index}`)
+.classList.add("selecionada");
+
+/* SALVA */
+
+salvarProgresso();
+
+}
+
+/* =========================================
+RESPONDER
+========================================= */
+
+function confirmarResposta(){
+
+/* BLOQUEIA RESPOSTA DUPLA */
+
+if(respondida) return;
+
+if(selecionada === null){
+
+alert("Selecione uma alternativa.");
+
+return;
+
+}
+
+respondida = true;
+
+/* MARCA COMO RESPONDIDA */
+
+questoesRespondidas[questaoAtual] = true;
+
+let q = questoes[questaoAtual];
+
+let alternativas =
+document.querySelectorAll(".alternativa");
+
+/* MOSTRA CORRETA */
+
+if(!modoProva){
+
+alternativas[q.correta]
+.classList.add("correta");
+
+document.getElementById("btnComentarioAtual")
+.style.display = "block";
+
+}
+
+/* ACERTO */
+
+if(selecionada === q.correta){
+
+acertos++;
+
+statusQuestoes[questaoAtual] =
+"acertou";
+
+document.getElementById("acertos")
+.innerText = acertos;
+
+/* ERRO */
+
+}else{
+
+erros++;
+
+statusQuestoes[questaoAtual] =
+"errou";
+
+document.getElementById("erros")
+.innerText = erros;
+
+if(!modoProva){
+
+alternativas[selecionada]
+.classList.add("errada");
+
+}
+
+}
+
+/* ATUALIZA */
+
+gerarGradeQuestoes();
+
+/* SALVA */
+
+salvarProgresso();
+
+}
+
+/* =========================================
+COMENTARIO
+========================================= */
+
+function toggleComentarioAtual(){
+
+let div =
+document.getElementById("comentarioAtual");
+
+div.style.display =
+div.style.display === "block"
+? "none"
+: "block";
+
+}
+/* =========================================
+TOGGLE COMENTARIO ERRO
+========================================= */
+
+function toggleComentarioErro(index){
+
+const div =
+document.getElementById(
+`comentario-erro-${index}`
+);
+
+div.style.display =
+div.style.display === "block"
+? "none"
+: "block";
+
+}
+/* =========================================
+CORTAR
+========================================= */
+
+function cortarAlternativa(event,index){
+
+event.stopPropagation();
+
+/* BLOQUEIA APOS RESPONDER */
+
+if(respondida) return;
+
+document.getElementById(`alt-${index}`)
+.classList.toggle("cortada");
+
+}
+
+/* =========================================
+TAMANHO TEXTO
+========================================= */
+
+function aumentarTexto(){
+
+tamanhoTexto += 2;
+
+document.querySelector(".enunciado")
+.style.fontSize =
+tamanhoTexto + "px";
+
+}
+
+function diminuirTexto(){
+
+if(tamanhoTexto > 14){
+
+tamanhoTexto -= 2;
+
+document.querySelector(".enunciado")
+.style.fontSize =
+tamanhoTexto + "px";
+
+}
+
+}
+
+/* =========================================
+NAVEGACAO
+========================================= */
+
+function proximaQuestao(){
+
+if(questaoAtual < questoes.length - 1){
+
+questaoAtual++;
+
+salvarProgresso();
+
+carregarQuestao();
+
+}
+
+}
+
+function voltarQuestao(){
+
+if(questaoAtual > 0){
+
+questaoAtual--;
+
+salvarProgresso();
+
+carregarQuestao();
+
+}
+
+}
+
+/* =========================================
+FINALIZAR
+========================================= */
+
+function finalizarProva(){
+
+/* ESCONDE BOTAO FINALIZAR */
+
+document.getElementById("menuOpcoes")
+.style.display = "none";
+
+/* MOSTRA RESULTADOS */
+
+document.getElementById("resultados")
+.style.display = "block";
+
+let total = acertos + erros;
+
+let porcentagemAcertos =
+total > 0
+? ((acertos / total) * 100).toFixed(1)
+: 0;
+
+let porcentagemErros =
+total > 0
+? ((erros / total) * 100).toFixed(1)
+: 0;
+
+/* QUESTOES ERRADAS */
+
+let htmlErros = "";
+
+questoes.forEach((q,index)=>{
+
+if(statusQuestoes[index] === "errou"){
+
+const respostaUsuario =
+respostasUsuario[index];
+
+htmlErros += `
+
+<div class="questao-erro-card">
+
+<div class="questao-erro-titulo">
+❌ Questão ${q.numero}
+</div>
+
+<div class="questao-erro-info">
+
+<p>
+<b>Sua resposta:</b>
+${q.alternativas[respostaUsuario]}
+</p>
+
+<br>
+
+<p>
+<b>Resposta correta:</b>
+${q.alternativas[q.correta]}
+</p>
+
+</div>
+
+<button
+class="btn-toggle-erro"
+onclick="toggleComentarioErro(${index})">
+
+⬇ Ver comentário
+
+</button>
+
+<div
+class="comentario-erro"
+id="comentario-erro-${index}">
+
+${q.comentario || "Comentário não disponível."}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+});
+
+/* HTML RESULTADO */
+
+document.getElementById("resumoResultado")
+.innerHTML = `
+
+<p>
+✅ Acertos:
+<strong>${acertos}</strong>
+(${porcentagemAcertos}%)
+</p>
+
+<p>
+❌ Erros:
+<strong>${erros}</strong>
+(${porcentagemErros}%)
+</p>
+
+<div class="questoes-erradas">
+
+${htmlErros}
+
+</div>
+
+<button
+class="btn-responder"
+style="margin-top:30px;"
+onclick="salvarProvaLocal()">
+
+💾 Salvar prova
+
+</button>
+
+`;
+
+gerarGrafico();
+
+/* SCROLL RESULTADO */
+
+document.getElementById("resultados")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+/* =========================================
+SAIR
+========================================= */
+
+function sairProva(){
+
+localStorage.removeItem(STORAGE_KEY);
+
+location.reload();
+
+}
+
+function irHome(){
+
+window.location.href = "../../dashboard.html";
+
+}
+/* =========================================
+SALVAR PROVA
+========================================= */
+
+function salvarProvaLocal(){
+
+const provas =
+JSON.parse(
+localStorage.getItem("provas_salvas")
+|| "[]"
+);
+
+/* QUESTOES ERRADAS */
+
+let questoesErradas = [];
+
+questoes.forEach((q,index)=>{
+
+if(statusQuestoes[index] === "errou"){
+
+questoesErradas.push({
+
+numero:q.numero,
+
+enunciado:
+q.pergunta || "",
+
+alternativas:
+q.alternativas || [],
+
+respostaUsuario:
+q.alternativas[
+respostasUsuario[index]
+],
+
+respostaCorreta:
+q.alternativas[q.correta],
+
+comentario:
+q.comentario ||
+"Comentário não disponível."
+
+});
+
+}
+
+});
+
+const novaProva = {
+
+nomeProva:NOME_PROVA,
+
+data:
+new Date().toLocaleString(),
+
+acertos,
+erros,
+
+questoesErradas,
+
+respostasUsuario,
+
+statusQuestoes
+
+};
+
+provas.push(novaProva);
+
+localStorage.setItem(
+"provas_salvas",
+JSON.stringify(provas)
+);
+
+alert("✅ Prova salva com sucesso!");
+
+}
+
+</script>
+
+</body>
+</html>

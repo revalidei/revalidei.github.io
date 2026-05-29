@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=no">
+
+<meta name="theme-color" content="#090B10">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Revalida">
+<meta name="mobile-web-app-capable" content="yes">
+
+<link rel="manifest" href="../manifest.json">
+
+<title>Bancas de Provas</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+html{
+scroll-behavior:smooth;
+overflow-x:hidden;
+background:#090B10;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#090B10;
+color:white;
+min-height:100vh;
+overflow-x:hidden;
+padding-top:env(safe-area-inset-top);
+padding-bottom:env(safe-area-inset-bottom);
+}
+
+.bg{
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at top,#1d2433 0%,#090B10 60%);
+z-index:-3;
+}
+
+.blur{
+position:fixed;
+border-radius:50%;
+filter:blur(120px);
+opacity:.20;
+z-index:-2;
+}
+
+.blur1{
+width:260px;
+height:260px;
+background:#3b82f6;
+top:-60px;
+left:-60px;
+}
+
+.blur2{
+width:220px;
+height:220px;
+background:#8b5cf6;
+bottom:-60px;
+right:-60px;
+}
+
+.container{
+width:100%;
+max-width:850px;
+margin:auto;
+padding:
+calc(env(safe-area-inset-top) + 20px)
+16px
+120px;
+}
+
+
+.banca{
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.08);
+backdrop-filter:blur(16px);
+-webkit-backdrop-filter:blur(16px);
+border-radius:28px;
+overflow:hidden;
+margin-bottom:20px;
+box-shadow:
+0 10px 30px rgba(0,0,0,.35);
+}
+
+.banca-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:20px;
+cursor:pointer;
+transition:.25s;
+}
+
+.banca-header:active{
+transform:scale(.98);
+}
+
+.banca-nome{
+font-size:18px;
+font-weight:700;
+}
+
+.seta{
+font-size:22px;
+transition:.3s;
+}
+
+.banca.active .seta{
+transform:rotate(180deg);
+}
+
+.banca-conteudo{
+max-height:0;
+overflow:hidden;
+transition:max-height .45s ease;
+padding:0 16px;
+}
+
+.banca.active .banca-conteudo{
+max-height:3000px;
+padding-bottom:18px;
+}
+
+.prova{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+padding:16px;
+margin-top:12px;
+background:rgba(255,255,255,0.05);
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.06);
+transition:.25s;
+}
+
+.prova:active{
+transform:scale(.98);
+}
+
+.prova span{
+font-size:15px;
+font-weight:500;
+line-height:1.4;
+}
+
+.botao{
+background:linear-gradient(135deg,#2563eb,#3b82f6);
+color:white;
+text-decoration:none;
+padding:10px 18px;
+border-radius:14px;
+font-size:14px;
+font-weight:700;
+white-space:nowrap;
+transition:.25s;
+}
+
+.botao:active{
+transform:scale(.95);
+}
+
+/* =========================
+IPHONE
+========================= */
+
+@media(max-width:600px){
+
+.container{
+padding-left:14px;
+padding-right:14px;
+}
+
+.titulo{
+font-size:26px;
+margin-bottom:22px;
+}
+
+.banca{
+border-radius:24px;
+}
+
+.banca-header{
+padding:18px;
+}
+
+.banca-nome{
+font-size:16px;
+}
+
+.prova{
+flex-direction:column;
+align-items:flex-start;
+padding:16px;
+}
+
+.prova span{
+font-size:14px;
+width:100%;
+}
+
+.botao{
+width:100%;
+text-align:center;
+padding:14px;
+font-size:15px;
+border-radius:16px;
+}
+
+}
+/* =========================================
+HEADER PREMIUM
+========================================= */
+
+.topo{
+
+position:fixed;
+
+top:0;
+left:0;
+right:0;
+
+z-index:9999;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:
+max(12px, env(safe-area-inset-top))
+20px
+16px
+20px;
+
+background:
+rgba(9,11,16,0.92);
+
+backdrop-filter:blur(18px);
+
+-webkit-backdrop-filter:blur(18px);
+
+border-bottom:
+1px solid rgba(255,255,255,0.05);
+}
+
+/* =========================================
+HEADER LEFT
+========================================= */
+
+.header-left{
+
+display:flex;
+
+align-items:center;
+
+gap:16px;
+}
+
+.logo-topo{
+
+font-size:24px;
+
+font-weight:900;
+
+letter-spacing:1px;
+
+color:#7CFFB2;
+}
+
+/* =========================================
+HEADER RIGHT
+========================================= */
+
+.header-right{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+}
+
+/* =========================================
+MENU
+========================================= */
+
+.menu-wrapper{
+
+position:relative;
+}
+
+.btn-menu{
+
+width:54px;
+height:54px;
+
+border:none;
+
+border-radius:18px;
+
+background:
+rgba(255,255,255,0.04);
+
+backdrop-filter:blur(10px);
+
+-webkit-backdrop-filter:blur(10px);
+
+color:white;
+
+font-size:28px;
+
+cursor:pointer;
+
+border:
+1px solid rgba(255,255,255,0.05);
+
+transition:0.25s;
+}
+
+.btn-menu:hover{
+
+transform:scale(1.05);
+
+background:#1E293B;
+}
+
+/* =========================================
+MENU DROPDOWN
+========================================= */
+
+.menu-opcoes{
+
+display:none;
+
+position:absolute;
+
+top:70px;
+right:0;
+
+width:220px;
+
+background:
+rgba(15,23,42,0.98);
+
+border:
+1px solid rgba(255,255,255,0.05);
+
+border-radius:24px;
+
+padding:14px;
+
+z-index:9999;
+
+box-shadow:
+0 20px 40px rgba(0,0,0,0.45);
+
+backdrop-filter:blur(18px);
+
+-webkit-backdrop-filter:blur(18px);
+
+flex-direction:column;
+
+gap:10px;
+}
+
+.menu-opcoes button{
+
+padding:16px;
+
+border:none;
+
+border-radius:16px;
+
+background:#172033;
+
+color:white;
+
+font-weight:700;
+
+font-size:15px;
+
+cursor:pointer;
+
+transition:0.2s;
+}
+
+.menu-opcoes button:hover{
+
+transform:translateY(-2px);
+
+background:#1E293B;
+}
+
+/* =========================================
+CONTAINER AJUSTE
+========================================= */
+
+.container{
+
+padding-top:120px;
+}
+
+</style>
+
+<style>html.auth-pending body{visibility:hidden}</style>
+<script type="module" src="../js/auth-guard.js"></script>
+</head>
+
+<body>
+
+<div class="bg"></div>
+<div class="blur blur1"></div>
+<div class="blur blur2"></div>
+
+<div class="container">
+
+<div class="topo">
+
+    <div class="header-left">
+
+        <div class="logo-topo">
+            📚 Bancas
+        </div>
+
+    </div>
+
+    <div class="header-right">
+
+        <div class="menu-wrapper">
+
+            <button
+            class="btn-menu"
+            onclick="abrirMenu()">
+
+                ⋯
+
+            </button>
+
+            <div
+            class="menu-opcoes"
+            id="menuOpcoes">
+
+                <button onclick="irHome()">
+                    🏠 Home
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================================== -->
+<!-- REVALIDA INEP -->
+<!-- ================================================== -->
+
+<div class="banca" id="inep">
+
+<div class="banca-header" onclick="toggleBanca('inep')">
+
+<div class="banca-nome">
+Revalida INEP
+</div>
+
+<div class="seta">
+⌄
+</div>
+
+</div>
+
+<div class="banca-conteudo">
+
+<div class="prova">
+<span>📄 Revalida INEP 2025.2</span>
+<a href="../pages/PROVAS/2025.2.html" class="botao">Abrir</a>
+</div>
+
+<div class="prova">
+<span>📄 Revalida INEP 2025.1</span>
+<a href="../pages/PROVAS/2025.1.html" class="botao">Abrir</a>
+</div>
+
+<div class="prova">
+<span>📄 Revalida INEP 2024.2</span>
+<a href="../pages/PROVAS/2024.2.html" class="botao">Abrir</a>
+</div>
+
+<div class="prova">
+<span>📄 Revalida INEP 2024.1</span>
+<a href="../pages/PROVAS/2024.1.html" class="botao">Abrir</a>
+</div>
+
+<div class="prova">
+<span>📄 Revalida INEP 2023.2</span>
+<a href="../pages/PROVAS/2023.2.html" class="botao">Abrir</a>
+</div>
+
+<div class="prova">
+<span>📄 Revalida INEP 2023.1</span>
+<a href="../pages/PROVAS/2023.1.html" class="botao">Abrir</a>
+</div>
+
+<div class="prova">
+<span>📄 Revalida INEP 2022.2</span>
+<a href="../pages/PROVAS/2022.2.html" class="botao">Abrir</a>
+</div>
+
+<div class="prova">
+<span>📄 Revalida INEP 2022.1</span>
+<a href="../pages/PROVAS/2022.1.html" class="botao">Abrir</a>
+</div>
+
+<div class="prova">
+<span>📄 Revalida INEP 2020</span>
+<a href="../pages/PROVAS/2020.html" class="botao">Abrir</a>
+</div>
+
+</div>
+</div>
+
+<!-- ================================================== -->
+<!-- RESIDÊNCIA -->
+<!-- ================================================== -->
+
+<div class="banca" id="residencia">
+
+<div class="banca-header" onclick="toggleBanca('residencia')">
+
+<div class="banca-nome">
+Residência Médica
+</div>
+
+<div class="seta">
+⌄
+</div>
+
+</div>
+
+<div class="banca-conteudo">
+
+<div class="prova">
+<span>📄 Residência 2025.2</span>
+<a href="../pages/PROVAS/residencia_2025.2.html" class="botao">Abrir</a>
+</div>
+
+<div class="prova">
+<span>📄 Residência 2025.1</span>
+<a href="../pages/PROVAS/residencia_2025.1.html" class="botao">Abrir</a>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+function toggleBanca(id){
+const banca=document.getElementById(id)
+banca.classList.toggle('active')
+}
+/* =========================================
+MENU
+========================================= */
+
+function abrirMenu(){
+
+const menu =
+document.getElementById("menuOpcoes");
+
+menu.style.display =
+
+menu.style.display === "flex"
+? "none"
+: "flex";
+
+}
+
+/* =========================================
+HOME
+========================================= */
+
+function irHome(){
+
+window.location.href =
+"../dashboard.html";
+
+}
+
+/* =========================================
+FECHAR MENU CLICK FORA
+========================================= */
+
+document.addEventListener("click",function(e){
+
+const menu =
+document.getElementById("menuOpcoes");
+
+const wrapper =
+document.querySelector(".menu-wrapper");
+
+if(!wrapper.contains(e.target)){
+
+menu.style.display = "none";
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

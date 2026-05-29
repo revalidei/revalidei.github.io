@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<link rel="stylesheet" href="../css/app.css">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<meta name="apple-mobile-web-app-title" content="Revalida">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<link rel="manifest" href="../manifest.json">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Histórico de Evolução</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body{background:#0F1115;color:white;font-family:Arial;padding:20px;}
+.titulo{font-size:28px;margin-bottom:25px;color:#7CFFB2;
+}
+html, body {
+  height: 100%;
+  overflow-y: scroll; /* rolagem funcional */
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  scrollbar-width: none; /* Firefox */
+}
+</style>
+<style>html.auth-pending body{visibility:hidden}</style>
+<script type="module" src="../js/auth-guard.js"></script>
+</head>
+<body>
+<h1 class="titulo">📈 Histórico de Evolução</h1>
+<canvas id="graficoEvolucao" style="max-width:600px;margin:auto;"></canvas>
+
+<script>
+let provas = JSON.parse(localStorage.getItem("provas_salvas")) || [];
+
+// Ordena pelo timestamp
+provas.sort((a,b)=> new Date(a.data) - new Date(b.data));
+
+let labels = provas.map(p=>p.data);
+let porcentagens = provas.map(p=>parseFloat(p.porcentagem));
+
+const ctx = document.getElementById('graficoEvolucao').getContext('2d');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Aproveitamento (%)',
+            data: porcentagens,
+            fill: false,
+            borderColor: '#7CFFB2',
+            tension: 0.3
+        }]
+    },
+    options: {
+        scales: {
+            y: { beginAtZero: true, max: 100 }
+        }
+    }
+});
+</script>
+<script src="../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+# Portal Revalida 2026
+
+Plataforma de estudos para o Revalida INEP (questões, provas, dashboard e revisão).
+
+## Autenticação (Firebase)
+
+O login usa **Firebase Authentication** (e-mail/senha e Google). Antes de rodar o app:
+
+1. Siga o guia [FIREBASE_SETUP.md](FIREBASE_SETUP.md)
+2. Copie `js/firebase-config.example.js` → `js/firebase-config.js` e preencha com seu `firebaseConfig`
+
+## Rodar localmente
+
+```bash
+npx serve .
+```
+
+Abra `http://localhost:3000/login.html` (não abra os HTML direto pelo explorador de arquivos).
+
+## Estrutura
+
+- `login.html` / `dashboard.html` — entrada e painel
+- `pages/PROVAS/` — simulados por edição
+- `conteudo/*.json` — banco de questões
+- `js/auth-guard.js` — proteção de páginas internas

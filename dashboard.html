@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<link rel="stylesheet" href="css/app.css">
+<style>html.auth-pending body{visibility:hidden}</style>
+<script type="module" src="js/auth-guard.js"></script>
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<meta name="apple-mobile-web-app-title" content="Revalida">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<link rel="manifest" href="manifest.json">
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+
+<meta name="theme-color"
+content="#090B10">
+
+<title>Dashboard Revalida</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<style>
+
+/* ===================================
+RESET
+=================================== */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+-webkit-tap-highlight-color:transparent;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+/* ===================================
+BACKGROUND
+=================================== */
+
+.bg{
+position:fixed;
+inset:0;
+
+background:
+linear-gradient(
+135deg,
+#090B10,
+#12151C
+);
+
+z-index:-3;
+}
+
+.blur{
+position:fixed;
+
+width:420px;
+height:420px;
+
+border-radius:50%;
+
+filter:blur(120px);
+
+opacity:0.25;
+
+z-index:-2;
+}
+
+.blur1{
+background:#7CFFB2;
+top:-120px;
+left:-120px;
+}
+
+.blur2{
+background:#8B5CF6;
+bottom:-120px;
+right:-120px;
+}
+
+/* ===================================
+SIDEBAR
+=================================== */
+
+.sidebar{
+
+position:fixed;
+top:0;
+bottom:0;
+left:0;
+
+width:300px;
+min-height:100dvh;
+
+background:
+linear-gradient(
+145deg,
+rgba(23,26,33,0.96),
+rgba(16,19,24,0.96)
+);
+
+backdrop-filter:blur(14px);
+
+padding:28px 20px;
+
+display:flex;
+flex-direction:column;
+
+border-right:
+1px solid rgba(255,255,255,0.04);
+
+z-index:999;
+
+transition:0.35s ease;
+
+overflow-y:auto;
+
+box-shadow:
+0 20px 50px rgba(0,0,0,0.35);
+
+}
+
+.sidebar::-webkit-scrollbar{
+width:5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+background:#222;
+border-radius:20px;
+}
+
+/* ===================================
+LOGO
+=================================== */
+
+.logo{
+
+font-size:30px;
+font-weight:800;
+
+margin-bottom:35px;
+
+color:#7CFFB2;
+
+letter-spacing:1px;
+
+}
+
+/* ===================================
+LINKS
+=================================== */
+
+.sidebar a{
+
+display:flex;
+align-items:center;
+gap:14px;
+
+text-decoration:none;
+
+color:#F3F4F6;
+
+padding:16px 18px;
+
+margin-bottom:14px;
+
+border-radius:24px;
+
+background:
+rgba(255,255,255,0.03);
+
+transition:0.25s;
+
+font-size:15px;
+font-weight:500;
+
+border:
+1px solid rgba(255,255,255,0.04);
+
+backdrop-filter:blur(10px);
+
+}
+
+.sidebar a:hover{
+
+background:
+rgba(124,255,178,0.08);
+
+border-color:#7CFFB2;
+
+transform:
+translateX(6px);
+
+box-shadow:
+0 10px 30px rgba(124,255,178,0.08);
+
+}
+
+/* ===================================
+BUTTON
+=================================== */
+
+.sidebar button{
+
+margin-top:auto;
+
+padding:17px;
+
+border:none;
+
+border-radius:22px;
+
+background:#EF4444;
+
+color:white;
+
+font-size:15px;
+font-weight:700;
+
+cursor:pointer;
+
+transition:0.3s;
+
+}
+
+.sidebar button:hover{
+
+opacity:0.88;
+
+transform:translateY(-2px);
+
+}
+
+/* ===================================
+CONTENT
+=================================== */
+
+.content{
+
+margin-left:300px;
+
+padding:35px;
+
+padding-top:
+calc(
+env(safe-area-inset-top)
++ 35px
+);
+
+padding-bottom:
+calc(
+env(safe-area-inset-bottom)
++ 35px
+);
+
+min-height:100dvh;
+
+}
+
+/* ===================================
+TOPBAR
+=================================== */
+
+.topbar{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+margin-bottom:30px;
+
+gap:15px;
+
+}
+
+.titulo{
+
+font-size:42px;
+font-weight:800;
+
+line-height:1.1;
+
+}
+
+.subtitulo{
+
+margin-top:10px;
+
+color:#9CA3AF;
+
+font-size:15px;
+
+line-height:1.6;
+
+}
+
+/* ===================================
+MOBILE MENU
+=================================== */
+
+.menu-mobile{
+
+display:none;
+
+width:58px;
+height:58px;
+
+border:none;
+
+border-radius:22px;
+
+background:
+rgba(23,26,33,0.95);
+
+backdrop-filter:blur(12px);
+
+color:white;
+
+font-size:28px;
+
+cursor:pointer;
+
+align-items:center;
+justify-content:center;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,0.35);
+
+}
+
+/* ===================================
+CARDS
+=================================== */
+
+.cards{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(240px,1fr));
+
+gap:22px;
+
+margin-bottom:30px;
+
+}
+
+.card{
+
+background:
+linear-gradient(
+145deg,
+rgba(23,26,33,0.95),
+rgba(16,19,24,0.95)
+);
+
+padding:24px;
+
+border-radius:36px;
+
+position:relative;
+
+overflow:hidden;
+
+border:
+1px solid rgba(255,255,255,0.04);
+
+transition:0.3s;
+
+min-height:160px;
+
+backdrop-filter:blur(12px);
+
+box-shadow:
+0 20px 50px rgba(0,0,0,0.35);
+
+}
+
+.card:hover{
+
+transform:
+translateY(-6px)
+scale(1.01);
+
+}
+
+.card h3{
+
+font-size:15px;
+
+color:#A1A1AA;
+
+margin-bottom:14px;
+
+font-weight:500;
+
+}
+
+.numero{
+
+font-size:42px;
+
+font-weight:800;
+
+color:#7CFFB2;
+
+word-break:break-word;
+
+}
+
+.icone{
+
+position:absolute;
+
+right:22px;
+top:20px;
+
+font-size:42px;
+
+opacity:0.15;
+
+}
+
+/* ===================================
+GRID
+=================================== */
+
+.grid{
+
+display:grid;
+
+grid-template-columns:2fr 1fr;
+
+gap:24px;
+
+}
+
+.box{
+
+background:
+linear-gradient(
+145deg,
+rgba(23,26,33,0.95),
+rgba(16,19,24,0.95)
+);
+
+padding:28px;
+
+border-radius:36px;
+
+border:
+1px solid rgba(255,255,255,0.04);
+
+backdrop-filter:blur(12px);
+
+box-shadow:
+0 20px 50px rgba(0,0,0,0.35);
+
+}
+
+.box h2{
+
+font-size:24px;
+
+margin-bottom:24px;
+
+}
+
+/* ===================================
+PROGRESS
+=================================== */
+
+.progress-label{
+
+display:flex;
+justify-content:space-between;
+
+margin-bottom:12px;
+
+font-size:14px;
+
+}
+
+.progress{
+
+width:100%;
+height:18px;
+
+background:#1F2937;
+
+border-radius:30px;
+
+overflow:hidden;
+
+}
+
+.progress-fill{
+
+height:100%;
+width:0%;
+
+border-radius:30px;
+
+background:
+linear-gradient(
+90deg,
+#22C55E,
+#7CFFB2
+);
+
+transition:0.5s;
+
+}
+
+/* ===================================
+REVISOES
+=================================== */
+
+.revisao-item{
+
+background:#1D212B;
+
+padding:18px;
+
+border-radius:24px;
+
+display:flex;
+
+justify-content:space-between;
+align-items:center;
+
+margin-bottom:14px;
+
+gap:10px;
+
+}
+
+.revisao-item span{
+
+font-size:13px;
+
+color:#9CA3AF;
+
+}
+
+.btn-revisar{
+
+padding:12px 18px;
+
+border:none;
+
+border-radius:18px;
+
+background:#7CFFB2;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* ===================================
+RESPONSIVO
+=================================== */
+
+@media(max-width:1100px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:820px){
+
+.sidebar{
+
+left:-100%;
+
+width:85%;
+max-width:320px;
+
+}
+
+.sidebar.active{
+left:0;
+}
+
+.content{
+
+margin-left:0;
+
+padding:
+18px
+16px
+120px;
+
+padding-top:
+calc(
+env(safe-area-inset-top)
++ 95px
+);
+
+padding-bottom:
+calc(
+120px
++
+env(safe-area-inset-bottom)
+);
+
+}
+
+.menu-mobile{
+
+display:flex;
+
+position:fixed;
+
+top:
+calc(
+env(safe-area-inset-top)
++ 14px
+);
+
+right:
+max(
+14px,
+env(safe-area-inset-right)
+);
+
+z-index:1000;
+
+}
+
+.titulo{
+
+font-size:30px;
+
+padding-right:70px;
+
+}
+
+.cards{
+
+grid-template-columns:1fr;
+
+gap:16px;
+
+}
+
+.card{
+
+padding:22px;
+
+border-radius:32px;
+
+min-height:auto;
+
+}
+
+.numero{
+font-size:34px;
+}
+
+.icone{
+font-size:36px;
+}
+
+.box{
+
+padding:24px;
+
+border-radius:32px;
+
+}
+
+.revisao-item{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+.btn-revisar{
+
+width:100%;
+
+margin-top:10px;
+
+}
+
+.content{
+
+padding-bottom:
+calc(120px + env(safe-area-inset-bottom));
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<div class="blur blur1"></div>
+
+<div class="blur blur2"></div>
+
+<button
+class="menu-mobile"
+onclick="toggleMenu()">
+
+☰
+
+</button>
+
+<!-- SIDEBAR -->
+
+<div
+class="sidebar"
+id="sidebar">
+
+<div class="logo">
+REVALIDEI 🩺
+</div>
+
+<a href="pages/bancas.html">
+📚 Questões
+</a>
+
+<a href="pages/flashcards.html">
+🧠 Flashcards
+</a>
+
+<a href="pages/resumos.html">
+📖 Resumos
+</a>
+
+<a href="pages/revisao.html">
+🔁 Revisões
+</a>
+
+<a href="pages/historico.html">
+📈 Estatísticas
+</a>
+
+<a href="pages/provas_salvas.html">
+📝 Provas
+</a>
+
+<button onclick="sair()">
+🚪 Sair
+</button>
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<div class="topbar">
+
+<div>
+
+<h1 class="titulo">
+Bem-vindo, Doutor (a) 👨‍⚕️
+</h1>
+
+<p class="subtitulo">
+Continue evoluindo rumo à aprovação no Revalida.
+</p>
+
+</div>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+<div class="icone">
+📚
+</div>
+
+<h3>
+Questões Respondidas
+</h3>
+
+<div
+class="numero"
+id="questoesRespondidas">
+
+0
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="icone">
+✅
+</div>
+
+<h3>
+Total de Acertos
+</h3>
+
+<div
+class="numero"
+id="totalAcertos">
+
+0
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="icone">
+❌
+</div>
+
+<h3>
+Total de Erros
+</h3>
+
+<div
+class="numero"
+id="totalErros">
+
+0
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="icone">
+🔥
+</div>
+
+<h3>
+Aproveitamento
+</h3>
+
+<div
+class="numero"
+id="aproveitamento">
+
+0%
+
+</div>
+
+</div>
+
+</div>
+
+<!-- GRID -->
+
+<div class="grid">
+
+<!-- EVOLUÇÃO -->
+
+<div class="box">
+
+<h2>
+📈 Evolução Geral
+</h2>
+
+<div class="progress-label">
+
+<span>
+Meta Revalida
+</span>
+
+<span id="metaValor">
+0%
+</span>
+
+</div>
+
+<div class="progress">
+
+<div
+class="progress-fill"
+id="progressFill">
+
+</div>
+
+</div>
+
+</div>
+
+<!-- REVISOES -->
+
+<div class="box">
+
+<h2>
+🧠 Revisões Pendentes
+</h2>
+
+<div id="listaRevisoes">
+
+<div class="revisao-item">
+
+<div>
+
+<strong>
+Nenhuma revisão pendente
+</strong>
+
+<br>
+
+<span>
+Você está em dia 🎉
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* MENU */
+
+function toggleMenu(){
+
+document
+.getElementById("sidebar")
+.classList
+.toggle("active");
+
+}
+
+/* ESTATISTICAS */
+
+let provas =
+JSON.parse(
+localStorage.getItem(
+"provas_salvas"
+)
+) || [];
+
+let totalAcertos = 0;
+let totalErros = 0;
+
+provas.forEach(p=>{
+
+totalAcertos += p.acertos;
+totalErros += p.erros;
+
+});
+
+let totalQuestoes =
+totalAcertos + totalErros;
+
+let aproveitamento =
+
+totalQuestoes > 0
+
+? (
+(totalAcertos / totalQuestoes)
+* 100
+).toFixed(1)
+
+: 0;
+
+document
+.getElementById(
+"questoesRespondidas"
+)
+.innerText =
+totalQuestoes;
+
+document
+.getElementById(
+"totalAcertos"
+)
+.innerText =
+totalAcertos;
+
+document
+.getElementById(
+"totalErros"
+)
+.innerText =
+totalErros;
+
+document
+.getElementById(
+"aproveitamento"
+)
+.innerText =
+aproveitamento + "%";
+
+document
+.getElementById(
+"metaValor"
+)
+.innerText =
+aproveitamento + "%";
+
+document
+.getElementById(
+"progressFill"
+)
+.style.width =
+aproveitamento + "%";
+
+/* REVISOES */
+
+let revisoes =
+JSON.parse(
+localStorage.getItem(
+"revisoes"
+)
+) || [];
+
+let hoje =
+new Date();
+
+let pendentes =
+revisoes.filter(r =>
+
+new Date(
+r.proximaRevisao
+) <= hoje
+
+);
+
+if(pendentes.length > 0){
+
+let html = "";
+
+pendentes
+.slice(0,5)
+.forEach(r=>{
+
+html += `
+
+<div class="revisao-item">
+
+<div>
+
+<strong>
+Questão ${r.numero}
+</strong>
+
+<br>
+
+<span>
+Revisão disponível
+</span>
+
+</div>
+
+<button
+class="btn-revisar"
+onclick="window.location.href='pages/revisao.html'">
+
+Revisar
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document
+.getElementById(
+"listaRevisoes"
+)
+.innerHTML = html;
+
+}
+
+/* FECHAR MENU */
+
+document.addEventListener(
+"click",
+function(e){
+
+let sidebar =
+document.getElementById(
+"sidebar"
+);
+
+let menu =
+document.querySelector(
+".menu-mobile"
+);
+
+if(
+
+window.innerWidth <= 820 &&
+
+!sidebar.contains(e.target) &&
+
+!menu.contains(e.target)
+
+){
+
+sidebar.classList
+.remove("active");
+
+}
+
+});
+
+</script>
+<script type="module" src="js/auth-logout.js"></script>
+<script src="js/app.js"></script>
+</body>
+
+</html>

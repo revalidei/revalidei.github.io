@@ -1,0 +1,64 @@
+html.auth-pending body{
+visibility:hidden;
+}
+
+html{
+height:100%;
+background:#020617;
+overflow-x:hidden;
+}
+
+body{
+
+min-height:100dvh;
+
+margin:0;
+
+overflow-x:hidden;
+
+padding-top:
+env(safe-area-inset-top);
+
+padding-left:
+env(safe-area-inset-left);
+
+padding-right:
+env(safe-area-inset-right);
+
+padding-bottom:
+env(safe-area-inset-bottom);
+
+background:
+linear-gradient(
+180deg,
+#020617 0%,
+#0F172A 100%
+);
+
+color:white;
+
+-webkit-overflow-scrolling:touch;
+
+}
+
+/* IOS */
+
+*{
+-webkit-tap-highlight-color:transparent;
+}
+
+/* IMAGENS */
+
+img{
+max-width:100%;
+height:auto;
+}
+
+/* ZOOM FIX */
+
+input,
+textarea,
+select,
+button{
+font-size:16px;
+}
