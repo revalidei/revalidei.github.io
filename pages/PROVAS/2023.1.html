@@ -24,10 +24,10 @@ content="yes">
 <meta name="apple-mobile-web-app-status-bar-style"
 content="black">
 
-<title>INEP 2023.1</title>
+<title>INEP 2025.2</title>
 <script>
 
-const NOME_PROVA = "INEP 2023.1";
+const NOME_PROVA = "INEP 2025.2";
 
 </script>
 
@@ -126,7 +126,7 @@ CONTAINER
 ========================================= */
 
 .container{
-max-width:780px;
+max-width:980px;
 margin:auto;
 
 padding-top:120px;
@@ -288,73 +288,6 @@ background:#1E293B;
 }
 
 /* =========================================
-BARRA DE PROGRESSO
-========================================= */
-.progress-container{
-
-margin-bottom:20px;
-
-padding:16px 20px;
-
-background:#0F172A;
-
-border:1px solid #1E293B;
-
-border-radius:16px;
-
-}
-
-.progress-info{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-margin-bottom:10px;
-
-font-size:14px;
-
-font-weight:600;
-
-color:#CBD5E1;
-
-}
-
-.progress-bar{
-
-width:100%;
-
-height:8px;
-
-background:#1E293B;
-
-border-radius:999px;
-
-overflow:hidden;
-
-}
-
-.progress-fill{
-
-height:100%;
-
-width:0;
-
-background:linear-gradient(
-90deg,
-#22C55E,
-#7CFFB2
-);
-
-border-radius:999px;
-
-transition:.35s ease;
-
-}
-
-/* =========================================
 TOP ACTIONS
 ========================================= */
 
@@ -487,10 +420,10 @@ transform:translateY(0);
 }
 
 .numero-questao{
-width: 38px;
-height:38px;
+width:44px;
+height:44px;
 
-border-radius:10px;
+border-radius:14px;
 
 display:flex;
 align-items:center;
@@ -498,7 +431,7 @@ justify-content:center;
 
 font-weight:800;
 
-font-size:13px;
+font-size:14px;
 
 cursor:pointer;
 
@@ -566,11 +499,17 @@ margin-bottom:24px;
 }
 
 .enunciado{
-font-size:16px;
-line-height:1.7;
-text-align:justify;
-max-width:72ch;
-margin:auto;
+font-size:18px;
+
+line-height:1.9;
+
+color:#E2E8F0;
+
+margin-bottom:26px;
+
+white-space:pre-line;
+
+word-break:break-word;
 }
 
 /* =========================================
@@ -578,15 +517,27 @@ ALTERNATIVAS
 ========================================= */
 
 .alternativa{
-padding:14px 16px;
-border-radius:12px;
-background:#111827;
-border:1px solid #1F2937;
+background:#172033;
+
+padding:20px;
+
+border-radius:22px;
+
+margin-bottom:16px;
+
+border:
+2px solid transparent;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+transition:0.2s;
 }
 
 .alternativa:hover{
-border-color:#334155;
-transform:none;
+border-color:#7CFFB2;
+transform:translateY(-2px);
 }
 
 .texto-alternativa{
@@ -887,8 +838,8 @@ font-size:22px;
 }
 
 .questao-box{
-border-radius:16px;
-padding:22px;
+padding:20px;
+border-radius:26px;
 }
 
 .enunciado{
@@ -949,11 +900,11 @@ font-size:12px;
 border-radius:14px;
 }
 
-.btn-menu,
-.toggle-grade{
-width:42px;
-height:42px;
-border-radius:10px;
+.toggle-grade,
+.btn-menu{
+width:46px;
+height:46px;
+border-radius:15px;
 }
 
 }
@@ -976,33 +927,6 @@ touch-action:manipulation;
 -webkit-tap-highlight-color:transparent;
 }
 
-/* BOTOES MENU IOS */
-.menu-opcoes button{
-display:flex;
-align-items:center;
-gap:10px;
-
-padding:14px 16px;
-
-border:none;
-border-radius:12px;
-
-background:#172033;
-color:white;
-
-font-weight:600;
-font-size:14px;
-
-cursor:pointer;
-transition:.2s;
-}
-
-.menu-opcoes button svg{
-width:18px;
-height:18px;
-flex-shrink:0;
-}
-
 /* BLOQUEIA ZOOM DOUBLE TAP */
 
 html{
@@ -1018,31 +942,6 @@ touch-action:manipulation;
 
 <div class="container">
 
-<div class="progress-container">
-
-<div class="progress-info">
-
-<span id="textoProgresso">
-Questão 1 de 100
-</span>
-
-<span id="percentualProgresso">
-1%
-</span>
-
-</div>
-
-<div class="progress-bar">
-
-<div
-id="progressFill"
-class="progress-fill">
-</div>
-
-</div>
-
-</div>
-
 <!-- HEADER FIXO -->
 
 <div class="topo">
@@ -1052,7 +951,7 @@ class="progress-fill">
 <div class="header-left">
 
 <div class="logo-topo">
-INEP 2023.1
+INEP 2025.2
 </div>
 
 <div class="estatisticas">
@@ -1099,38 +998,31 @@ onclick="abrirMenu()">
 id="menuOpcoes">
 
 <button type="button" onclick="irHome()">
-<i data-lucide="house"></i>
-<span>Home</span>
+🏠 Home
 </button>
 
 <button onclick="ativarModoProva()">
-<i data-lucide="clipboard-list"></i>
-<span>Modo Prova</span>
+📝 Modo Prova
 </button>
 
 <button onclick="ativarModoEstudo()">
-<i data-lucide="book-open"></i>
-<span>Modo Estudo</span>
+📘 Modo Estudo
 </button>
 
 <button onclick="aumentarTexto()">
-<i data-lucide="zoom-in"></i>
-<span>Aumentar Texto</span>
+🔍 Aumentar Texto
 </button>
 
 <button onclick="diminuirTexto()">
-<i data-lucide="zoom-out"></i>
-<span>Diminuir Texto</span>
+🔎 Diminuir Texto
 </button>
 
 <button onclick="sairProva()">
-<i data-lucide="trash-2"></i>
-<span>Limpar Prova</span>
+🚪 Limpar prova
 </button>
 
 <button onclick="finalizarProva()">
-<i data-lucide="flag"></i>
-<span>Finalizar</span>
+🏁 Finalizar
 </button>
 
 </div>
@@ -1337,7 +1229,7 @@ document.getElementById("erros")
 CARREGAR JSON
 ========================================= */
 
-fetch("../../conteudo/revalida_2023_1.json")
+fetch("../../conteudo/revalida_2025_2.json")
 
 .then((res) => {
 if (!res.ok) throw new Error("Não foi possível carregar as questões desta edição.");
@@ -1566,8 +1458,6 @@ selecionada = null;
 let q = questoes[questaoAtual];
 
 if(!q) return;
-
-atualizarProgresso();
 
 /* VERIFICA SE JA RESPONDEU */
 
@@ -2138,36 +2028,6 @@ alert("✅ Prova salva com sucesso!");
 
 }
 
-function atualizarProgresso(){
-
-const total = questoes.length;
-
-const atual = questaoAtual + 1;
-
-const percentual =
-(atual / total) * 100;
-
-document.getElementById(
-"textoProgresso"
-).innerText =
-`Questão ${atual} de ${total}`;
-
-document.getElementById(
-"percentualProgresso"
-).innerText =
-`${Math.round(percentual)}%`;
-
-document.getElementById(
-"progressFill"
-).style.width =
-`${percentual}%`;
-
-}
-
-</script>
-
-<script>
-lucide.createIcons();
 </script>
 
 </body>
