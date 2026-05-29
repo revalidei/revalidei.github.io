@@ -45,6 +45,7 @@ menu.style.display="none";
 <link rel="stylesheet" href="../../css/prova.css">
 <link rel="stylesheet" href="../../css/icons.css">
 <script src="../../js/icons.js"></script>
+<script src="../../js/prova-marca-texto.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>html.auth-pending body{visibility:hidden}</style>
 <script type="module" src="../../js/auth-guard.js"></script>
@@ -277,6 +278,10 @@ QUESTOES RESPONDIDAS
 
 let questoesRespondidas = {};
 
+let marcasTexto = {};
+
+let marcaTextoCtrl = null;
+
 /* =========================================
 SALVAMENTO LOCAL
 ========================================= */
@@ -300,7 +305,8 @@ acertos,
 erros,
 statusQuestoes,
 respostasUsuario,
-questoesRespondidas
+questoesRespondidas,
+marcasTexto
 
 }));
 
@@ -337,6 +343,9 @@ progresso.respostasUsuario || {};
 questoesRespondidas =
 progresso.questoesRespondidas || {};
 
+marcasTexto =
+progresso.marcasTexto || {};
+
 document.getElementById("acertos")
 .innerText = acertos;
 
@@ -366,6 +375,20 @@ carregarProgresso();
 /* GERA GRADE */
 
 gerarGradeQuestoes();
+
+/* MARCA-TEXTO NO ENUNCIADO */
+
+if (!marcaTextoCtrl && window.ProvaMarcaTexto) {
+marcaTextoCtrl = ProvaMarcaTexto.attach(
+document.getElementById("enunciado"),
+{
+onChange: function (html) {
+marcasTexto[questaoAtual] = html;
+salvarProgresso();
+},
+}
+);
+}
 
 /* CARREGA QUESTAO */
 
@@ -642,9 +665,12 @@ document.getElementById("tituloQuestao")
 
 /* ENUNCIADO */
 
+const enunciadoBase =
+q.pergunta.replace(/\\n/g,"<br>");
+
 document.getElementById("enunciado")
 .innerHTML =
-q.pergunta.replace(/\\n/g,"<br>");
+marcasTexto[questaoAtual] || enunciadoBase;
 
 /* COMENTARIO */
 

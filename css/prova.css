@@ -292,6 +292,24 @@
   margin-bottom: 20px;
   white-space: pre-line;
   word-break: break-word;
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+  cursor: text;
+}
+
+.enunciado mark.marca-texto {
+  background: rgba(255, 233, 106, 0.62);
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 3px;
+  cursor: pointer;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.enunciado mark.marca-texto:active {
+  background: rgba(255, 210, 60, 0.75);
 }
 
 .alternativa {
@@ -543,6 +561,11 @@
   color: #fff;
   cursor: pointer;
   background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+.enunciado ::selection {
+  background: rgba(255, 233, 106, 0.45);
+  color: inherit;
 }
 
 ::selection {
