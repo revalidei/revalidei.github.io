@@ -245,6 +245,15 @@ async function pushStores(uid, stores) {
   );
 }
 
+function triggerProvasHistoricoSync() {
+  if (applyingRemote) return;
+  try {
+    window.__syncHistoricoProvas?.();
+  } catch (err) {
+    console.warn("[RevalidaSync] Histórico × provas:", err);
+  }
+}
+
 function schedulePush() {
   if (applyingRemote || !currentUid || !db) return;
   clearTimeout(pushTimer);
@@ -267,12 +276,18 @@ export function installStorageSync() {
 
   Storage.prototype.setItem = function (key, value) {
     origSet.call(this, key, value);
-    if (this === localStorage && SYNC_KEYS.includes(key)) schedulePush();
+    if (this === localStorage) {
+      if (key === "provas_salvas") triggerProvasHistoricoSync();
+      if (SYNC_KEYS.includes(key)) schedulePush();
+    }
   };
 
   Storage.prototype.removeItem = function (key) {
     origRemove.call(this, key);
-    if (this === localStorage && SYNC_KEYS.includes(key)) schedulePush();
+    if (this === localStorage) {
+      if (key === "provas_salvas") triggerProvasHistoricoSync();
+      if (SYNC_KEYS.includes(key)) schedulePush();
+    }
   };
 }
 
@@ -314,6 +329,7 @@ export async function syncUserData(user) {
     }
 
     applyStores(merged);
+    triggerProvasHistoricoSync();
   } catch (err) {
     console.warn("[RevalidaSync] Falha ao sincronizar:", err);
   } finally {

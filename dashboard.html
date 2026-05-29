@@ -1139,6 +1139,16 @@ document
 
 carregarEstatisticasDashboard();
 
+window.addEventListener("revalida-provas-salvas-changed", function(){
+carregarEstatisticasDashboard();
+});
+
+window.addEventListener("storage", function(e){
+if(e.key === "provas_salvas" || e.key === "revalida_historico"){
+carregarEstatisticasDashboard();
+}
+});
+
 /* FECHAR MENU */
 
 document.addEventListener(

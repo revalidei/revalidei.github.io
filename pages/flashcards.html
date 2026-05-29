@@ -29,10 +29,13 @@ font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 padding:0;
 padding-top:env(safe-area-inset-top);
 padding-bottom:env(safe-area-inset-bottom);
-overflow:hidden;
+overflow-x:hidden;
+overflow-y:auto;
+-webkit-overflow-scrolling:touch;
 max-width:900px;
 margin-inline:auto;
 width:100%;
+min-height:100dvh;
 box-shadow:0 0 80px rgba(0,0,0,.45);
 }
 @media(min-width:901px){
@@ -79,11 +82,17 @@ color:#7CFFB2;
 font-size:12px;
 font-weight:600;
 }
-.anki-main{
-flex:1;
+.review-wrap{
+flex-shrink:0;
 display:flex;
 flex-direction:column;
-min-height:0;
+border-bottom:1px solid #3a3a3a;
+}
+.anki-main{
+display:flex;
+flex-direction:column;
+min-height:220px;
+max-height:min(52vh,480px);
 padding:12px 16px;
 overflow:hidden;
 }
@@ -92,7 +101,7 @@ flex:1;
 display:flex;
 align-items:center;
 justify-content:center;
-min-height:0;
+min-height:180px;
 padding:8px 0;
 }
 .card-flip{
@@ -198,9 +207,181 @@ margin-top:8px;
 font-size:14px;
 color:#fbbf24;
 }
+.deck-list-section{
+flex-shrink:0;
+padding:16px 16px max(24px, env(safe-area-inset-bottom));
+background:#242424;
+}
+.deck-list-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+margin-bottom:14px;
+flex-wrap:wrap;
+}
+.deck-list-header h2{
+margin:0;
+font-size:16px;
+font-weight:800;
+color:#f3f4f6;
+}
+.btn-novo-card{
+padding:10px 14px;
+border:none;
+border-radius:10px;
+background:linear-gradient(135deg,#6366F1,#8B5CF6);
+color:#fff;
+font-size:13px;
+font-weight:800;
+cursor:pointer;
+}
+.deck-add-form{
+display:none;
+padding:14px;
+margin-bottom:14px;
+border-radius:14px;
+background:#2f2f2f;
+border:1px solid #454545;
+}
+.deck-add-form.aberto{display:block;}
+.deck-add-form label{
+display:block;
+font-size:12px;
+font-weight:700;
+color:#9ca3af;
+margin-bottom:6px;
+}
+.deck-add-form input,
+.deck-add-form textarea{
+width:100%;
+margin-bottom:12px;
+padding:12px;
+border-radius:10px;
+border:1px solid #555;
+background:#1e1e1e;
+color:#f3f4f6;
+font-size:14px;
+font-family:inherit;
+resize:vertical;
+}
+.deck-add-form textarea{min-height:72px;}
+.deck-add-actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+.btn-salvar-card{
+padding:12px 16px;
+border:none;
+border-radius:10px;
+background:#22c55e;
+color:#fff;
+font-weight:800;
+font-size:14px;
+cursor:pointer;
+}
+.btn-cancelar-card{
+padding:12px 16px;
+border:none;
+border-radius:10px;
+background:#444;
+color:#e5e7eb;
+font-weight:700;
+font-size:14px;
+cursor:pointer;
+}
+.deck-list{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+.deck-list-empty{
+margin:0;
+padding:20px;
+text-align:center;
+color:#9ca3af;
+font-size:14px;
+line-height:1.6;
+border-radius:12px;
+background:#2f2f2f;
+border:1px dashed #555;
+}
+.deck-item{
+display:flex;
+gap:12px;
+align-items:flex-start;
+padding:14px;
+border-radius:12px;
+background:#2f2f2f;
+border:1px solid #454545;
+}
+.deck-item.due-now{border-color:rgba(251,191,36,.45);}
+.deck-item-num{
+flex-shrink:0;
+width:28px;
+height:28px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:8px;
+background:#3a3a3a;
+font-size:12px;
+font-weight:800;
+color:#9ca3af;
+}
+.deck-item-body{flex:1;min-width:0;}
+.deck-item-pergunta{
+font-size:14px;
+font-weight:700;
+color:#f3f4f6;
+line-height:1.45;
+margin:0 0 6px;
+word-break:break-word;
+}
+.deck-item-resposta{
+font-size:13px;
+color:#9ca3af;
+line-height:1.45;
+margin:0 0 8px;
+word-break:break-word;
+display:-webkit-box;
+-webkit-line-clamp:2;
+-webkit-box-orient:vertical;
+overflow:hidden;
+}
+.deck-item-meta{
+display:flex;
+flex-wrap:wrap;
+gap:6px;
+font-size:11px;
+font-weight:700;
+}
+.deck-item-meta span{
+padding:4px 8px;
+border-radius:6px;
+background:#3a3a3a;
+color:#9ca3af;
+}
+.deck-item-meta .tag-due{background:rgba(251,191,36,.15);color:#fbbf24;}
+.deck-item-meta .tag-user{background:rgba(124,255,178,.12);color:#7CFFB2;}
+.btn-excluir-card{
+flex-shrink:0;
+padding:8px 10px;
+border:none;
+border-radius:8px;
+background:rgba(207,76,76,.2);
+color:#f87171;
+font-size:12px;
+font-weight:800;
+cursor:pointer;
+}
+.btn-excluir-card:hover{background:rgba(207,76,76,.35);}
 @media(max-width:380px){
 .rating-btn{font-size:11px;padding:12px 4px;min-height:64px;}
 .rating-btn .interval{font-size:10px;}
+.deck-item{flex-direction:column;}
+.btn-excluir-card{width:100%;}
 }
 </style>
 <style>html.auth-pending body{visibility:hidden}</style>
@@ -220,6 +401,7 @@ color:#fbbf24;
 
 <div id="deckBadge"></div>
 
+<div class="review-wrap">
 <main class="anki-main" id="ankiMain">
 <div id="area"></div>
 </main>
@@ -245,6 +427,27 @@ color:#fbbf24;
 </button>
 </div>
 </footer>
+</div>
+
+<section class="deck-list-section" aria-label="Gerenciar cards">
+<div class="deck-list-header">
+<h2 class="icon-wrap"><span data-icon="list" data-icon-size="18"></span> Todos os cards (<span id="deckListCount">0</span>)</h2>
+<button type="button" class="btn-novo-card" id="btnToggleAdd">+ Novo card</button>
+</div>
+
+<form class="deck-add-form" id="formNovoCard">
+<label for="novoPergunta">Pergunta / frente</label>
+<textarea id="novoPergunta" rows="2" placeholder="Ex.: Qual o diagnóstico mais provável?" required minlength="3"></textarea>
+<label for="novoResposta">Resposta / verso</label>
+<textarea id="novoResposta" rows="2" placeholder="Sua explicação ou resposta correta" required minlength="3"></textarea>
+<div class="deck-add-actions">
+<button type="submit" class="btn-salvar-card">Adicionar ao deck</button>
+<button type="button" class="btn-cancelar-card" id="btnCancelarAdd">Cancelar</button>
+</div>
+</form>
+
+<div class="deck-list" id="deckList"></div>
+</section>
 
 <script src="../js/flashcards-deck.js"></script>
 <script src="../js/flashcards-srs.js"></script>
@@ -265,8 +468,142 @@ function escapeHtml(text) {
   return window.RevalidaApp?.escapeHtml(text) ?? String(text ?? "");
 }
 
-function salvarDeck() {
+async function salvarDeck() {
   localStorage.setItem(deckKey, JSON.stringify(deck));
+  if (window.RevalidaSync?.flushSync) {
+    await window.RevalidaSync.flushSync();
+  }
+}
+
+function estadoCardLabel(card) {
+  const sched = card.sched || {};
+  const agora = Date.now();
+  if ((sched.due ?? 0) <= agora) return { texto: "Para hoje", due: true };
+  const em = window.RevalidaSRS.formatDelay((sched.due ?? agora) - agora);
+  return { texto: `Em ${em}`, due: false };
+}
+
+function renderListaCards() {
+  const lista = document.getElementById("deckList");
+  const contador = document.getElementById("deckListCount");
+  if (!lista) return;
+
+  if (contador) contador.textContent = String(deck.length);
+
+  if (!deck.length) {
+    lista.innerHTML =
+      '<p class="deck-list-empty">Nenhum card no deck. Use <strong>+ Novo card</strong> ou crie em Provas salvas.</p>';
+    return;
+  }
+
+  const ordenado = deck
+    .map((card, index) => ({ card, index }))
+    .sort((a, b) => (a.card.sched?.due ?? 0) - (b.card.sched?.due ?? 0));
+
+  lista.innerHTML = ordenado
+    .map(({ card, index }, pos) => {
+      const st = estadoCardLabel(card);
+      const ehUsuario =
+        card.origem === "usuario" || deckMeta?.tipo === "criados_pelo_usuario";
+      const pergunta = escapeHtml(String(card.pergunta || "").trim() || "(sem pergunta)");
+      const resposta = escapeHtml(String(card.resposta || "").trim() || "(sem resposta)");
+      const idAttr = escapeHtml(card.id);
+
+      return `
+        <article class="deck-item${st.due ? " due-now" : ""}" data-id="${idAttr}">
+          <div class="deck-item-num">${pos + 1}</div>
+          <div class="deck-item-body">
+            <p class="deck-item-pergunta">${pergunta}</p>
+            <p class="deck-item-resposta">${resposta}</p>
+            <div class="deck-item-meta">
+              <span class="${st.due ? "tag-due" : ""}">${escapeHtml(st.texto)}</span>
+              ${ehUsuario ? '<span class="tag-user">Seu card</span>' : '<span>Demonstração</span>'}
+            </div>
+          </div>
+          <button type="button" class="btn-excluir-card" data-excluir="${idAttr}" aria-label="Excluir card">Excluir</button>
+        </article>`;
+    })
+    .join("");
+
+  lista.querySelectorAll("[data-excluir]").forEach((btn) => {
+    btn.addEventListener("click", () => excluirCard(btn.getAttribute("data-excluir")));
+  });
+}
+
+function toggleFormNovoCard(abrir) {
+  const form = document.getElementById("formNovoCard");
+  const btn = document.getElementById("btnToggleAdd");
+  if (!form) return;
+  const mostrar = typeof abrir === "boolean" ? abrir : !form.classList.contains("aberto");
+  form.classList.toggle("aberto", mostrar);
+  if (btn) btn.textContent = mostrar ? "Fechar" : "+ Novo card";
+  if (mostrar) document.getElementById("novoPergunta")?.focus();
+}
+
+async function adicionarCard(ev) {
+  ev.preventDefault();
+  const pergunta = document.getElementById("novoPergunta")?.value.trim() || "";
+  const resposta = document.getElementById("novoResposta")?.value.trim() || "";
+
+  if (pergunta.length < 3 || resposta.length < 3) {
+    alert("Pergunta e resposta precisam ter pelo menos 3 caracteres.");
+    return;
+  }
+
+  const novo = window.RevalidaSRS.normalizeCard(
+    {
+      pergunta,
+      resposta,
+      origem: "usuario",
+      nomeProva: deckMeta?.titulo || "",
+    },
+    deck.length
+  );
+
+  deck.push(novo);
+  deck = window.RevalidaSRS.normalizeDeck(deck);
+  await salvarDeck();
+
+  if (window.RevalidaHistorico) {
+    window.RevalidaHistorico.registrar({
+      tipo: "flashcard_criado",
+      nomeProva: deckMeta?.titulo || "",
+      titulo: pergunta.slice(0, 80),
+    });
+  }
+
+  document.getElementById("novoPergunta").value = "";
+  document.getElementById("novoResposta").value = "";
+  toggleFormNovoCard(false);
+
+  mostrandoResposta = false;
+  montarFila();
+  cardAtual = fila[0] || null;
+  renderCard();
+  renderListaCards();
+}
+
+async function excluirCard(id) {
+  if (!id) return;
+  const card = deck.find((c) => c.id === id);
+  if (!card) return;
+
+  const preview = String(card.pergunta || "").slice(0, 60);
+  if (!confirm(`Excluir este card?\n\n"${preview}${preview.length >= 60 ? "…" : ""}"`)) return;
+
+  deck = deck.filter((c) => c.id !== id);
+  deck = window.RevalidaSRS.normalizeDeck(deck);
+
+  if (cardAtual?.id === id) {
+    cardAtual = null;
+    mostrandoResposta = false;
+  }
+
+  await salvarDeck();
+  montarFila();
+  cardAtual = fila[0] || null;
+  renderCard();
+  renderListaCards();
 }
 
 function carregarMeta() {
@@ -335,6 +672,7 @@ function renderVazio(msg, extra) {
       <h2>${msg}</h2>
       ${extra || ""}
     </div>`;
+  renderListaCards();
 }
 
 function renderSemDue() {
@@ -355,7 +693,10 @@ function renderCard() {
   const area = document.getElementById("area");
 
   if (!deck.length) {
-    renderVazio("Nenhum card no deck", '<a href="provas_salvas.html">Criar flashcards</a>');
+    renderVazio(
+      "Nenhum card para revisar",
+      '<p>Adicione cards na lista abaixo ou em <a href="provas_salvas.html">Provas salvas</a>.</p>'
+    );
     return;
   }
 
@@ -401,6 +742,7 @@ function renderCard() {
   };
 
   atualizarStats();
+  renderListaCards();
 }
 
 function virarCard() {
@@ -413,14 +755,14 @@ function virarCard() {
   }
 }
 
-function classificar(rating) {
+async function classificar(rating) {
   if (!cardAtual || !mostrandoResposta) return;
 
   const idx = deck.findIndex((c) => c.id === cardAtual.id);
   if (idx === -1) return;
 
   deck[idx] = window.RevalidaSRS.rate(deck[idx], rating);
-  salvarDeck();
+  await salvarDeck();
 
   if (window.RevalidaHistorico) {
     window.RevalidaHistorico.registrar({
@@ -440,6 +782,7 @@ function classificar(rating) {
     renderSemDue();
     atualizarStats();
   }
+  renderListaCards();
 }
 
 document.querySelectorAll(".rating-btn").forEach((btn) => {
@@ -448,56 +791,78 @@ document.querySelectorAll(".rating-btn").forEach((btn) => {
   });
 });
 
-function carregarDeck() {
+function aplicarDeckCarregado() {
+  deck = window.RevalidaSRS.normalizeDeck(deck);
+  renderBadge();
+  montarFila();
+  cardAtual = fila[0] || null;
+  mostrandoResposta = false;
+  renderCard();
+  renderListaCards();
+}
+
+function recarregarDeckDoStorage() {
+  const salvo = localStorage.getItem(deckKey);
+  if (!salvo) return false;
+  try {
+    const parsed = JSON.parse(salvo);
+    if (!Array.isArray(parsed)) return false;
+    deck = parsed;
+    aplicarDeckCarregado();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function carregarDeck() {
   carregarMeta();
   renderBadge();
 
-  const salvo = localStorage.getItem(deckKey);
-  if (salvo) {
-    try {
-      const parsed = JSON.parse(salvo);
-      if (Array.isArray(parsed) && parsed.length) {
-        deck = window.RevalidaSRS.normalizeDeck(parsed);
-        salvarDeck();
-        renderCard();
-        return;
-      }
-    } catch {
-      /* ignora */
-    }
+  if (recarregarDeckDoStorage()) {
+    await salvarDeck();
+    return;
   }
 
   if (fromProva) {
+    deck = [];
     renderVazio(
       "Nenhum deck encontrado",
-      '<p>Crie flashcards em Provas salvas.</p><a href="provas_salvas.html">← Provas salvas</a>'
+      '<p>Crie flashcards em Provas salvas ou adicione abaixo.</p><a href="provas_salvas.html">← Provas salvas</a>'
     );
     return;
   }
 
-  fetch("../conteudo/revalida_2022_1.json")
-    .then((res) => {
-      if (!res.ok) throw new Error("Falha ao carregar.");
-      return res.json();
-    })
-    .then((data) => {
-      deck = window.RevalidaSRS.normalizeDeck(
-        (data || []).slice(0, 30).map((q) => ({
-          pergunta: q.pergunta,
-          resposta: q.alternativas?.[q.correta] || "—",
-        }))
-      );
-      salvarDeck();
-      renderCard();
-    })
-    .catch(() => {
-      renderVazio("Erro ao carregar", "<p>Tente novamente mais tarde.</p>");
-    });
+  try {
+    const res = await fetch("../conteudo/revalida_2022_1.json");
+    if (!res.ok) throw new Error("Falha ao carregar.");
+    const data = await res.json();
+    deck = window.RevalidaSRS.normalizeDeck(
+      (data || []).slice(0, 30).map((q) => ({
+        pergunta: q.pergunta,
+        resposta: q.alternativas?.[q.correta] || "—",
+      }))
+    );
+    await salvarDeck();
+    aplicarDeckCarregado();
+  } catch {
+    deck = [];
+    renderVazio("Erro ao carregar", "<p>Tente adicionar seus cards manualmente abaixo.</p>");
+  }
 }
+
+document.getElementById("btnToggleAdd")?.addEventListener("click", () => toggleFormNovoCard());
+document.getElementById("btnCancelarAdd")?.addEventListener("click", () => toggleFormNovoCard(false));
+document.getElementById("formNovoCard")?.addEventListener("submit", adicionarCard);
+
+window.addEventListener("storage", (e) => {
+  if (e.key === deckKey) recarregarDeckDoStorage();
+});
 
 (async function () {
   if (window.RevalidaSync?.whenReady) await window.RevalidaSync.whenReady();
-  carregarDeck();
+  await carregarDeck();
+  window.RevalidaIcons?.mount(document.getElementById("deckListSection"));
 })();
 </script>
 <script src="../js/app.js"></script>

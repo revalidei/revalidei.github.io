@@ -1360,10 +1360,10 @@ questao: inicio
 EXCLUIR PROVA
 ================================================== */
 
-function excluirProva(index){
+async function excluirProva(index){
 
 if(!confirm(
-"Deseja excluir esta prova?"
+"Deseja excluir esta prova? Ela também será removida do histórico e das estatísticas."
 )) return;
 
 provas.splice(index,1);
@@ -1373,6 +1373,10 @@ localStorage.setItem(
 JSON.stringify(provas)
 );
 
+if(window.RevalidaSync?.flushSync){
+await window.RevalidaSync.flushSync();
+}
+
 location.reload();
 
 }
@@ -1381,15 +1385,19 @@ location.reload();
 APAGAR TODAS
 ================================================== */
 
-function apagarTodasProvas(){
+async function apagarTodasProvas(){
 
 if(!confirm(
-"Apagar todas as provas salvas?"
+"Apagar todas as provas do caderno de erros? Isso também limpa o histórico e as estatísticas do dashboard."
 )) return;
 
 localStorage.removeItem(
 "provas_salvas"
 );
+
+if(window.RevalidaSync?.flushSync){
+await window.RevalidaSync.flushSync();
+}
 
 location.reload();
 

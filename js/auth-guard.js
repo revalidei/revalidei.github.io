@@ -1,6 +1,7 @@
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 import { auth, isFirebaseConfigured } from "./firebase-init.js";
 import { redirectToLogin } from "./auth-paths.js";
+import "./historico-provas-sync.js";
 import { syncUserData } from "./user-data-sync.js";
 
 document.documentElement.classList.add("auth-pending");

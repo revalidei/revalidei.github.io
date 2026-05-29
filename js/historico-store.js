@@ -164,8 +164,16 @@
     localStorage.setItem(BOOT_KEY, "1");
   }
 
-  function filtrar(periodo) {
+  function sincronizarComProvasSalvas() {
+    if (typeof window !== "undefined" && window.__syncHistoricoProvas) {
+      window.__syncHistoricoProvas();
+      return;
+    }
     importarLegado();
+  }
+
+  function filtrar(periodo) {
+    sincronizarComProvasSalvas();
     return lerEventos()
       .filter((e) => noPeriodo(e.ts, periodo))
       .sort((a, b) => b.ts - a.ts);
@@ -256,6 +264,7 @@
     STORAGE_KEY,
     registrar,
     importarLegado,
+    sincronizarComProvasSalvas,
     filtrar,
     resumo,
     dadosGraficoProvas,

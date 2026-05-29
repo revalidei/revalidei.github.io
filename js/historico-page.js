@@ -263,6 +263,14 @@
         atualizar();
       });
     });
+    window.addEventListener("revalida-provas-salvas-changed", () => {
+      atualizar();
+    });
+    window.addEventListener("storage", (e) => {
+      if (e.key === "provas_salvas" || e.key === "revalida_historico") {
+        atualizar();
+      }
+    });
     atualizar();
   }
 
