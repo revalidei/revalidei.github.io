@@ -943,6 +943,17 @@ touch-action:manipulation;
 html{
 touch-action:manipulation;
 }
+
+/* AUDIO LEITOR */
+.audio-controls{margin-bottom:20px;display:flex;flex-direction:column;gap:12px}
+.btn-audio{width:100%;padding:16px;border:none;border-radius:18px;background:#2563EB;color:#fff;font-weight:800;font-size:15px;cursor:pointer;transition:.25s}
+.btn-audio:hover{transform:translateY(-2px)}
+.btn-audio.lendo{background:#DC2626;animation:pulsar 1s infinite}
+@keyframes pulsar{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+.audio-config{display:flex;gap:10px;flex-wrap:wrap}
+.audio-config select{padding:10px;border-radius:12px;background:#172033;color:white;border:none}
+.auto-next{display:flex;align-items:center;gap:6px;color:#E2E8F0}
+
 </style>
 
 <style>html.auth-pending body{visibility:hidden}</style>
@@ -1065,6 +1076,26 @@ id="enunciado">
 
 Carregando...
 
+</div>
+
+
+<div class="audio-controls">
+<button id="btnAudio" class="btn-audio" onclick="lerQuestao()">🔊 Ouvir questão</button>
+<div class="audio-config">
+<select id="velocidadeAudio">
+<option value="0.8">0.8x</option>
+<option value="1" selected>1x</option>
+<option value="1.2">1.2x</option>
+</select>
+<select id="tipoVoz">
+<option value="feminina" selected>👩 Feminina</option>
+<option value="masculina">👨 Masculina</option>
+</select>
+<label class="auto-next">
+<input type="checkbox" id="autoNextAudio">
+Próxima automática
+</label>
+</div>
 </div>
 
 <div id="alternativas"></div>
@@ -2038,6 +2069,85 @@ JSON.stringify(provas)
 alert("✅ Prova salva com sucesso!");
 
 }
+
+
+let sintetizador=window.speechSynthesis;
+let lendoQuestao=false;
+let vocesDisponiveis=[];
+
+function carregarVozes(){
+vocesDisponiveis=speechSynthesis.getVoices();
+}
+carregarVozes();
+speechSynthesis.onvoiceschanged=carregarVozes;
+
+function obterVoz(){
+const tipo=document.getElementById("tipoVoz")?.value||"feminina";
+const pt=vocesDisponiveis.filter(v=>v.lang&&v.lang.toLowerCase().includes("pt"));
+if(!pt.length) return null;
+if(tipo==="masculina"){
+return pt.find(v=>/male|mascul/i.test(v.name))||pt[0];
+}
+return pt.find(v=>/female|femin/i.test(v.name))||pt[0];
+}
+
+function lerQuestao(){
+const btn=document.getElementById("btnAudio");
+
+if(lendoQuestao){
+speechSynthesis.cancel();
+lendoQuestao=false;
+btn.innerHTML="🔊 Ouvir questão";
+btn.classList.remove("lendo");
+return;
+}
+
+const q=questoes[questaoAtual];
+if(!q) return;
+
+let texto=(q.pergunta||"")+". ";
+
+(q.alternativas||[]).forEach((alt,index)=>{
+const letra=String.fromCharCode(65+index);
+texto+=`Alternativa ${letra}. ${alt}. `;
+});
+
+const fala=new SpeechSynthesisUtterance(texto);
+fala.lang="pt-BR";
+fala.rate=parseFloat(document.getElementById("velocidadeAudio").value||1);
+fala.voice=obterVoz();
+
+fala.onend=()=>{
+lendoQuestao=false;
+btn.innerHTML="🔊 Ouvir questão";
+btn.classList.remove("lendo");
+
+const auto=document.getElementById("autoNextAudio");
+if(auto && auto.checked && questaoAtual<questoes.length-1){
+questaoAtual++;
+salvarProgresso();
+carregarQuestao();
+setTimeout(()=>lerQuestao(),800);
+}
+};
+
+speechSynthesis.cancel();
+speechSynthesis.speak(fala);
+
+lendoQuestao=true;
+btn.innerHTML="⏹ Parar leitura";
+btn.classList.add("lendo");
+}
+
+document.addEventListener("keydown",function(e){
+if(e.code==="Space" &&
+e.target.tagName!=="INPUT" &&
+e.target.tagName!=="TEXTAREA" &&
+e.target.tagName!=="SELECT"){
+e.preventDefault();
+lerQuestao();
+}
+});
 
 </script>
 
