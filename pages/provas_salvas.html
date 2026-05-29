@@ -747,21 +747,21 @@ RESPONSIVO
 
 @media(max-width:768px){
 
-body.page-shell{
+body.page-shell.page-provas-salvas{
 
 padding-left:
-max(12px, env(safe-area-inset-left));
+max(6px, env(safe-area-inset-left));
 
 padding-right:
-max(12px, env(safe-area-inset-right));
+max(6px, env(safe-area-inset-right));
 
 }
 
-body.page-shell .container{
+body.page-shell.page-provas-salvas .container{
 
-padding-top:calc(env(safe-area-inset-top) + 8px);
+padding-top:calc(env(safe-area-inset-top) + 6px);
 
-padding-bottom:calc(env(safe-area-inset-bottom) + 24px);
+padding-bottom:calc(env(safe-area-inset-bottom) + 20px);
 
 }
 
@@ -771,7 +771,7 @@ flex-direction:column;
 
 align-items:stretch;
 
-padding:16px;
+padding:12px 10px;
 
 border-radius:20px;
 
@@ -810,9 +810,9 @@ line-height:1.3;
 
 .prova-card{
 
-padding:20px;
+padding:14px 10px;
 
-border-radius:26px;
+border-radius:22px;
 }
 
 .prova-header{
@@ -834,12 +834,23 @@ width:100%;
 
 .questao-erro{
 
-padding:18px;
+padding:12px 10px;
+
+border-radius:18px;
+}
+
+.detalhes{
+
+margin-top:18px;
+
+padding-top:18px;
 }
 
 .anotacao{
 
 min-height:140px;
+
+padding:14px 12px;
 }
 
 }
@@ -873,7 +884,7 @@ display:block;
 <script type="module" src="../js/auth-guard.js"></script>
 </head>
 
-<body class="page-shell">
+<body class="page-shell page-provas-salvas">
 
 <div class="page-container container">
 
