@@ -954,6 +954,12 @@ touch-action:manipulation;
 .audio-config select{padding:10px;border-radius:12px;background:#172033;color:white;border:none}
 .auto-next{display:flex;align-items:center;gap:6px;color:#E2E8F0}
 
+
+#btnAudioMini.lendo{
+animation:pulsar 1s infinite;
+background:#DC2626 !important;
+}
+
 </style>
 
 <style>html.auth-pending body{visibility:hidden}</style>
@@ -1064,12 +1070,13 @@ id="gradeQuestoes"></div>
 
 <div class="questao-box">
 
-<h1 class="titulo"
-id="tituloQuestao">
-
-QUESTÃO
-
-</h1>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+<h1 class="titulo" id="tituloQuestao">QUESTÃO</h1>
+<button id="btnAudioMini" onclick="lerQuestao()" title="Ouvir questão"
+style="width:48px;height:48px;border:none;border-radius:50%;cursor:pointer;background:#2563EB;color:white;font-size:22px;">
+🔊
+</button>
+</div>
 
 <div class="enunciado"
 id="enunciado">
@@ -1078,25 +1085,6 @@ Carregando...
 
 </div>
 
-
-<div class="audio-controls">
-<button id="btnAudio" class="btn-audio" onclick="lerQuestao()">🔊 Ouvir questão</button>
-<div class="audio-config">
-<select id="velocidadeAudio">
-<option value="0.8">0.8x</option>
-<option value="1" selected>1x</option>
-<option value="1.2">1.2x</option>
-</select>
-<select id="tipoVoz">
-<option value="feminina" selected>👩 Feminina</option>
-<option value="masculina">👨 Masculina</option>
-</select>
-<label class="auto-next">
-<input type="checkbox" id="autoNextAudio">
-Próxima automática
-</label>
-</div>
-</div>
 
 <div id="alternativas"></div>
 
@@ -2092,12 +2080,12 @@ return pt.find(v=>/female|femin/i.test(v.name))||pt[0];
 }
 
 function lerQuestao(){
-const btn=document.getElementById("btnAudio");
+const btn=document.getElementById("btnAudioMini");
 
 if(lendoQuestao){
 speechSynthesis.cancel();
 lendoQuestao=false;
-btn.innerHTML="🔊 Ouvir questão";
+btn.innerHTML="🔊";
 btn.classList.remove("lendo");
 return;
 }
@@ -2119,7 +2107,7 @@ fala.voice=obterVoz();
 
 fala.onend=()=>{
 lendoQuestao=false;
-btn.innerHTML="🔊 Ouvir questão";
+btn.innerHTML="🔊";
 btn.classList.remove("lendo");
 
 const auto=document.getElementById("autoNextAudio");
@@ -2135,7 +2123,7 @@ speechSynthesis.cancel();
 speechSynthesis.speak(fala);
 
 lendoQuestao=true;
-btn.innerHTML="⏹ Parar leitura";
+btn.innerHTML="⏹";
 btn.classList.add("lendo");
 }
 
