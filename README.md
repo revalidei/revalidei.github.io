@@ -21,5 +21,7 @@ Abra `http://localhost:3000/login.html` (não abra os HTML direto pelo explorado
 
 - `login.html` / `dashboard.html` — entrada e painel
 - `pages/PROVAS/` — simulados por edição
-- `conteudo/*.json` — banco de questões
+- `conteudo/*.json` — banco de questões (veja `conteudo/README.md`)
 - `js/auth-guard.js` — proteção de páginas internas
+- `js/app.js` / `sw.js` — utilitários e cache offline (PWA)
+- `pages/flashcards.html` — revisão rápida em cards

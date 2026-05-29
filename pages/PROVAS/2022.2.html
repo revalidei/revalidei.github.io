@@ -1231,10 +1231,12 @@ CARREGAR JSON
 
 fetch("../../conteudo/revalida_2022_2.json")
 
-.then(res => res.json())
-
-.then(data => {
-
+.then((res) => {
+if (!res.ok) throw new Error("Não foi possível carregar as questões desta edição.");
+return res.json();
+})
+.then((data) => {
+if (!Array.isArray(data) || !data.length) throw new Error("Esta edição ainda não possui questões cadastradas.");
 questoes = data;
 
 /* CARREGA PROGRESSO */
@@ -1248,7 +1250,9 @@ gerarGradeQuestoes();
 /* CARREGA QUESTAO */
 
 carregarQuestao();
-
+})
+.catch((err) => {
+alert(err.message || "Erro ao carregar o simulado.");
 });
 
 /* =========================================

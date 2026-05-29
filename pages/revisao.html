@@ -98,6 +98,10 @@ body {
 
 <script>
 
+function escapeHtml(text) {
+  return window.RevalidaApp?.escapeHtml(text) ?? String(text ?? "");
+}
+
 let revisoes =
 JSON.parse(
 localStorage.getItem("revisoes")
@@ -135,7 +139,7 @@ Questão ${q.numero}
 </h2>
 
 <p style="margin-top:15px;">
-${q.pergunta}
+${escapeHtml(q.pergunta)}
 </p>
 
 `;
@@ -146,7 +150,7 @@ html += `
 
 <div class="alternativa">
 
-${alt}
+${escapeHtml(alt)}
 
 </div>
 

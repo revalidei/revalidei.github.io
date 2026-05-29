@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<link rel="stylesheet" href="../css/app.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#090B10">
+<link rel="manifest" href="../manifest.json">
+<title>Flashcards • Revalida</title>
+<style>
+body{
+background:#090B10;
+color:#fff;
+font-family:'Poppins',sans-serif;
+padding:20px;
+padding-top:max(20px, env(safe-area-inset-top));
+min-height:100vh;
+}
+.topo{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+margin-bottom:24px;
+}
+.topo a{
+color:#7CFFB2;
+text-decoration:none;
+font-weight:600;
+}
+.card-flip{
+background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.08);
+border-radius:24px;
+padding:24px;
+min-height:220px;
+cursor:pointer;
+}
+.card-flip p{
+line-height:1.6;
+margin-top:12px;
+}
+.meta{
+color:#a9a9a9;
+font-size:13px;
+margin-top:16px;
+}
+.actions{
+display:flex;
+gap:12px;
+margin-top:20px;
+flex-wrap:wrap;
+}
+.actions button{
+flex:1;
+min-width:120px;
+padding:14px;
+border:none;
+border-radius:14px;
+font-weight:700;
+cursor:pointer;
+}
+.btn-ok{background:#22C55E;color:#07110A;}
+.btn-fail{background:#EF4444;color:#fff;}
+.btn-next{background:rgba(255,255,255,.08);color:#fff;}
+.empty{
+text-align:center;
+padding:40px 16px;
+color:#b5b7be;
+}
+</style>
+<style>html.auth-pending body{visibility:hidden}</style>
+<script type="module" src="../js/auth-guard.js"></script>
+</head>
+<body>
+
+<div class="topo">
+<h1>🧠 Flashcards</h1>
+<a href="../dashboard.html">← Dashboard</a>
+</div>
+
+<div id="area"></div>
+
+<script>
+const deckKey = "flashcards_deck";
+let deck = [];
+let index = 0;
+let mostrandoResposta = false;
+
+function escapeHtml(text) {
+  return window.RevalidaApp?.escapeHtml(text) ?? String(text ?? "");
+}
+
+function carregarDeck() {
+  const salvo = localStorage.getItem(deckKey);
+  if (salvo) {
+    try {
+      deck = JSON.parse(salvo);
+      if (Array.isArray(deck) && deck.length) return;
+    } catch {
+      /* ignora */
+    }
+  }
+
+  fetch("../conteudo/revalida_2022_1.json")
+    .then((res) => {
+      if (!res.ok) throw new Error("Falha ao carregar questões.");
+      return res.json();
+    })
+    .then((data) => {
+      deck = (data || []).slice(0, 30).map((q) => ({
+        pergunta: q.pergunta,
+        resposta: q.alternativas?.[q.correta] || "—"
+      }));
+      localStorage.setItem(deckKey, JSON.stringify(deck));
+      render();
+    })
+    .catch(() => {
+      document.getElementById("area").innerHTML =
+        '<div class="empty"><p>Não foi possível carregar os flashcards. Tente novamente mais tarde.</p></div>';
+    });
+}
+
+function render() {
+  const area = document.getElementById("area");
+
+  if (!deck.length) {
+    area.innerHTML = '<div class="empty"><p>Nenhum card disponível.</p></div>';
+    return;
+  }
+
+  const item = deck[index];
+  const titulo = mostrandoResposta ? "Resposta" : "Pergunta";
+  const texto = mostrandoResposta ? item.resposta : item.pergunta;
+
+  area.innerHTML = `
+    <div class="card-flip" id="flip">
+      <div class="meta">${titulo} • ${index + 1} / ${deck.length}</div>
+      <p>${escapeHtml(texto)}</p>
+      <div class="meta">${mostrandoResposta ? "Toque para ver a pergunta" : "Toque para revelar a resposta"}</div>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn-fail" id="btn-erro">❌ Revisar</button>
+      <button type="button" class="btn-ok" id="btn-acerto">✅ Sabia</button>
+      <button type="button" class="btn-next" id="btn-prox">Próximo →</button>
+    </div>
+  `;
+
+  document.getElementById("flip").addEventListener("click", () => {
+    mostrandoResposta = !mostrandoResposta;
+    render();
+  });
+
+  document.getElementById("btn-prox").addEventListener("click", proximo);
+  document.getElementById("btn-acerto").addEventListener("click", () => proximo(true));
+  document.getElementById("btn-erro").addEventListener("click", () => proximo(false));
+}
+
+function proximo(acertou) {
+  if (acertou === false) {
+    const atual = deck.splice(index, 1)[0];
+    deck.push(atual);
+    localStorage.setItem(deckKey, JSON.stringify(deck));
+  } else if (acertou === true) {
+    /* mantém ordem */
+  }
+
+  mostrandoResposta = false;
+  index = (index + 1) % deck.length;
+  render();
+}
+
+carregarDeck();
+</script>
+<script src="../js/app.js"></script>
+</body>
+</html>
