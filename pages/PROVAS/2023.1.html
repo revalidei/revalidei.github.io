@@ -2079,14 +2079,22 @@ return pt.find(v=>/male|mascul/i.test(v.name))||pt[0];
 return pt.find(v=>/female|femin/i.test(v.name))||pt[0];
 }
 
+
 function lerQuestao(){
 const btn=document.getElementById("btnAudioMini");
+
+if(!window.speechSynthesis){
+alert("Seu navegador não suporta leitura de voz.");
+return;
+}
 
 if(lendoQuestao){
 speechSynthesis.cancel();
 lendoQuestao=false;
+if(btn){
 btn.innerHTML="🔊";
 btn.classList.remove("lendo");
+}
 return;
 }
 
@@ -2102,20 +2110,18 @@ texto+=`Alternativa ${letra}. ${alt}. `;
 
 const fala=new SpeechSynthesisUtterance(texto);
 fala.lang="pt-BR";
-fala.rate=parseFloat(document.getElementById("velocidadeAudio").value||1);
-fala.voice=obterVoz();
+fala.rate=1;
+fala.pitch=1;
+fala.volume=1;
+
+const voz=vocesDisponiveis.find(v=>v.lang && v.lang.toLowerCase().includes("pt"));
+if(voz) fala.voice=voz;
 
 fala.onend=()=>{
 lendoQuestao=false;
+if(btn){
 btn.innerHTML="🔊";
 btn.classList.remove("lendo");
-
-const auto=document.getElementById("autoNextAudio");
-if(auto && auto.checked && questaoAtual<questoes.length-1){
-questaoAtual++;
-salvarProgresso();
-carregarQuestao();
-setTimeout(()=>lerQuestao(),800);
 }
 };
 
@@ -2123,8 +2129,10 @@ speechSynthesis.cancel();
 speechSynthesis.speak(fala);
 
 lendoQuestao=true;
+if(btn){
 btn.innerHTML="⏹";
 btn.classList.add("lendo");
+}
 }
 
 document.addEventListener("keydown",function(e){
