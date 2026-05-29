@@ -914,12 +914,12 @@ Caderno de Erros
 
 <div class="topo-botoes">
 
-<button
-type="button"
-class="btn-topo btn-voltar btn-icon"
-onclick="voltarPagina()">
-<span data-icon="chevron-left" data-icon-size="18"></span> Voltar
-</button>
+<a
+href="../dashboard.html"
+class="btn-dashboard-home icon-wrap">
+<span data-icon="home" data-icon-size="18"></span>
+Dashboard
+</a>
 
 <button
 type="button"
@@ -1380,16 +1380,6 @@ localStorage.removeItem(
 );
 
 location.reload();
-
-}
-
-/* ==================================================
-VOLTAR
-================================================== */
-
-function voltarPagina(){
-
-history.back();
 
 }
 

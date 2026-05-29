@@ -19,6 +19,9 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=
 <title>Bancas de Provas</title>
 <link rel="stylesheet" href="../css/app.css">
 <link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/pages.css">
+<link rel="stylesheet" href="../css/icons.css">
+<script src="../js/icons.js"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -312,117 +315,6 @@ gap:12px;
 }
 
 /* =========================================
-MENU
-========================================= */
-
-.menu-wrapper{
-
-position:relative;
-}
-
-.btn-menu{
-
-width:54px;
-height:54px;
-
-border:none;
-
-border-radius:18px;
-
-background:
-rgba(255,255,255,0.04);
-
-backdrop-filter:blur(10px);
-
--webkit-backdrop-filter:blur(10px);
-
-color:white;
-
-font-size:28px;
-
-cursor:pointer;
-
-border:
-1px solid rgba(255,255,255,0.05);
-
-transition:0.25s;
-}
-
-.btn-menu:hover{
-
-transform:scale(1.05);
-
-background:#1E293B;
-}
-
-/* =========================================
-MENU DROPDOWN
-========================================= */
-
-.menu-opcoes{
-
-display:none;
-
-position:absolute;
-
-top:70px;
-right:0;
-
-width:220px;
-
-background:
-rgba(15,23,42,0.98);
-
-border:
-1px solid rgba(255,255,255,0.05);
-
-border-radius:24px;
-
-padding:14px;
-
-z-index:9999;
-
-box-shadow:
-0 20px 40px rgba(0,0,0,0.45);
-
-backdrop-filter:blur(18px);
-
--webkit-backdrop-filter:blur(18px);
-
-flex-direction:column;
-
-gap:10px;
-}
-
-.menu-opcoes button{
-
-padding:16px;
-
-border:none;
-
-border-radius:16px;
-
-background:#172033;
-
-color:white;
-
-font-weight:700;
-
-font-size:15px;
-
-cursor:pointer;
-
-transition:0.2s;
-}
-
-.menu-opcoes button:hover{
-
-transform:translateY(-2px);
-
-background:#1E293B;
-}
-
-/* =========================================
 CONTAINER AJUSTE
 ========================================= */
 
@@ -457,27 +349,10 @@ padding-top:120px;
 
     <div class="header-right">
 
-        <div class="menu-wrapper">
-
-            <button
-            class="btn-menu"
-            onclick="abrirMenu()">
-
-                ⋯
-
-            </button>
-
-            <div
-            class="menu-opcoes"
-            id="menuOpcoes">
-
-                <button onclick="irHome()">
-                    🏠 Home
-                </button>
-
-            </div>
-
-        </div>
+        <a href="../dashboard.html" class="btn-dashboard-home icon-wrap">
+            <span data-icon="home" data-icon-size="18"></span>
+            Dashboard
+        </a>
 
     </div>
 
@@ -592,54 +467,6 @@ function toggleBanca(id){
 const banca=document.getElementById(id)
 banca.classList.toggle('active')
 }
-/* =========================================
-MENU
-========================================= */
-
-function abrirMenu(){
-
-const menu =
-document.getElementById("menuOpcoes");
-
-menu.style.display =
-
-menu.style.display === "flex"
-? "none"
-: "flex";
-
-}
-
-/* =========================================
-HOME
-========================================= */
-
-function irHome(){
-
-window.location.href =
-"../dashboard.html";
-
-}
-
-/* =========================================
-FECHAR MENU CLICK FORA
-========================================= */
-
-document.addEventListener("click",function(e){
-
-const menu =
-document.getElementById("menuOpcoes");
-
-const wrapper =
-document.querySelector(".menu-wrapper");
-
-if(!wrapper.contains(e.target)){
-
-menu.style.display = "none";
-
-}
-
-});
-
 </script>
 
 </body>
