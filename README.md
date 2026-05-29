@@ -17,6 +17,10 @@ npx serve .
 
 Abra `http://localhost:3000/login.html` (não abra os HTML direto pelo explorador de arquivos).
 
+## Deploy (GitHub Pages)
+
+Push na branch `main` dispara o workflow que gera `js/firebase-config.js` a partir do secret `FIREBASE_CONFIG` e publica o site. Detalhes em [FIREBASE_SETUP.md](FIREBASE_SETUP.md).
+
 ## Estrutura
 
 - `login.html` / `dashboard.html` — entrada e painel
