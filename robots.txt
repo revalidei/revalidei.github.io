@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://revalidei.github.io/sitemap.xml

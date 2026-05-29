@@ -425,8 +425,8 @@ border-radius:16px;
 
 <header>
 
-<div class="logo">
-🩺 <span>REVALIDEI</span> 
+<div class="logo" data-site="brand">
+🩺 <span>REVALIDEI</span>
 </div>
 
 <a href="login.html"
@@ -481,18 +481,18 @@ class="hero-btn secondary">
 <div class="stats">
 
 <div class="stat">
-<h2>9</h2>
+<h2 data-site="stat-simulados">9</h2>
 <p>Simulados INEP</p>
 </div>
 
 <div class="stat">
-<h2>100+</h2>
+<h2 data-site="stat-questoes">100+</h2>
 <p>Questões por edição</p>
 </div>
 
 <div class="stat">
 <h2>100%</h2>
-<p>iPhone & Android</p>
+<p data-site="stat-mobile">iPhone & Android</p>
 </div>
 
 </div>
@@ -622,6 +622,7 @@ class="indice-item">
 
 </section>
 
+<script type="module" src="js/site-init.js"></script>
 <script src="js/app.js"></script>
 </body>
 

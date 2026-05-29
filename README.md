@@ -21,6 +21,10 @@ Abra `http://localhost:3000/login.html` (não abra os HTML direto pelo explorado
 
 Push na branch `main` dispara o workflow que gera `js/firebase-config.js` a partir do secret `FIREBASE_CONFIG` e publica o site. Detalhes em [FIREBASE_SETUP.md](FIREBASE_SETUP.md).
 
+## Personalizar o site
+
+Nome, Instagram, estatísticas da home e meta de estudo: edite [js/site-config.js](js/site-config.js). Guia completo em [CONFIGURACAO.md](CONFIGURACAO.md).
+
 ## Estrutura
 
 - `login.html` / `dashboard.html` — entrada e painel

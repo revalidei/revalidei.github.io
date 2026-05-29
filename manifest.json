@@ -1,10 +1,11 @@
 {
-  "name":"Revalida 2026",
-  "short_name":"Revalida",
+  "name":"REVALIDEI — Revalida 2026",
+  "short_name":"REVALIDEI",
+  "description":"Simulados e questões para o Revalida INEP",
   "start_url":"./index.html",
   "display":"standalone",
-  "background_color":"#06111f",
-  "theme_color":"#06111f",
+  "background_color":"#090B10",
+  "theme_color":"#090B10",
   "orientation":"portrait",
   "icons":[
     {
